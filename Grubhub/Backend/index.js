@@ -10,6 +10,10 @@ var mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const pool = require('./db');
+var cors = require('cors');
+
+//use cors to allow cross origin resource sharing
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 
 // pool.query("Select * from mydb.buyer", function (error, results) {

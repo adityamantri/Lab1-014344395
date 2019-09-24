@@ -10,6 +10,9 @@ var ownerRouter = require('./routes/owner');
 var buyerRouter = require('./routes/buyer');
 
 var app = express();
+var cors = require('cors');
+//use cors to allow cross origin resource sharing
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

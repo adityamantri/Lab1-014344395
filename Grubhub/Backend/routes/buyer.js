@@ -80,7 +80,6 @@ router.post('/signInBuyer', function (req, res, next) {
         };
     });
     console.log(output);
-
 });
 
 //Route to handle Post Request Call
