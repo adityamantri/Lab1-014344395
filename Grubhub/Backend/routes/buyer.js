@@ -88,7 +88,8 @@ router.post('/signUpBuyer', function (req, res) {
 
     console.log("Inside signUpBuyer Post Request");
     console.log("Req Body : ", req.body);
-    let name = req.body.name;
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
     let email = req.body.email;
     let password = req.body.password;
 
@@ -96,15 +97,16 @@ router.post('/signUpBuyer', function (req, res) {
         bcrypt.hash(password, saltRounds, function (err, hash) {
             // Store hash in your password DB.
 
-            var insertSignUp = `Insert into mydb.buyer (name, email, password) Values ('${name}' ,'${email}' ,'${hash}')`;
+            var insertSignUp = `Insert into mydb.buyer 
+            (firstName, lastName, email, password) Values 
+            ('${firstName}','${lastName}' ,'${email}' ,'${hash}')`;
             pool.query(insertSignUp, function (error, results) {
                 if (error) {
-                    throw error;
+                    res.status(200).send("error");
                 }
                 else {
                     console.log("done");
-                    pool.query("Select* from buyer");
-
+                    res.status(201).send("Added Successfully");
                 }
             });
         });
