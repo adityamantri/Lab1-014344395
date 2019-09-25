@@ -8,16 +8,6 @@ import { buyerSignUpPosts } from '../../actions/postActions';
 
 class Login extends Component {
 
-    // onChange(e) {
-    //     this.setState({ [e.target.name]: e.target.value });
-    // }
-
-    // //submit Login handler to send a request to the node backend
-    // submitLogin = (e) => {
-    //     //prevent page from refresh
-    //     e.preventDefault();
-    // }
-
     createData = () => {
         return {
             firstName: this.props.firstName,

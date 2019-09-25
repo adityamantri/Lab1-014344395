@@ -13,13 +13,14 @@ class Navbar extends Component {
     //handle logout to destroy the cookie
     handleLogout = () => {
         cookie.remove('buyer');
+        cookie.remove('owner');
         
     }
     render() {
         //if Cookie is set render Logout Button
         let navLogin = null;
-        if (cookie.load('buyer')) {
-            let name = cookie.load('buyer').firstName;
+        if (cookie.load('buyer') || cookie.load('owner')) {
+            let name = cookie.loadAll.firstName;
             console.log("Able to read cookie",name);
             navLogin = (
                 

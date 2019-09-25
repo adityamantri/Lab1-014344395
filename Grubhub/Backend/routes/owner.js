@@ -22,38 +22,42 @@ router.post('/signUpOwner', function (req, res) {
 
     console.log("Inside signUpBuyer Post Request");
     console.log("Req Body : ", req.body);
-    let name = req.body.name;
-    let email = req.body.email;
-    let password = req.body.password;
+    let owner_firstName = req.body.owner_firstName;
+    let owner_lastName = req.body.owner_lastName;
+    let owner_email = req.body.owner_email;
+    let owner_password = req.body.owner_password;
+    let owner_phone= req.body.owner_phone;
     let restaurantName = req.body.restaurantName;
     let zipCode = req.body.zipCode;
 
     pool.getConnection(function (error, conn) {
-        bcrypt.hash(password, saltRounds, function (err, hash) {
+        bcrypt.hash(owner_password, saltRounds, function (err, hash) {
             // Store hash in your password DB.
 
-            var insertSignUp = `Insert into mydb.restOwner (name, email, password,restaurantName,zipCode) Values ('${name}' ,'${email}' ,'${hash}','${restaurantName}','${zipCode}')`;
+            var insertSignUp = `Insert into mydb.restOwner (owner_firstName,owner_lastName, owner_email, owner_password,owner_phone,restaurantName,zipCode) Values ('${owner_firstName}','${owner_lastName}' ,'${owner_email}' ,'${hash}','${owner_phone}','${restaurantName}','${zipCode}')`;
             pool.query(insertSignUp, function (error, results) {
                 if (error) {
                     throw error;
                 }
                 else {
                     console.log("done");
-                    pool.query("Select* from restOwner");
+                    output = pool.query(`Select * from mydb.restOwner where owner_email='${req.body.owner_email}'`, (update,result) => {
+                        owner = JSON.stringify(result[0]);
+                        res.cookie('owner', owner, { encode: String });
+                        res.status(200).send(result[0]);
+                    }
+                    );
                 }
             });
         });
     });
-    res.writeHead(200, {
-        'Content-Type': 'application/json'
-    });
-    res.end("Added Successfully");
+    
 
 })
 
 //Sign in Owner
 router.post('/signInOwner', function (req, res, next) {
-    let pass = `Select * from mydb.restOwner where email='${req.body.email}'`;
+    let pass = `Select * from mydb.restOwner where owner_email='${req.body.owner_email}'`;
     let output = "Not success";
     pool.query(pass, function (error, results) {
         if (error) {
@@ -66,10 +70,12 @@ router.post('/signInOwner', function (req, res, next) {
         } else {
 
             //const match = bcrypt.compare(hash, results.password);
-            bcrypt.compare(req.body.password, results[0].password, function (err, resSt) {
+            bcrypt.compare(req.body.owner_password, results[0].owner_password, function (err, resSt) {
                 if (resSt) {
                     console.log("COMPARE working-------------------")
                     output = "SuccessFull Login";
+                    owner = JSON.stringify(results[0]);
+                    res.cookie('owner', owner, { encode: String });
                     res.status(200).send(results[0]);
                 }
                 else {
@@ -88,9 +94,10 @@ router.post('/signInOwner', function (req, res, next) {
 router.post('/updateOwner', function (req, res, next) {
     let pass = `UPDATE mydb.restowner
     SET
-    name = '${req.body.name}',
-    phone = '${ req.body.phone}',
-    ownerImage = '${req.body.ownerImage}',
+    owner_firstName = '${req.body.owner_firstName}',
+    owner_lastName = '${req.body.owner_lastName}',
+    owner_phone = '${ req.body.owner_phone}',
+    owner_Image = '${req.body.owner_Image}',
     cuisine = '${req.body.cuisine}',
     restaurantName = '${ req.body.restaurantName}',
     zipCode = ${req.body.zipCode},
@@ -104,8 +111,8 @@ router.post('/updateOwner', function (req, res, next) {
             throw error;
         }
         else {
-            output = pool.query(`Select * from restOwner where restaurantId='${req.body.restaurantId}'`, (update) => {
-                res.status(200).send(update);
+            output = pool.query(`Select * from restOwner where restaurantId='${req.body.restaurantId}'`, (update,result) => {
+                res.status(200).send(result[0]);
             });
         };
     });

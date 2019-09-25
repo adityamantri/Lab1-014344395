@@ -3,78 +3,35 @@ import '../../App.css';
 import axios from 'axios';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
+import { ownerSignInPosts } from '../../actions/postActions';
 
 //Define a Login Component
 class Login extends Component {
-    //call the constructor method
-    constructor(props) {
-        //Call the constrictor of Super class i.e The Component
-        super(props);
-        //maintain the state required for this component
-        this.state = {
-            username: "",
-            password: "",
-            authFlag: false,
-            error: ""
+    
+    createData = () => {
+        return {
+            owner_address: this.props.owner_address,
+            restaurantId: this.props.buyerId,
+            owner_email: this.props.owner_email,
+            owner_firstName: this.props.owner_firstName,
+            owner_image: this.props.owner_image,
+            owner_lastName: this.props.owner_lastName,
+            owner_password: this.props.owner_password,
+            owner_phone: this.props.owner_phone,
+            zipCode: this.props.zipCode,
+            cuisine: this.props.cousine,
+            restaurantImage: this.props.restaurantImage,
+            restaurantName: this.props.restaurantName,
+            error: this.props.error
         }
-        //Bind the handlers to this class
-        this.usernameChangeHandler = this.usernameChangeHandler.bind(this);
-        this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
-        this.submitLogin = this.submitLogin.bind(this);
-    }
-    //Call the Will Mount to set the auth Flag to false
-    componentWillMount() {
-        this.setState({
-            authFlag: false,
-            error: ""
-        })
-    }
-    //username change handler to update state variable with the text entered by the user
-    usernameChangeHandler = (e) => {
-        this.setState({
-            username: e.target.value
-        })
-    }
-    //password change handler to update state variable with the text entered by the user
-    passwordChangeHandler = (e) => {
-        this.setState({
-            password: e.target.value
-        })
-    }
-    //submit Login handler to send a request to the node backend
-    submitLogin = (e) => {
-        var headers = new Headers();
-        //prevent page from refresh
-        e.preventDefault();
-        const data = {
-            username: this.state.username,
-            password: this.state.password
-        }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/loginOwner', data)
-            .then(response => {
-                console.log("Status Code : ", response.status);
-                if (response.status === 200) {
-                    this.setState({
-                        authFlag: true,
-                        error: ""
-                    })
-                }
-            }).catch(error => {
-                this.setState({
-                    authFlag: false,
-                    error: "Invalid Credentials"
-                })
-            });
     }
 
     render() {
         //redirect based on successful login
         let redirectVar = null;
         if (cookie.load('cookie')) {
-            redirectVar = <Redirect to="/home" />
+            redirectVar = <Redirect to="/ownerProfile" />
         }
         return (
             <div>
@@ -90,15 +47,15 @@ class Login extends Component {
 
                             <div class="form-group">
                                 <div>Email</div>
-                                <input onChange={this.usernameChangeHandler} type="text" class="form-control" name="username" placeholder="" required/>
+                                <input onChange={this.props.onChange} type="text" class="form-control" name="owner_email" placeholder="" required/>
                             </div>
                             <div class="form-group">
                                 <div>Password</div>
-                                <input onChange={this.passwordChangeHandler} type="password" class="form-control" name="password" placeholder="" required/>
+                                <input onChange={this.props.onChange} type="owner_password" class="form-control" name="owner_password" placeholder="" required/>
                             </div>
                             <div style={{"textAlign":"center"}}>
-                            <button onClick={this.submitLogin}  class="btn btn-primary btn-lg btn-block">Sign in</button>
-                            <h3>{this.state.error}</h3>
+                            <button onClick={() => this.props.onSubmit(this.createData())}  class="btn btn-primary btn-lg btn-block">Sign in</button>
+                            <h3>{this.props.error}</h3>
                             </div>
                         </div>
                     </div>
@@ -108,5 +65,34 @@ class Login extends Component {
         )
     }
 }
-//export Login Component
-export default Login;
+const mapStateToProps = (store) => {
+    console.log('storte vaslur', store);
+    return {
+
+        owner_address: store.posts.owner_address,
+        restaurantId: store.posts.buyerId,
+        owner_email: store.posts.owner_email,
+        owner_firstName: store.posts.owner_firstName,
+        owner_image: store.posts.owner_image,
+        owner_lastName: store.posts.owner_lastName,
+        owner_password: store.posts.owner_password,
+        owner_phone: store.posts.owner_phone,
+        zipCode: store.posts.zipCode,
+        cuisine: store.posts.cousine,
+        restaurantImage: store.posts.restaurantImage,
+        restaurantName: store.posts.restaurantName,
+        error: store.posts.error
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onChange: (e) => dispatch({ type: 'CHANGE', value: e }),
+        onSubmit: (data) => {
+            console.log(data)
+            dispatch(ownerSignInPosts(data));
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
