@@ -4,24 +4,10 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import './BuyerProfile.css'
+import { buyerProfilePosts,buyerCookieData } from '../../actions/postActions';
+import { connect } from 'react-redux';
 //Define a Login Component
 class BuyerProfile extends Component {
-    //call the constructor method
-    constructor(props) {
-        //Call the constrictor of Super class i.e The Component
-        super(props);
-        //maintain the state required for this component
-        this.state = {
-            username: "",
-            password: "",
-            authFlag: false,
-            error: ""
-        }
-        //Bind the handlers to this class
-        this.usernameChangeHandler = this.usernameChangeHandler.bind(this);
-        this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
-        this.submitLogin = this.submitLogin.bind(this);
-    }
 
     myFunctionName = () => {
         var x = document.getElementById("myDIV1");
@@ -92,61 +78,29 @@ class BuyerProfile extends Component {
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        this.setState({
-            authFlag: false,
-            error: ""
-        })
-    }
-    //username change handler to update state variable with the text entered by the user
-    usernameChangeHandler = (e) => {
-        this.setState({
-            username: e.target.value
-        })
-    }
-    //password change handler to update state variable with the text entered by the user
-    passwordChangeHandler = (e) => {
-        this.setState({
-            password: e.target.value
-        })
-    }
-    //submit Login handler to send a request to the node backend
-    submitLogin = (e) => {
-        var headers = new Headers();
-        //prevent page from refresh
-        e.preventDefault();
-        const data = {
-            username: this.state.username,
-            password: this.state.password
-        }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/buyer/updateBuyer', data)
-            .then(response => {
-                console.log("Status Code : ", response.status);
-                if (response.status === 200) {
-                    this.setState({
-                        authFlag: true,
-                        error: ""
-                    })
-                }
-            }).catch(error => {
-                this.setState({
-                    authFlag: false,
-                    error: "Invalid Credentials"
-                })
-            });
+        this.props.onCookie();
     }
 
+    createData = () => {
+        return {
+        firstName: this.props.firstName,
+        lastName: this.props.lastName,
+        email: this.props.email,
+        password: this.props.password,
+        address: this.props.address,
+        image: this.props.image,
+        phone: this.props.phone,
+        buyerId: this.props.buyerId
+        }}
     render() {
+        console.log("create data function:   ",this.createData())
         //redirect based on successful login
         let redirectVar = null;
-        if (cookie.load('cookie')) {
-            redirectVar = <Redirect to="/home" />
+        if (cookie.load('buyer')) {
+            // redirectVar = <Redirect to="/home" />
         }
         return (
             <div>
-                {redirectVar}
                 <div class="sidenav">
                     <h2 class="title nav-header">Your account</h2>
                     <ul>
@@ -167,7 +121,7 @@ class BuyerProfile extends Component {
                             </ul>
                         </div>
                         <div id="myDIV4" style={{ "display": "none" }}>
-                            <form class="container top-margin main " >
+                            <div class="container top-margin main " >
                                 <div class="head block"></div>
                                 <h5>Your Account</h5>
                                 <div class="bottom-border">
@@ -177,20 +131,25 @@ class BuyerProfile extends Component {
                                             <div class>
                                                 <div class="form-group">
                                                     <p><h3>Edit Details</h3></p>
-                                                    <div>Name</div>
+                                                    <div>First Name</div>
 
-                                                    <input type="text" class="form-control" name="username" value="Aditya" required />
+                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="firstName" placeholder={this.props.firstName} required />
+                                                    <br />
+                                                    <div>Last Name</div>
+
+                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="lastName" placeholder={this.props.lastName} required />
+
                                                 </div>
                                                 <div class="form-group">
                                                     <p>Address</p>
 
                                                     <input type="password" class="form-control" name="password" required />
                                                 </div>
-                                                <button type="submit" class="btn btn-primary " ><strong>Update</strong></button>
-                                                <button type="submit" class="btn btn-default " ><strong>Cancel</strong></button>
-                                                <br />
-                                            </div>
+                                                </div>
                                         </form>
+                                                <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary " ><strong>Update</strong></button>
+                                                <br />
+                                            
                                     </div>
                                     <br />
 
@@ -200,14 +159,15 @@ class BuyerProfile extends Component {
                                 <div id="myDIV2" style={{ "display": "none" }}>
                                     <form >
                                         <div>Enter New Password</div>
-                                        <input type="password" class="form-control" name="password" required />
-                                        <br/>
-                                        <button type="submit" class="btn btn-primary " ><strong>Update</strong></button>
-                                    </form>
+                                        <input type="password" onChange={this.props.onChange} class="form-control" name="password" required />
+                                        <br />
+                                        </form>
+                                        <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary " ><strong>Update</strong></button>
+                                    
                                 </div>
                                 <br />
 
-                            </form>
+                            </div>
                         </div>
 
                     </div>
@@ -223,7 +183,7 @@ class BuyerProfile extends Component {
                             </ul>
                         </div>
                         <div id="myDIV5" style={{ "display": "none" }}>
-                            <form class="container top-margin main " >
+                            <div class="container top-margin main " >
                                 <div class="head block"></div>
                                 <h5>Your Account</h5>
                                 <div class="bottom-border">
@@ -235,14 +195,15 @@ class BuyerProfile extends Component {
                                                     <p><h3>Edit Details</h3></p>
                                                     <div>Address</div>
 
-                                                    <input type="text" class="form-control" name="username" value="Aditya" required />
+                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="address" required />
                                                 </div>
                                                 <br />
-                                                <button type="submit" class="btn btn-primary " ><strong>Update</strong></button>
-                                                <button type="submit" class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
-                                                <br />
-                                            </div>
+                                                </div>
                                         </form>
+                                                <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary " ><strong>Update</strong></button>
+                                                <button type="button" onClick={this.myFunctionAddress} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
+                                                <br />
+                                          
                                     </div>
                                     <br />
 
@@ -252,17 +213,20 @@ class BuyerProfile extends Component {
                                 <div id="myDIVPhone" style={{ "display": "none" }}>
                                     <form >
                                         <div>Enter Phone Number</div>
-                                        <input type="text" class="form-control" name="password" required />
+                                        <input type="text" onChange={this.props.onChange} class="form-control" name="phone" required />
                                         <br />
-                                        <button type="submit" class="btn btn-primary " ><strong>Update</strong></button>
-                                    </form>
+                                        </form>
+                                        <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary " ><strong>Update</strong></button>
+                                    
                                 </div>
                                 <br />
 
-                            </form>
+                            </div>
                         </div>
 
                     </div>
+                    <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary " ><strong>Update</strong></button>
+
                 </div >
 
             </div >
@@ -271,5 +235,31 @@ class BuyerProfile extends Component {
         )
     }
 }
-//export Login Component
-export default BuyerProfile;
+const mapStateToProps = (store) => {
+    console.log('storte vaslur', store);
+    return {
+        firstName: store.posts.firstName,
+        lastName: store.posts.lastName,
+        email: store.posts.email,
+        password: store.posts.password,
+        address: store.posts.address,
+        image: store.posts.image,
+        phone: store.posts.phone,
+        buyerId: store.posts.buyerId
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onChange: (e) => dispatch({ type: 'CHANGE', value: e }),
+        onSubmit: (data) => {
+            console.log("mapDispatchToProps data:  ", data)
+            dispatch(buyerProfilePosts(data));
+        },
+        onCookie: () => {
+            console.log("mapDispatchToProps data:  ")
+            dispatch(buyerCookieData());
+        }
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(BuyerProfile)

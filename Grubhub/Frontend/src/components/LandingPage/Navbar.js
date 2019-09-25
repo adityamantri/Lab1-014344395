@@ -12,6 +12,7 @@ class Navbar extends Component {
     }
     //handle logout to destroy the cookie
     handleLogout = () => {
+        cookie.clear();
         axios.get('http://localhost:3001/logout')
             .then((response) => {
                 //Remove the cookies
@@ -38,13 +39,10 @@ class Navbar extends Component {
                 </ul>
             )
         }
-        let redirectVar = null;
-        if (cookie.load('cookie')) {
-            redirectVar = <Redirect to="/home" />
-        }
+        
         return (
             <div>
-                {redirectVar}
+                {/* {redirectVar} */}
                 <nav class="navbar navbar-default navbar-fixed-top">
                     <div class="container-fluid">
                         <div class="navbar-header">
@@ -53,11 +51,9 @@ class Navbar extends Component {
 
                         <div class="navbar-collapse navbar-right">
                             <ul class="nav navbar-nav">
+                                
                                 <li class="nav-item">
-                                    <a class="nav-link" href="">Link 1</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Link 2</a>
+                                    <a class="nav-link" href="">Logout</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Hi link<span class="caret"></span></a>
@@ -69,7 +65,7 @@ class Navbar extends Component {
                                 </li>
                             </ul>
                         </div>
-                        {/* {navLogin} */}
+                        {navLogin}
                     </div>
                 </nav>
             </div>

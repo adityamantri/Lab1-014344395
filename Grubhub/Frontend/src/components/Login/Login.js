@@ -2,24 +2,12 @@ import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import { Route } from 'react-router-dom';
-import './Login.css'
+import './Login.css';
 import { connect } from 'react-redux';
 import { buyerLoginPosts } from '../../actions/postActions';
 //Define a Login Component
 class Login extends Component {
 
-    //submit Login handler to send a request to the node backend
-    // submitLogin = (e) => {
-    //     var headers = new Headers();
-    //     //prevent page from refresh
-    //     e.preventDefault();
-    //     const data = {
-    //         username: this.state.username,
-    //         password: this.state.password
-    //     }
-
-    // }
     createData = () => {
         return {
             email: this.props.email,
@@ -31,7 +19,7 @@ class Login extends Component {
         //redirect based on successful login
         let redirectVar = null;
         console.log("  inside render------",this.createData)
-        if (cookie.load('cookie')) {
+        if (cookie.load('buyer')) {
             redirectVar = <Redirect to="/buyerProfile" />
         }
         return (

@@ -1,4 +1,4 @@
-import { BUYER_SIGNUP_POST, BUYER_LOGIN_POST } from '../actions/types';
+import { BUYER_SIGNUP_POST, BUYER_LOGIN_POST,LOAD_BUYER_COOKIE } from '../actions/types';
 
 // Reducer holds the functionality to modify any action done on component page
 
@@ -9,9 +9,11 @@ const initialState = {
     lastName: "",
     email: "",
     password: "",
+    address:"",
+    image:"",
+    phone:"",
     error:"",
-    buyerProfile:{},
-    nextpage: false
+    buyerProfile:{}
 
     //single post object that we send to backend---------imp
 }
@@ -36,8 +38,21 @@ export default function (state = initialState, action) {
         case BUYER_LOGIN_POST:
             console.log("inside postReducer BUYER_LOGIN_POST switch case",action)
             return{
-                buyerProile:action.payload,
-                nextpage:true
+                address: action.payload.address,
+            buyerId: action.payload.buyerId,
+            email: action.payload.email,
+            firstName: action.payload.firstName,
+            image: action.payload.image,
+            lastName: action.payload.lastName,
+            password: action.payload.password,
+            phone: action.payload.phone,
+            buyerId: action.payload.buyerId
+            }
+
+        case LOAD_BUYER_COOKIE:
+            console.log("loading buyer cookie to state: ",action)
+            return{
+
             }
 
         default:

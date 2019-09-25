@@ -19,14 +19,37 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource BUYER');
 });
 
+router.get('/getBuyer/:buyerId', function (req, res, next) {
+    console.log("req param ",req.params.buyerId);
+    let pass = `select * from mydb.buyer WHERE buyerId = '${req.params.buyerId}'`;
+    
+    let output = "Not Updated";
+    pool.query(pass, function (error, results) {
+        if (error) {
+            console.log("error in results ");
+            throw error;
+        }
+        else {
+            //console.log('Body Content', req.body.password);
+            console.log(results[0]);
+            buyer = JSON.stringify(results[0]);
+            res.cookie('buyer', buyer, { encode: String });
+            res.status(200).send(results[0]);
+        };
+    });
+    console.log(output);
+});
+
+
 //Update Buyer
 router.post('/updateBuyer', function (req, res, next) {
     let pass = `UPDATE mydb.buyer
 SET
 phone = '${req.body.phone}',
-name = '${req.body.name}',
+firstName = '${req.body.firstName}',
+lastName = '${req.body.lastName}',
 image = '${req.body.image}',
-Address =  '${req.body.Address}'
+address =  '${req.body.address}'
 WHERE buyerId = ${req.body.buyerId}`;
     let output = "Not Updated";
     pool.query(pass, function (error, results) {
@@ -37,8 +60,10 @@ WHERE buyerId = ${req.body.buyerId}`;
         else {
             //console.log('Body Content', req.body.password);
             //console.log(results[0].password);
-            output = pool.query(`Select * from buyer where buyerId='${req.body.buyerId}'`, (update) => {
-                res.status(200).send(update);
+            output = pool.query(`Select * from buyer where buyerId='${req.body.buyerId}'`, (update,result) => {
+                buyer = JSON.stringify(result[0]);
+                res.cookie('buyer', buyer, { encode: String });
+                res.status(200).send(result[0]);
             });
         };
     });
@@ -67,12 +92,13 @@ router.post('/signInBuyer', function (req, res, next) {
                 if (resSt) {
                     console.log("COMPARE working-------------------")
                     output = "SuccessFull Login";
-
+                    buyer = JSON.stringify(results[0]);
+                    res.cookie('buyer', buyer, { encode: String });
                     res.status(200).send(results[0]);
                 }
                 else {
                     console.log("not compare working-------------------")
-                    output = "UnnSuccessFull Login";
+                    output = "UnSuccessFull Login";
                     res.status(200).send(output);
                 }
             });
@@ -101,10 +127,13 @@ router.post('/signUpBuyer', function (req, res) {
             ('${firstName}','${lastName}' ,'${email}' ,'${hash}')`;
             pool.query(insertSignUp, function (error, results) {
                 if (error) {
+                    res.cookie('cookie', "error", { maxAge: 900000, httpOnly: false, path: '/' });
                     res.status(200).send("error");
+                    res.end();
                 }
                 else {
                     console.log("done");
+                    res.cookie('cookie', "Added Successfully", { maxAge: 900000, httpOnly: false, path: '/' });
                     res.status(201).send("Added Successfully");
                 }
             });
