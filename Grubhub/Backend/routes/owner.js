@@ -17,10 +17,31 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
+router.get('/getOwner/:restaurantId', function (req, res, next) {
+    console.log("req param ",req.params.restaurantId);
+    let pass = `select * from mydb.restOwner WHERE restaurantId = '${req.params.restaurantId}'`;
+    
+    let output = "Not Updated";
+    pool.query(pass, function (error, results) {
+        if (error) {
+            console.log("error in results ");
+            throw error;
+        }
+        else {
+            //console.log('Body Content', req.body.password);
+            console.log(results[0]);
+            owner = JSON.stringify(results[0]);
+            res.cookie('owner', owner, { encode: String });
+            res.status(200).send(results[0]);
+        };
+    });
+    console.log(output);
+});
+
 // restOwner signUp
 router.post('/signUpOwner', function (req, res) {
 
-    console.log("Inside signUpBuyer Post Request");
+    console.log("Inside signUpOwner Post Request");
     console.log("Req Body : ", req.body);
     let owner_firstName = req.body.owner_firstName;
     let owner_lastName = req.body.owner_lastName;
@@ -29,12 +50,13 @@ router.post('/signUpOwner', function (req, res) {
     let owner_phone= req.body.owner_phone;
     let restaurantName = req.body.restaurantName;
     let zipCode = req.body.zipCode;
+    let cuisine = req.body.cuisine;
 
     pool.getConnection(function (error, conn) {
         bcrypt.hash(owner_password, saltRounds, function (err, hash) {
             // Store hash in your password DB.
 
-            var insertSignUp = `Insert into mydb.restOwner (owner_firstName,owner_lastName, owner_email, owner_password,owner_phone,restaurantName,zipCode) Values ('${owner_firstName}','${owner_lastName}' ,'${owner_email}' ,'${hash}','${owner_phone}','${restaurantName}','${zipCode}')`;
+            var insertSignUp = `Insert into mydb.restOwner (owner_firstName,owner_lastName, owner_email, owner_password,owner_phone,restaurantName,zipCode,cuisine) Values ('${owner_firstName}','${owner_lastName}' ,'${owner_email}' ,'${hash}','${owner_phone}','${restaurantName}','${zipCode}','${cuisine}')`;
             pool.query(insertSignUp, function (error, results) {
                 if (error) {
                     throw error;
@@ -90,7 +112,7 @@ router.post('/signInOwner', function (req, res, next) {
     console.log(output);
 });
 
-//Update Buyer
+//Update Owner
 router.post('/updateOwner', function (req, res, next) {
     let pass = `UPDATE mydb.restowner
     SET
@@ -100,7 +122,7 @@ router.post('/updateOwner', function (req, res, next) {
     owner_Image = '${req.body.owner_Image}',
     cuisine = '${req.body.cuisine}',
     restaurantName = '${ req.body.restaurantName}',
-    zipCode = ${req.body.zipCode},
+    zipCode = '${req.body.zipCode}',
     restaurantImage = '${req.body.restaurantImage}'
     WHERE restaurantId = ${req.body.restaurantId}`;
 

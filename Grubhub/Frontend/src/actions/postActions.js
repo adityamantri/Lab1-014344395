@@ -72,8 +72,6 @@ export const buyerProfilePosts = (postData) => dispatch => {
 }
 
 export const buyerCookieData = () => dispatch => {
-    console.log("Inside buyer cookie data --------")
-    console.log("cookie buyer:     ", cookie.load('buyer'));
 
     let buyer = cookie.load('buyer');
     console.log("cookie variable buyer", buyer);
@@ -90,12 +88,46 @@ export const buyerCookieData = () => dispatch => {
         });
 }
 
+export const ownerProfilePosts = (postData) => dispatch => {
+    console.log("reached axios", postData)
+    //set the with credentials to true
+    axios.defaults.withCredentials = true;
+    //make a post request with the user data
+    axios.post('http://localhost:3001/owner/updateOwner', postData)
+        .then(response => {
+            console.log("Status Code : ", response.status);
+            if (response.status === 200) {
+                console.log("owner profile response--------- ", response)
+                dispatch(ownerSignUpPostsSuccess(response.data));
+            }
+        }).catch(error => {
+            throw (error);
+        });
+}
+
+export const ownerCookieData = () => dispatch => {
+
+    let owner = cookie.load('owner');
+    console.log("cookie variable owner", owner);
+
+    axios.get(`http://localhost:3001/owner/getowner/${owner.restaurantId}`)
+        .then(response => {
+            console.log("Status Code : ", response.status);
+            if (response.status === 200) {
+                console.log("owner profile response--------- ", response)
+                dispatch(ownerSignUpPostsSuccess(response.data));
+            }
+        }).catch(error => {
+            throw (error);
+        });
+}
+
 export const ownerSignUpPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
     axios.post('http://localhost:3001/owner/signUpOwner', postData)
         .then(response => {
-            console.log("buyerSignInPostsSuccess--------", response.data);
+            console.log("ownerSignInPostsSuccess--------", response.data);
 
             dispatch(ownerSignUpPostsSuccess(response.data));
 
@@ -109,7 +141,7 @@ export const ownerSignInPosts = (postData) => dispatch => {
     axios.defaults.withCredentials = true;
     axios.post('http://localhost:3001/owner/signInOwner', postData)
         .then(response => {
-            console.log("buyerSignInPostsSuccess--------", response.data);
+            console.log("ownerSignInPostsSuccess--------", response.data);
 
             dispatch(ownerSignUpPostsSuccess(response.data));
 
@@ -124,7 +156,7 @@ export const ownerSignUpPostsSuccess = (data) => {
         type: OWNER_SIGNUP_POST,
         payload: {
             owner_address: data.owner_address,
-            restaurantId: data.buyerId,
+            restaurantId: data.restaurantId,
             owner_email: data.owner_email,
             owner_firstName: data.owner_firstName,
             owner_image: data.owner_image,

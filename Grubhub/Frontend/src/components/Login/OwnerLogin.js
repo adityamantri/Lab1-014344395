@@ -30,7 +30,7 @@ class Login extends Component {
     render() {
         //redirect based on successful login
         let redirectVar = null;
-        if (cookie.load('cookie')) {
+        if (cookie.load('owner')) {
             redirectVar = <Redirect to="/ownerProfile" />
         }
         return (

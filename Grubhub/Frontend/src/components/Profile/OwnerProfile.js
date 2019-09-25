@@ -4,10 +4,10 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import './BuyerProfile.css'
-import { buyerProfilePosts, buyerCookieData } from '../../actions/postActions';
+import { ownerProfilePosts, ownerCookieData } from '../../actions/postActions';
 import { connect } from 'react-redux';
 //Define a Login Component
-class BuyerProfile extends Component {
+class OwnerProfile extends Component {
 
     myFunctionName = () => {
         var x = document.getElementById("myDIV1");
@@ -76,6 +76,16 @@ class BuyerProfile extends Component {
         }
     }
 
+    myFunction7 = () => {
+        var x = document.getElementById("myDIV7");
+        console.log("reached function myDIV7")
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
         this.props.onCookie();
@@ -83,14 +93,17 @@ class BuyerProfile extends Component {
 
     createData = () => {
         return {
-            firstName: this.props.firstName,
-            lastName: this.props.lastName,
-            email: this.props.email,
-            password: this.props.password,
-            address: this.props.address,
-            image: this.props.image,
-            phone: this.props.phone,
-            buyerId: this.props.buyerId
+            owner_firstName: this.props.owner_firstName,
+            owner_lastName: this.props.owner_lastName,
+            owner_email: this.props.owner_email,
+            owner_password: this.props.owner_password,
+            owner_address: this.props.owner_address,
+            owner_image: this.props.owner_image,
+            owner_phone: this.props.owner_phone,
+            restaurantId: this.props.restaurantId,
+            restaurantName: this.props.restaurantName,
+            zipCode: this.props.zipCode,
+            cuisine: this.props.cuisine
         }
     }
     render() {
@@ -101,30 +114,24 @@ class BuyerProfile extends Component {
                 <h2 class="title nav-header">Your account</h2>
                 <ul>
                     <li ><a onClick={this.myFunction4}>Profile</a></li>
-                    <li ><a onClick={this.myFunction5}>Address and phone</a></li>
+                    <li ><a onClick={this.myFunction5}>Address and owner_phone</a></li>
                     <li ><a onClick={this.myFunction6}>Past orders</a></li>
+                    <li ><a onClick={this.myFunction7}>Restaurant Details</a></li>
                 </ul>
             </div>
         );
         console.log("create data function:   ", this.createData())
         //redirect based on successful login
         let redirectVar = null;
-        if (cookie.load('buyer')) {
+        if (cookie.load('owner')) {
             // redirectVar = <Redirect to="/home" />
         }
         return (
             <div>
-                <div class="sidenav">
-                    <h2 class="title nav-header">Your account</h2>
-                    <ul>
-                        <li class="h6"><a href='/buyerProfile/profile'>Profile</a></li>
-                        <li class="h6"><a href="/buyerProfile/address">Address and phone</a></li>
-                        <li class="h6"><a href="">Past orders</a></li>
-                    </ul>
-                </div>
+                {sidebar}
 
                 <div >
-                    <div path="/buyerProfile/profile" >
+                    <div path="/ownerProfile/profile" >
                         {sidebar}
                         <div id="myDIV4" style={{ "display": "none" }}>
                             <div class="container top-margin main " >
@@ -132,8 +139,8 @@ class BuyerProfile extends Component {
                                 <h5>Your Account</h5>
                                 <div class="bottom-border">
                                     <div>Email</div>
-                                    <p>{this.props.email}</p>
-                                    {/* <input type="text" class="form-control" name="firstName" placeholder={this.props.email} required /> */}
+                                    <p>{this.props.owner_email}</p>
+                                    {/* <input type="text" class="form-control" name="owner_firstName" placeholder={this.props.owner_email} required /> */}
 
                                     <div>Name<a onClick={this.myFunctionName} style={{ "float": "right" }}>Edit</a></div>
                                     <div id="myDIV1" style={{ "display": "none" }}>
@@ -145,11 +152,11 @@ class BuyerProfile extends Component {
                                                     <p><h3>Edit Details</h3></p>
                                                     <div>First Name</div>
 
-                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="firstName" placeholder={this.props.firstName} required />
+                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="owner_firstName" placeholder={this.props.owner_firstName} required />
                                                     <br />
                                                     <div>Last Name</div>
 
-                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="lastName" placeholder={this.props.lastName} required />
+                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="owner_lastName" placeholder={this.props.owner_lastName} required />
 
                                                 </div>
 
@@ -167,7 +174,7 @@ class BuyerProfile extends Component {
                                 <div id="myDIV2" style={{ "display": "none" }}>
                                     <form >
                                         <div>Enter New Password</div>
-                                        <input type="password" onChange={this.props.onChange} class="form-control" name="password" required />
+                                        <input type="owner_password" onChange={this.props.onChange} class="form-control" name="owner_password" required />
                                         <br />
                                     </form>
                                     <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary " ><strong>Update</strong></button>
@@ -180,7 +187,7 @@ class BuyerProfile extends Component {
 
                     </div>
 
-                    <div path="/buyerProfile/address" >
+                    <div path="/ownerProfile/owner_address" >
 
                         {sidebar}
                         <div id="myDIV5" style={{ "display": "none" }}>
@@ -196,7 +203,7 @@ class BuyerProfile extends Component {
                                                     <p><h3>Edit Details</h3></p>
                                                     <div>Address</div>
 
-                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="address" placeholder={this.props.address} required />
+                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="owner_address" placeholder={this.props.owner_address} required />
                                                 </div>
                                                 <br />
                                             </div>
@@ -214,10 +221,53 @@ class BuyerProfile extends Component {
                                 <div id="myDIVPhone" style={{ "display": "none" }}>
                                     <form >
                                         <div>Enter Phone Number</div>
-                                        <input type="text" onChange={this.props.onChange} placeholder={this.props.phone} class="form-control" name="phone" required />
+                                        <input type="text" onChange={this.props.onChange} placeholder={this.props.owner_phone} class="form-control" name="owner_phone" required />
                                         <br />
                                     </form>
                                     <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary " ><strong>Update</strong></button>
+
+                                </div>
+                                <br />
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary " ><strong>Update</strong></button>
+
+                    <div path="/ownerProfile/restaurant" >
+                        {sidebar}
+                        <div id="myDIV7" style={{ "display": "none" }}>
+                            <div class="container top-margin main " >
+                                <div class="head block"></div>
+                                <h5>Restaurant Details</h5>
+                                <div class="bottom-border">
+                                    <div>Restaurant Name<a onClick={this.myFunctionAddress} style={{ "float": "right" }}>Edit</a></div>
+                                    <div id="myDIVAddress" >
+                                        <form >
+                                            <div class>
+                                                <div class="form-group">
+                                                    <p><h3>Edit Details</h3></p>
+                                                    <div>Restaurant Name</div>
+
+                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="restaurantName" placeholder={this.props.restaurantName} required />
+                                                    <br />
+                                                    <div>Zip Code</div>
+
+                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="zipCode" placeholder={this.props.zipCode} required />
+                                                    <br />
+                                                    <div>Cuisine</div>
+
+                                                    <input type="text" onChange={this.props.onChange} class="form-control" name="cuisine" placeholder={this.props.cuisine} required />
+                                                </div>
+                                                <br />
+                                            </div>
+                                        </form>
+                                        <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary " ><strong>Update</strong></button>
+                                        <br />
+
+                                    </div>
+                                    <br />
 
                                 </div>
                                 <br />
@@ -239,14 +289,17 @@ class BuyerProfile extends Component {
 const mapStateToProps = (store) => {
     console.log('storte vaslur', store);
     return {
-        firstName: store.posts.firstName,
-        lastName: store.posts.lastName,
-        email: store.posts.email,
-        password: store.posts.password,
-        address: store.posts.address,
-        image: store.posts.image,
-        phone: store.posts.phone,
-        buyerId: store.posts.buyerId
+        owner_firstName: store.posts.owner_firstName,
+        owner_lastName: store.posts.owner_lastName,
+        owner_email: store.posts.owner_email,
+        owner_password: store.posts.owner_password,
+        owner_address: store.posts.owner_address,
+        owner_image: store.posts.owner_image,
+        owner_phone: store.posts.owner_phone,
+        restaurantId: store.posts.restaurantId,
+        restaurantName: store.posts.restaurantName,
+        zipCode: store.posts.zipCode,
+        cuisine: store.posts.cuisine
     };
 };
 
@@ -255,12 +308,12 @@ const mapDispatchToProps = (dispatch) => {
         onChange: (e) => dispatch({ type: 'CHANGE', value: e }),
         onSubmit: (data) => {
             console.log("mapDispatchToProps data:  ", data)
-            dispatch(buyerProfilePosts(data));
+            dispatch(ownerProfilePosts(data));
         },
         onCookie: () => {
             console.log("mapDispatchToProps data:  ")
-            dispatch(buyerCookieData());
+            dispatch(ownerCookieData());
         }
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(BuyerProfile)
+export default connect(mapStateToProps, mapDispatchToProps)(OwnerProfile)

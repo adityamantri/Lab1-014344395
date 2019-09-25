@@ -19,15 +19,23 @@ class Navbar extends Component {
     render() {
         //if Cookie is set render Logout Button
         let navLogin = null;
+        let name=null;
+        let rest=null;
+        if(cookie.load('buyer') ){
+            name='buyer'
+        }else if(cookie.load('owner')){
+            name='owner';
+            rest=(<span>FOR RESTAURANTS</span>)
+        }
         if (cookie.load('buyer') || cookie.load('owner')) {
-            let name = cookie.loadAll.firstName;
+            name=cookie.load(name).firstName;
             console.log("Able to read cookie",name);
             navLogin = (
                 
                 <div class="navbar-collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Hi {name}<span class="caret"></span></a>
+                            <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Hi, {name}!<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href=""> Past order</a></li>
                                 <li><a href="/buyerProfile">Account</a></li>
@@ -56,7 +64,7 @@ class Navbar extends Component {
                 <nav class="navbar navbar-default navbar-fixed-top">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand" style={{ color: 'red' }}> <strong>GRUBHUB</strong></a>
+                            <a class="navbar-brand" style={{ color: 'red' }}> <strong>GRUBHUB {rest}</strong></a>
                         </div>
 
 
