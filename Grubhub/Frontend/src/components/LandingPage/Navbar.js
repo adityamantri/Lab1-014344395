@@ -12,23 +12,32 @@ class Navbar extends Component {
     }
     //handle logout to destroy the cookie
     handleLogout = () => {
-        cookie.clear();
-        axios.get('http://localhost:3001/logout')
-            .then((response) => {
-                //Remove the cookies
-
-                cookie.remove('cookie', { path: '/' })
-            });
+        cookie.remove('buyer');
+        
     }
     render() {
         //if Cookie is set render Logout Button
         let navLogin = null;
-        if (cookie.load('cookie')) {
-            console.log("Able to read cookie");
+        if (cookie.load('buyer')) {
+            let name = cookie.load('buyer').firstName;
+            console.log("Able to read cookie",name);
             navLogin = (
+                
+                <div class="navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Hi {name}<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href=""> Past order</a></li>
+                                <li><a href="/buyerProfile">Account</a></li>
+                                <li><a href="">Upcoming orders</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><Link to="/" onClick={this.handleLogout}><span class="glyphicon glyphicon-user"></span>Logout</Link></li>
                 </ul>
+                </div>
             );
         } else {
             //Else display login button
@@ -39,7 +48,7 @@ class Navbar extends Component {
                 </ul>
             )
         }
-        
+
         return (
             <div>
                 {/* {redirectVar} */}
@@ -49,22 +58,7 @@ class Navbar extends Component {
                             <a class="navbar-brand" style={{ color: 'red' }}> <strong>GRUBHUB</strong></a>
                         </div>
 
-                        <div class="navbar-collapse navbar-right">
-                            <ul class="nav navbar-nav">
-                                
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Logout</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Hi link<span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href=""> Past order</a></li>
-                                        <li><a href="/buyerProfile">Account</a></li>
-                                        <li><a href="">Upcoming orders</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+
                         {navLogin}
                     </div>
                 </nav>
