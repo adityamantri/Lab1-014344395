@@ -12,6 +12,7 @@ export const buyerSignUpPosts = (postData) => dispatch => {
             dispatch(buyerSignUpPostsSuccess(response.data));
 
         }).catch(error => {
+            console.log("error thrown from backend ")
             throw (error);
         });
 }
@@ -48,7 +49,8 @@ export const buyerLoginPostsSuccess = (data) => {
             image: data.image,
             lastName: data.lastName,
             password: data.password,
-            phone: data.phone
+            phone: data.phone,
+            error: data
         }
     }
 }

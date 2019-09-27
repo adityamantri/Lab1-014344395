@@ -39,6 +39,7 @@ class Login extends Component {
                 <div class="container" style={{"marginTop":"80px" , "max-width": "420px", width:"auto"}}>
 
                     <div class="login-form" >
+                        <form onClick={(e) => this.props.onSubmit(e,this.createData())}>
                         <div class="main-div">
                             <div class="panel">
                                 <h3><strong style={{color:"red"}}>GRUBHUB</strong> FOR RESTAURANTS</h3>
@@ -54,10 +55,11 @@ class Login extends Component {
                                 <input onChange={this.props.onChange} type="owner_password" class="form-control" name="owner_password" placeholder="" required/>
                             </div>
                             <div style={{"textAlign":"center"}}>
-                            <button onClick={() => this.props.onSubmit(this.createData())}  class="btn btn-primary btn-lg btn-block">Sign in</button>
+                            <button type="submit"  class="btn btn-primary btn-lg btn-block">Sign in</button>
                             <h3>{this.props.error}</h3>
                             </div>
                         </div>
+                        </form>
                     </div>
                     
                 </div>
@@ -88,7 +90,8 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onChange: (e) => dispatch({ type: 'CHANGE', value: e }),
-        onSubmit: (data) => {
+        onSubmit: (e,data) => {
+            e.preventDefault();
             console.log(data)
             dispatch(ownerSignInPosts(data));
         }

@@ -40,7 +40,7 @@ class Login extends Component {
 
                     <div class="login-form" >
                         <div class="main-div">
-                            <form >
+                            <form onSubmit={(e) => this.props.onSubmit(e,this.createData())}>
                                 <h3>{this.props.error}</h3>
                                 <div class="panel">
                                     <h2>Get more orders</h2>
@@ -81,9 +81,10 @@ class Login extends Component {
 
                                     <input type="text" onChange={this.props.onChange} class="form-control" name="zipCode" required />
                                 </div>
-                            </form>
-                            <button type="submit" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary btn-lg btn-block" ><strong>Sign up now</strong></button>
+                            
+                            <button type="submit"  class="btn btn-primary btn-lg btn-block" ><strong>Sign up now</strong></button>
                             <br />
+                            </form>
                             <div class="center">
                                 <span>Have an account? </span><a href="/login">Sign in</a>
                             </div>
@@ -122,8 +123,9 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onChange: (e) => dispatch({ type: 'CHANGE', value: e }),
-        onSubmit: (data) => {
-            console.log(data)
+        onSubmit: (e,data) => {
+            e.preventDefault();
+            console.log(data);
             dispatch(ownerSignUpPosts(data));
         }
     };

@@ -77,7 +77,7 @@ router.post('/signInBuyer', function (req, res, next) {
     let output = "Not success";
     pool.query(pass, function (error, results) {
         if (error) {
-            console.log("error in results ", results[0]);
+            console.log("error in results : error returned from database");
             throw error;
         }
         else if (results.length == 0) {
@@ -98,7 +98,7 @@ router.post('/signInBuyer', function (req, res, next) {
                 }
                 else {
                     console.log("not compare working-------------------")
-                    output = "UnSuccessFull Login";
+                    output = "Invalid login credentials";
                     res.status(200).send(output);
                 }
             });
@@ -122,6 +122,15 @@ router.post('/signUpBuyer', function (req, res) {
         bcrypt.hash(password, saltRounds, function (err, hash) {
             // Store hash in your password DB.
 
+            var emailcheck = `Select * from mydb.buyer where email='${email}' `;
+            pool.query(emailcheck, function (error, results) {
+                if (results.length>0) {
+                    console.log("email id exists")
+                    res.cookie('cookie', "error", { maxAge: 900000, httpOnly: false, path: '/' });
+                    res.status(200).send("Email Id already exists!");
+                    res.end();
+                }
+            });
             var insertSignUp = `Insert into mydb.buyer 
             (firstName, lastName, email, password) Values 
             ('${firstName}','${lastName}' ,'${email}' ,'${hash}')`;

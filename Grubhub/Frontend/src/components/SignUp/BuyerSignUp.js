@@ -13,7 +13,8 @@ class Login extends Component {
             firstName: this.props.firstName,
             lastName: this.props.lastName,
             password: this.props.password,
-            email: this.props.email
+            email: this.props.email,
+            error: this.props.error
         }
     }
 
@@ -30,7 +31,7 @@ class Login extends Component {
                 <div class="container">
                     <div class="login-form">
                         <div class="main-div">
-                            <form>
+                            <form onSubmit={(e) => this.props.onSubmit(e,this.createData())}>
                                 <h3>{this.props.error}</h3>
                                 <div class="panel">
                                     <h2>Create your account</h2>
@@ -55,10 +56,10 @@ class Login extends Component {
                                     <p>Password</p>
                                     <input type="password" class="form-control" name="password" onChange={this.props.onChange} required />
                                 </div>
-                            </form>
-                            <button type="button" onClick={() => this.props.onSubmit(this.createData())} class="btn btn-primary btn-lg btn-block" ><strong>Create your account</strong></button>
+                            
+                            <button type="submit"  class="btn btn-primary btn-lg btn-block" ><strong>Create your account</strong></button>
                             <br />
-
+                            </form>
                             <div class="center">
                                 <span>Have an account? </span><a href="/login">Sign in</a>
                             </div>
@@ -87,8 +88,9 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onChange: (e) => dispatch({ type: 'CHANGE', value: e }),
-        onSubmit: (data) => {
-            console.log(data)
+        onSubmit: (e,data) => {
+            e.preventDefault();
+            console.log(data);
             dispatch(buyerSignUpPosts(data));
         }
     };

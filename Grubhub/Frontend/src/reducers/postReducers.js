@@ -3,8 +3,6 @@ import { BUYER_SIGNUP_POST, BUYER_LOGIN_POST, LOAD_BUYER_COOKIE, OWNER_SIGNUP_PO
 // Reducer holds the functionality to modify any action done on component page
 
 const initialState = {
-    items: [], //array of posts output coming from our action (fetch request )
-    item: {},
     firstName: "",
     lastName: "",
     email: "",
@@ -12,8 +10,8 @@ const initialState = {
     address: "",
     image: "",
     phone: "",
+    
     error: "",
-    buyerProfile: {},
 
     owner_address: "",
     restaurantId: "",
@@ -58,7 +56,8 @@ export default function (state = initialState, action) {
                 image: action.payload.image,
                 lastName: action.payload.lastName,
                 password: action.payload.password,
-                phone: action.payload.phone
+                phone: action.payload.phone,
+                error: action.payload.error
             }
 
         case LOAD_BUYER_COOKIE:
