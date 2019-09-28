@@ -34,12 +34,11 @@ class Section extends Component {
         }
     }
 
-    updateData= ()=>{
+    updateData = () => {
         console.log("inside updateData()");
         var a = document.getElementById("sectionlist");
-        a=(a.options[a.selectedIndex].value);
-        return{
-           
+        a = (a.options[a.selectedIndex].value);
+        return {
             sectionName: this.props.sectionName,
             sectionDescription: this.props.sectionDescription,
             restaurantId: cookie.load('owner').restaurantId,
@@ -49,7 +48,6 @@ class Section extends Component {
     render() {
 
         console.log("section List in render: ", this.props.sectionList)
-
         let sidebar = (
             <div class="sidenav">
                 <h2 class="title nav-header">Manage Section</h2>
@@ -80,7 +78,6 @@ class Section extends Component {
             </div>
         );
 
-
         let details = this.props.sectionList.map(section => {
             return (
                 <tr>
@@ -92,10 +89,10 @@ class Section extends Component {
         });
 
         let list = this.props.sectionList.map(section => {
-            return(
+            return (
                 <option value={section.sectionId}>{section.sectionName}</option>
-            )});
-
+            )
+        });
 
         let display = (<table class="table">
             <thead>
@@ -128,9 +125,9 @@ class Section extends Component {
                 <br />
                 <form >
                     <div class="form-group">
-                    {/* onClick="showfield(this.options[this.selectedIndex].value)" */}
+                        {/* onClick="showfield(this.options[this.selectedIndex].value)" */}
                         <select name="sectionlist" id="sectionlist" >
-                           {list}
+                            {list}
                         </select>
                         <div class="form-group">
                             <h4>Updated Section Name</h4>
@@ -188,7 +185,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(deleteSectionPosts(e.target.value));
         },
 
-        updateSection: (e,data)=>{
+        updateSection: (e, data) => {
             e.preventDefault();
             dispatch(updateSectionPosts(data));
         }
