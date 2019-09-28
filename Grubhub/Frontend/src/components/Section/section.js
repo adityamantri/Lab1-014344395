@@ -4,7 +4,7 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import './BuyerProfile.css'
-import { addSectionPosts, deleteSectionPosts, getSectionPosts } from '../../actions/sectionActions';
+import { addSectionPosts, deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
 import { connect } from 'react-redux';
 //Define a Login Component
 class Section extends Component {
@@ -31,6 +31,19 @@ class Section extends Component {
             sectionDescription: this.props.sectionDescription,
             restaurantId: cookie.load('owner').restaurantId,
             sectionId: this.props.sectionId
+        }
+    }
+
+    updateData= ()=>{
+        console.log("inside updateData()");
+        var a = document.getElementById("sectionlist");
+        a=(a.options[a.selectedIndex].value);
+        return{
+           
+            sectionName: this.props.sectionName,
+            sectionDescription: this.props.sectionDescription,
+            restaurantId: cookie.load('owner').restaurantId,
+            sectionId: a
         }
     }
     render() {
@@ -71,7 +84,7 @@ class Section extends Component {
         let details = this.props.sectionList.map(section => {
             return (
                 <tr>
-                    <td><input value={section.sectionName} /></td>
+                    <td>{section.sectionName}</td>
                     <td>{section.sectionDescription}</td>
                     <td><button value={section.sectionId} class="btn btn-primary" onClick={this.props.deleteSection}>Delete</button></td>
                 </tr>
@@ -116,7 +129,7 @@ class Section extends Component {
                 <form >
                     <div class="form-group">
                     {/* onClick="showfield(this.options[this.selectedIndex].value)" */}
-                        <select name="sectionlist" id="sectionList" >
+                        <select name="sectionlist" id="sectionlist" >
                            {list}
                         </select>
                         <div class="form-group">
@@ -127,7 +140,7 @@ class Section extends Component {
                         </div>
                     </div>
                     <br />
-                    <button type="submit" class="btn btn-primary " ><strong>Update</strong></button>
+                    <button type="button" onClick={(e) => this.props.updateSection(e, this.updateData())} class="btn btn-primary " ><strong>Update</strong></button>
                     <button type="button" onClick={() => this.myFunction7("updateSection")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
                 </form>
                 <br />
@@ -141,7 +154,7 @@ class Section extends Component {
                 {sidebar}
                 <div id="addSection" style={{ "display": "none" }}> {addSection} </div >
                 <div id="deleteSection" style={{ "display": "none" }}> {deleteSection} </div >
-                <div id="updateSection" style={{ "display": "block" }}> {updateSection} </div >
+                <div id="updateSection" style={{ "display": "none" }}> {updateSection} </div >
             </div >
 
         )
@@ -173,6 +186,11 @@ const mapDispatchToProps = (dispatch) => {
         deleteSection: (e) => {
             console.log("delete button", e.target.value)
             dispatch(deleteSectionPosts(e.target.value));
+        },
+
+        updateSection: (e,data)=>{
+            e.preventDefault();
+            dispatch(updateSectionPosts(data));
         }
     };
 };

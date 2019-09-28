@@ -17,9 +17,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/getSection/:restaurantId', function (req, res, next) {
-    console.log("req param ",req.params.restaurantId);
+    console.log("req param ", req.params.restaurantId);
     let pass = `select * from mydb.section WHERE restId = '${req.params.restaurantId}'`;
-    
+
     let output = "Not Updated";
     pool.query(pass, function (error, results) {
         if (error) {
@@ -48,29 +48,29 @@ router.post('/addSection', function (req, res) {
 
     pool.getConnection(function (error, conn) {
 
-            var addSection = `Insert into mydb.section (sectionName,sectionDescription, restId) 
+        var addSection = `Insert into mydb.section (sectionName,sectionDescription, restId) 
             Values ('${sectionName}','${sectionDescription}' ,'${restId}')`;
-            pool.query(addSection, function (error, results) {
-                if (error) {
-                    res.status(200).send("additem query error");
-                }
-                else {
-                    pool.query(`Select * from mydb.section where restId=${restId}`, function (error, result) {
-                        if (error) {
-                            res.cookie('itemerror', "error in adding item", { maxAge: 900000, httpOnly: false, path: '/' });
-                            res.status(200).send("fetch item after addition error");
-                        }else {
-                            result=JSON.stringify(result);
-                            console.log(result);
-                            res.cookie('cookie', result, { maxAge: 900000, httpOnly: false, path: '/' });
-                            res.status(201).send(result);
-                        }
-                    });
-                }
-            });
-        })
-    });
-    
+        pool.query(addSection, function (error, results) {
+            if (error) {
+                res.status(200).send("additem query error");
+            }
+            else {
+                pool.query(`Select * from mydb.section where restId=${restId}`, function (error, result) {
+                    if (error) {
+                        res.cookie('itemerror', "error in adding item", { maxAge: 900000, httpOnly: false, path: '/' });
+                        res.status(200).send("fetch item after addition error");
+                    } else {
+                        result = JSON.stringify(result);
+                        console.log(result);
+                        res.cookie('section', result, { maxAge: 900000, httpOnly: false, path: '/' });
+                        res.status(201).send(result);
+                    }
+                });
+            }
+        });
+    })
+});
+
 
 //delete section
 router.delete('/deleteSection/:sectionId', function (req, res, next) {
@@ -82,9 +82,9 @@ router.delete('/deleteSection/:sectionId', function (req, res, next) {
             throw error;
         }
         else {
-            pool.query(`DELETE FROM mydb.section WHERE sectionId='${req.params.sectionId}'`, function (error, results){
-            output = "Deleted";
-            res.status(202).send(output);
+            pool.query(`DELETE FROM mydb.section WHERE sectionId='${req.params.sectionId}'`, function (error, results) {
+                output = "Deleted";
+                res.status(202).send(output);
             });
         }
     });
@@ -96,7 +96,7 @@ router.post('/updateSection', function (req, res, next) {
     let pass = `UPDATE mydb.section
     SET
     sectionName='${req.body.sectionName}',
-    sectionDescription='${req.body.sectionDescription}',
+    sectionDescription='${req.body.sectionDescription}'
     WHERE sectionId = ${req.body.sectionId}`;
 
     let output = "Not Updated";
@@ -106,7 +106,10 @@ router.post('/updateSection', function (req, res, next) {
             throw error;
         }
         else {
-            output = pool.query(`Select * from mydb.section where sectionId='${req.body.sectionId}'`, (update,result) => {
+            output = pool.query(`Select * from mydb.section where sectionId='${req.body.sectionId}'`, (update, result) => {
+                result = JSON.stringify(result);
+                console.log(result);
+                res.cookie('section', result, { maxAge: 900000, httpOnly: false, path: '/' });
                 res.status(200).send(result);
             });
         };

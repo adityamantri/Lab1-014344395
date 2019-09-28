@@ -58,3 +58,16 @@ export const getSectionPosts = (postData) => dispatch => {
             throw (error);
         });
 }
+
+export const updateSectionPosts = (postData) => dispatch => {
+    console.log("reached axios", postData)
+    axios.defaults.withCredentials = true;
+    axios.post(`http://localhost:3001/section/updateSection`,postData)
+        .then(response => {
+            console.log("sectionPostsSuccess", response);
+            dispatch(sectionPostsSuccess(response.data));
+        }).catch(error => {
+            console.log("error thrown from backend ")
+            throw (error);
+        });
+}
