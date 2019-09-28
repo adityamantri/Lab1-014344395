@@ -1,4 +1,4 @@
-import { BUYER_SIGNUP_POST, BUYER_LOGIN_POST, LOAD_BUYER_COOKIE, OWNER_SIGNUP_POST } from '../actions/types';
+import { BUYER_SIGNUP_POST, BUYER_LOGIN_POST, LOAD_BUYER_COOKIE, OWNER_SIGNUP_POST, SECTION_POST } from '../actions/types';
 
 // Reducer holds the functionality to modify any action done on component page
 
@@ -10,7 +10,7 @@ const initialState = {
     address: "",
     image: "",
     phone: "",
-    
+
     error: "",
 
     owner_address: "",
@@ -24,7 +24,13 @@ const initialState = {
     zipCode: "",
     cuisine: "",
     restaurantImage: null,
-    restaurantName: ""
+    restaurantName: "",
+
+    sectionName:"",
+    sectionDescription:"",
+    sectionId:"",
+    sectionList:[],
+    
 
     //single post object that we send to backend---------imp
 }
@@ -81,6 +87,18 @@ export default function (state = initialState, action) {
                 cuisine: action.payload.cuisine,
                 restaurantImage: action.payload.restaurantImage,
                 restaurantName: action.payload.restaurantName
+            }
+
+        case SECTION_POST:
+            console.log("Inside SECTION_POST Reducer Section");
+            return {
+
+                sectionList:action.payload.sectionList
+                // sectionName: action.payload.sectionName,
+                // sectionId: action.payload.sectionId,
+                // sectionDescription: action.payload.sectionDescription,
+                // //restaurant ID is restID
+                // restaurantId: action.payload.restaurantId
             }
 
 

@@ -50,7 +50,7 @@ router.post('/addSection', function (req, res) {
 
             var addSection = `Insert into mydb.section (sectionName,sectionDescription, restId) 
             Values ('${sectionName}','${sectionDescription}' ,'${restId}')`;
-            pool.query(additem, function (error, results) {
+            pool.query(addSection, function (error, results) {
                 if (error) {
                     res.status(200).send("additem query error");
                 }
@@ -59,10 +59,9 @@ router.post('/addSection', function (req, res) {
                         if (error) {
                             res.cookie('itemerror', "error in adding item", { maxAge: 900000, httpOnly: false, path: '/' });
                             res.status(200).send("fetch item after addition error");
-                        }
-    
-                        else {
-                            console.log("done");
+                        }else {
+                            result=JSON.stringify(result);
+                            console.log(result);
                             res.cookie('cookie', result, { maxAge: 900000, httpOnly: false, path: '/' });
                             res.status(201).send(result);
                         }
@@ -83,7 +82,7 @@ router.delete('/deleteSection/:sectionId', function (req, res, next) {
             throw error;
         }
         else {
-            pool.query(`DELETE FROM mydb.section WHERE sectinid='${req.params.sectionId}'`, function (error, results){
+            pool.query(`DELETE FROM mydb.section WHERE sectionId='${req.params.sectionId}'`, function (error, results){
             output = "Deleted";
             res.status(202).send(output);
             });

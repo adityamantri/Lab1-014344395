@@ -6,6 +6,7 @@ import BuyerUpdate from './Profile/BuyerProfile';
 import OwnerSignUp from './SignUp/OwnerSignUp';
 import OwnerLogin from './Login/OwnerLogin';
 import OwnerUpdate from './Profile/OwnerProfile';
+import Section from './Section/section'
 
 // import Home from './Home/Home';
 // import Delete from './Delete/Delete';
@@ -24,6 +25,7 @@ class Main extends Component {
                 <Route path="/ownerLogin" component={OwnerLogin} />
                 <Route path="/ownerSignUp" component={OwnerSignUp} />
                 <Route path="/ownerProfile" component={OwnerUpdate} />
+                <Route path="/section" component={Section}/>
                 
             </div>
             )

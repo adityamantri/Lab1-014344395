@@ -27,8 +27,8 @@ class Navbar extends Component {
             name='owner';
             rest=(<span>FOR RESTAURANTS</span>)
         }
-        if (cookie.load('buyer') || cookie.load('owner')) {
-            name=cookie.load(name).firstName;
+        if (cookie.load('buyer')) {
+            name=cookie.load(name).owner_firstName;
             console.log("Able to read cookie",name);
             navLogin = (
                 
@@ -48,7 +48,31 @@ class Navbar extends Component {
                 </ul>
                 </div>
             );
-        } else {
+        } else if(cookie.load('owner')) {
+            rest=(<span>FOR RESTAURANTS</span>)
+            name=cookie.load(name).owner_firstName;
+            console.log("Able to read cookie",name);
+            navLogin = (
+                
+                <div class="navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Hi, {name}!<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href=""> Past order</a></li>
+                                <li><a href="/ownerProfile">Account</a></li>
+                                <li><a href="/section">Manage Section</a></li>
+                                <li><a href="">Upcoming orders</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><Link to="/" onClick={this.handleLogout}><span class="glyphicon glyphicon-user"></span>Logout</Link></li>
+                </ul>
+                </div>
+            );
+
+        }else {
             //Else display login button
             console.log("Not Able to read cookie");
             navLogin = (
