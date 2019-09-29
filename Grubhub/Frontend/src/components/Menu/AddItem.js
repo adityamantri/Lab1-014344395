@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import './BuyerProfile.css'
-import { addSectionPosts, deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
+import { deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
+import { getItemPosts, addItemPosts } from '../../actions/itemActions'
 import { connect } from 'react-redux';
 //Define a Login Component
 class AddItem extends Component {
@@ -26,11 +26,19 @@ class AddItem extends Component {
     }
 
     createData = () => {
+        var a = document.getElementById("sectionlist");
+        a = (a.options[a.selectedIndex].value);
         return {
             sectionName: this.props.sectionName,
-            sectionDescription: this.props.sectionDescription,
+            itemDescription: this.props.itemDescription,
             restaurantId: cookie.load('owner').restaurantId,
-            sectionId: this.props.sectionId
+            sectionId: a,
+            itemList: this.props.itemList,
+            itemName: this.props.itemName,
+            itemImage: this.props.itemImage,
+            restId: this.props.restId,
+            itemId: this.props.itemId,
+            itemPrice: this.props.itemPrice
         }
     }
 
@@ -49,23 +57,116 @@ class AddItem extends Component {
         console.log("section List n render: ", this.props.sectionList)
         let sidebar = (
             <div class="sidenav">
-                <h2 class="title nav-header">Manage Section</h2>
+                <h2 class="title nav-header">Add Item</h2>
                 <ul>
-                    <li ><a onClick={() => this.myFunction7("deleteSection")}>View/Delete</a></li>
-                    <li ><a onClick={() => this.myFunction7("addSection")}>Add Section</a></li>
-                    <li ><a onClick={() => this.myFunction7("updateSection")}>Update</a></li>
+                    <li ><a onClick={() => this.myFunction7("deleteItem")}>View/Delete</a></li>
+                    <li ><a onClick={() => this.myFunction7("addItem")}>Add Section</a></li>
+                    <li ><a onClick={() => this.myFunction7("updateItem")}>Update</a></li>
                 </ul>
             </div>
         );
 
+        let list = this.props.sectionList.map(section => {
+            return (
+                <option value={section.sectionId}>{section.sectionName}</option>
+            )
+        });
+
+
+        let addItem = (
+            <div class="container top-margin main " >
+                <p><h3>Add Item</h3></p>
+                <br />
+                <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
+                    <div class="form-group">
+                        <input type="file" ></input>
+                        <h4>Section</h4>
+                        <select name="sectionlist" id="sectionlist" >
+                            {list}
+                        </select>
+                        <h4>Item Name</h4>
+                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemName" required />
+                        <h4>Item Description</h4>
+                        <textarea type="text" onChange={this.props.onChange} class="form-control" name="itemDescription" required />
+                        <h4>Item Price</h4>
+                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemPrice" required />
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-primary " ><strong>Add</strong></button>
+                    <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
+                </form>
+                <br />
+            </div>
+        );
+
+        let updateItem = (
+            <div class="container top-margin main updateSection" >
+                <p><h3>Add Item</h3></p>
+                <br />
+                <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
+                    <div class="form-group">
+                        <input type="file" ></input>
+                        <h4>Section</h4>
+                        <select name="sectionlist" id="sectionlist" >
+                            {list}
+                        </select>
+                        <h4>Item Name</h4>
+                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemName" placeholder={this.props.itemName} required />
+                        <h4>Item Description</h4>
+                        <textarea type="text" onChange={this.props.onChange} class="form-control" name="itemDescription" placeholder={this.props.itemDescription} required />
+                        <h4>Item Price</h4>
+                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemPrice" placeholder={this.props.itemPrice} required />
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-primary " ><strong>Add</strong></button>
+                    <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
+                </form>
+                <br />
+            </div>
+        );
+
+
+        let details = this.props.sectionList.map(section => {
+            return (
+                <tr>
+                    <td>{section.sectionName}</td>
+                    <td>{section.sectionDescription}</td>
+                </tr>
+            )
+        });
+
+        let display = (<table class="table">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Item Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {/*Display the Tbale row based on data recieved*/}
+                {details}
+            </tbody>
+        </table>);
+        let menuView = (
+            <div class="container top-margin main " >
+                <p><h3>View/Delete Section</h3></p>
+                <br />
+                <form >
+                    <div class="form-group">
+                        {display}
+                    </div>
+                </form>
+            </div>
+        );
+
+
         return (
             <div>
                 {sidebar}
-                <div id="addSection" style={{ "display": "none" }}>  </div >
-                <div id="deleteSection" style={{ "display": "none" }}>  </div >
-                <div id="updateSection" style={{ "display": "none" }}>  </div >
+                <div id="addItem" style={{ "display": "none" }}> {addItem} </div >
+                <div id="updateItem" style={{ "display": "none" }}> {updateItem} </div >
+                <div id="deleteItem" style={{ "display": "none" }}> {menuView} </div >
             </div >
-
         )
     }
 }
@@ -74,9 +175,14 @@ const mapStateToProps = (store) => {
     return {
         sectionList: store.posts.sectionList,
         sectionName: store.posts.sectionName,
-        sectionDescription: store.posts.sectionDescription,
-        restId: store.posts.restId,
-        sectionId: store.posts.sectionId
+        sectionId: store.posts.sectionId,
+        itemName: store.posts.itemName,
+        //itemImage: store.props.itemImage,
+        itemDescription: store.posts.itemDescription,
+        restaurantId: store.posts.restaurantId,
+        itemId: store.posts.itemId,
+        itemPrice: store.posts.itemPrice,
+        itemList: store.posts.itemList
     };
 };
 
@@ -86,11 +192,12 @@ const mapDispatchToProps = (dispatch) => {
         onSubmit: (e, data) => {
             e.preventDefault();
             console.log("mapDispatchToProps data:  ", data)
-            dispatch(addSectionPosts(data));
+            dispatch(addItemPosts(data));
         },
         onCookie: () => {
             console.log("mapDispatchToProps data:  ")
-            dispatch(getSectionPosts(cookie.load('owner').restaurantId));
+            // dispatch(getSectionPosts(cookie.load('owner').restaurantId));
+            dispatch(getItemPosts(cookie.load('owner').restaurantId))
         }
     };
 };

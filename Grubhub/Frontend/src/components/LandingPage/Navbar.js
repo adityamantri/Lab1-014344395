@@ -62,7 +62,7 @@ class Navbar extends Component {
                                 <li><a href=""> Past order</a></li>
                                 <li><a href="/ownerProfile">Account</a></li>
                                 <li><a href="/section">Manage Section</a></li>
-                                <li><a href="">Upcoming orders</a></li>
+                                <li><a href="/addItem">Menu</a></li>
                             </ul>
                         </li>
                     </ul>
