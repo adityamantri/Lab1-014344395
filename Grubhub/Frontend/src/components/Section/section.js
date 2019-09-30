@@ -80,7 +80,7 @@ class Section extends Component {
         let details = this.props.sectionList.map(section => {
             return (
                 <tr>
-                    <td>{section.sectionName}</td>
+                   <a href="/menuView"> <td>{section.sectionName}</td></a>
                     <td>{section.sectionDescription}</td>
                     <td><button value={section.sectionId} class="btn btn-primary" onClick={this.props.deleteSection}>Delete</button></td>
                 </tr>

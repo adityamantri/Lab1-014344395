@@ -88,9 +88,52 @@ router.post('/addItem', function (req, res) {
 });
 
 
-router.get('/getItem/:restaurantId', function (req, res, next) {
-    console.log("req param ", req.params.restaurantId);
-    let pass = `select * from mydb.item WHERE restId = '${req.params.restaurantId}'`;
+// router.get('/getItem/:restaurantId', function (req, res, next) {
+//     console.log("req param ", req.params.restaurantId);
+//     let pass = `select * from mydb.item WHERE restId = '${req.params.restaurantId}'`;
+
+//     let output = "Not Updated";
+//     pool.query(pass, function (error, results) {
+//         if (error) {
+//             console.log("error in results ");
+//             throw error;
+//         }
+//         else {
+//             //console.log('Body Content', req.body.password);
+//             console.log(results);
+//             section = JSON.stringify(results);
+//             res.cookie('section', section, { encode: String });
+//             res.status(200).send(results);
+//         };
+//     });
+//     console.log(output);
+// });
+
+
+router.delete('/deleteItem/:itemId', function (req, res, next) {
+    let pass = `DELETE FROM mydb.item WHERE  itemId='${req.params.itemId}'`;
+    let output = "Not success";
+    pool.query(pass, function (error, results) {
+        if (error) {
+            console.log("error in results --------", results);
+            throw error;
+        }
+        else {
+                output = "Deleted";
+                res.status(202).send(output);
+        }
+    });
+    console.log(output);
+});
+
+router.post('/updateItem', function (req, res, next) {
+    let pass = `UPDATE mydb.item
+    SET
+    itemName='${req.body.itemName}',
+    itemDescription='${req.body.itemDescription}',
+    itemPrice= '${req.body.itemPrice}',
+    itemImage= '${req.body.itemImage}' 
+    WHERE itemId = ${req.body.itemId}`;
 
     let output = "Not Updated";
     pool.query(pass, function (error, results) {
@@ -99,14 +142,16 @@ router.get('/getItem/:restaurantId', function (req, res, next) {
             throw error;
         }
         else {
-            //console.log('Body Content', req.body.password);
-            console.log(results);
-            section = JSON.stringify(results);
-            res.cookie('section', section, { encode: String });
-            res.status(200).send(results);
+            output = pool.query(`Select * from mydb.item where itemId='${req.body.itemId}'`, (update, result) => {
+                result = JSON.stringify(result);
+                console.log(result);
+                //res.cookie('item', result, { maxAge: 900000, httpOnly: false, path: '/' });
+                res.status(200).send(result);
+            });
         };
     });
     console.log(output);
+
 });
 
 module.exports = router;

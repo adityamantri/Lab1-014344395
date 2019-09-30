@@ -4,14 +4,9 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import './BuyerProfile.css'
 import { deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
-import { getItemPosts, addItemPosts } from '../../actions/itemActions';
+import { getItemPosts, addItemPosts } from '../../actions/itemActions'
 import { connect } from 'react-redux';
-import {ItemDetail} from './ItemDetail';
 //Define a Login Component
-
-let sectionHead=[], sectionBody=[], count=0;
-let redirectToView=null,viewFlag=false;
-
 class AddItem extends Component {
 
     myFunction7 = (y) => {
@@ -30,12 +25,6 @@ class AddItem extends Component {
         console.log("component will mount section.js ");
     }
 
-    onData=(itemName)=>{
-        let restaurantId= cookie.load('owner').restaurantId;
-        viewFlag= true;
-        redirectToView=<ItemDetail key='k1' itemName={itemName} restaurantId={restaurantId}></ItemDetail>
-        this.setState({});
-    }
     createData = () => {
         var a = document.getElementById("sectionlist");
         a = (a.options[a.selectedIndex].value);
@@ -65,10 +54,6 @@ class AddItem extends Component {
         }
     }
     render() {
-        if(viewFlag)
-        {
-            viewFlag=false;
-        }
         console.log("section List n render: ", this.props.sectionList)
         let sidebar = (
             <div class="sidenav">
@@ -140,59 +125,15 @@ class AddItem extends Component {
             </div>
         );
 
-        let table = new Map();
-        let header = this.props.sectionList.map(heading => {
-            table.set(heading.sectionId, heading.sectionName);
-        }
+        let table= new Map();
+        let header=this.props.sectionList.map(heading=>{
+            table.set(heading.sectionId,heading.sectionName);
+            console.log("table is :",table)
+        }   
         );
-        console.log(this.props.itemList)
-        let newMap = new Map();
-        for (let element of table) {
-            let id = element[0];
-            let value = element[1];
-            console.log("element: ", id, value)
-            for (let item of this.props.itemList) {
-                console.log("item  ---- ", item.sectionId)
-                if (item.sectionId == id) {
-                    console.log("checking newmap here: ", newMap)
-                    console.log('!newMap.has(id)', !newMap.has(id), id)
-                    if (newMap.has(value)) {
-                        console.log("arr---")
-                        let arr = newMap.get(value);
-                        arr.push([item.itemName, item.itemPrice]);
-                        console.log("arr---", arr)
-                        newMap.set(value, arr);
 
-                    } else {
-                        newMap.set(value, [[item.itemName, item.itemPrice]])
-                        console.log("sid---", id)
-
-                    }
-                }
-            }
-
-        } console.log("New MAp -----", newMap);
-
-
-
-            let details = this.props.sectionList.map(section => {
+        let details = this.props.sectionList.map(section => {
             console.log(table);
-            for (let entity of newMap) {
-                sectionHead[count]=<thead>{entity[0]}</thead>;
-                sectionBody[count]=entity[1].map(item=>{
-                    console.log("item::::::",item)
-                    return(
-                        
-                    <tr>
-                     <a onClick={this.onData.bind(this, item[0])}><td>{item[0]}</td></a> 
-                        <td>{(item[1])}</td>
-                        <td><button value={item[0]} class="btn btn-primary" onClick={this.props.deleteItem}>Delete</button></td>
-                    </tr>
-                    )
-                })
-                count++;
-            }
-            
             return (
                 <tr>
                     <td>{section.sectionName}</td>
@@ -201,60 +142,25 @@ class AddItem extends Component {
             )
         });
 
-        let display = (
-        <table class="table">
+        let display = (<table class="table">
             <thead>
-            <h2>{sectionHead[0]}</h2>
                 <tr>
                     <th>Item Name</th>
                     <th>Item Price</th>
                 </tr>
             </thead>
             <tbody>
-            {sectionBody[0]}          
+                {/*Display the Tbale row based on data recieved*/}
+                {details}
             </tbody>
-            <thead>
-            <h2>{sectionHead[1]}</h2>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Item Price</th>
-                </tr>
-            </thead>
-            <tbody>
-            {sectionBody[1]}          
-            </tbody>
-            <thead>
-            <h2>{sectionHead[2]}</h2>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Item Price</th>
-                </tr>
-            </thead>
-            <tbody>
-            {sectionBody[2]}          
-            </tbody>
-        </table>
-        );
-        let menuView = (
-            <div class="container top-margin main " >
-                <p><h3>View/Delete Section</h3></p>
-                <br />
-                <form >
-                    <div class="form-group">
-                        {display}
-                    </div>
-                </form>
-            </div>
-        );
-
+        </table>);
 
         return (
             <div>
-            {redirectToView}
                 {sidebar}
                 <div id="addItem" style={{ "display": "none" }}> {addItem} </div >
                 <div id="updateItem" style={{ "display": "none" }}> {updateItem} </div >
-                <div id="deleteItem" style={{ "display": "block" }}> {menuView} </div >
+                <div id="deleteItem" style={{ "display": "none" }}> {menuView} </div >
             </div >
         )
     }
@@ -288,7 +194,6 @@ const mapDispatchToProps = (dispatch) => {
             // dispatch(getSectionPosts(cookie.load('owner').restaurantId));
             dispatch(getItemPosts(cookie.load('owner').restaurantId))
         }
-        
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddItem)

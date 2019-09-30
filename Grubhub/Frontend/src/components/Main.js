@@ -7,7 +7,8 @@ import OwnerSignUp from './SignUp/OwnerSignUp';
 import OwnerLogin from './Login/OwnerLogin';
 import OwnerUpdate from './Profile/OwnerProfile';
 import Section from './Section/Section';
-import AddItem from './Menu/AddItem'
+import AddItem from './Menu/AddItem';
+import ItemDetail from './Menu/ItemDetail';
 
 // import Home from './Home/Home';
 // import Delete from './Delete/Delete';
