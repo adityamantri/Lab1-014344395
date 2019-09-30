@@ -8,66 +8,55 @@ import { getItemPosts, addItemPosts } from '../../actions/itemActions'
 import { connect } from 'react-redux';
 //Define a Login Component
 
-let sectionHead=[], sectionBody=[], count=0;
+let sectionHead = [], sectionBody = [], count = 0;
 
 export class ItemDetail extends Component {
 
-    myFunction7 = (y) => {
-        var x = document.getElementById(y);
-        console.log("reached function ", y)
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        this.props.onCookie();
+        this.props.onGetItem();
         console.log("component will mount section.js ");
     }
 
-    createData = () => {
-        var a = document.getElementById("sectionlist");
-        a = (a.options[a.selectedIndex].value);
+
+    onGetItem = () => {
         return {
-            sectionName: this.props.sectionName,
-            itemDescription: this.props.itemDescription,
             restaurantId: cookie.load('owner').restaurantId,
-            sectionId: a,
-            itemList: this.props.itemList,
-            itemName: this.props.itemName,
-            itemImage: this.props.itemImage,
-            restId: this.props.restId,
-            itemId: this.props.itemId,
-            itemPrice: this.props.itemPrice
+            itemName: this.props.location.state.itemName
         }
     }
 
-    updateData = () => {
-        console.log("inside updateData()");
-        var a = document.getElementById("sectionlist");
-        a = (a.options[a.selectedIndex].value);
-        return {
-            itemName: this.props.itemName,
-            sectionDescription: this.props.sectionDescription,
-            restaurantId: cookie.load('owner').restaurantId,
-            sectionId: a
-        }
-    }
+    // createData = () => {
+    //     var a = document.getElementById("sectionlist");
+    //     a = (a.options[a.selectedIndex].value);
+    //     return {
+    //         sectionName: this.props.sectionName,
+    //         itemDescription: this.props.itemDescription,
+    //         restaurantId: cookie.load('owner').restaurantId,
+    //         sectionId: a,
+    //         itemList: this.props.itemList,
+    //         itemName: this.props.itemName,
+    //         itemImage: this.props.itemImage,
+    //         restId: this.props.restId,
+    //         itemId: this.props.itemId,
+    //         itemPrice: this.props.itemPrice
+    //     }
+    // }
+
+    // updateData = () => {
+    //     console.log("inside updateData()");
+    //     var a = document.getElementById("sectionlist");
+    //     a = (a.options[a.selectedIndex].value);
+    //     return {
+    //         itemName: this.props.itemName,
+    //         sectionDescription: this.props.sectionDescription,
+    //         restaurantId: cookie.load('owner').restaurantId,
+    //         sectionId: a
+    //     }
+    // }
     render() {
         console.log("section List n render: ", this.props.sectionList)
-        let sidebar = (
-            <div class="sidenav">
-                <h2 class="title nav-header">Add Item</h2>
-                <ul>
-                    <li ><a onClick={() => this.myFunction7("deleteItem")}>View/Delete</a></li>
-                    <li ><a onClick={() => this.myFunction7("addItem")}>Add Section</a></li>
-                    <li ><a onClick={() => this.myFunction7("updateItem")}>Update</a></li>
-                </ul>
-            </div>
-        );
 
         let list = this.props.sectionList.map(section => {
             return (
@@ -76,36 +65,65 @@ export class ItemDetail extends Component {
         });
 
         let addItem = (
-            <div class="container top-margin main " >
-                <p><h3>Add Item</h3></p>
-                <br />
-                <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
-                    <div class="form-group">
-                        <input type="file" ></input>
-                        <h4>Section</h4>
-                        <select name="sectionlist" id="sectionlist" >
-                            {list}
-                        </select>
-                        <h4>Item Name</h4>
-                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemName" required />
-                        <h4>Item Description</h4>
-                        <textarea type="text" onChange={this.props.onChange} class="form-control" name="itemDescription" required />
-                        <h4>Item Price</h4>
-                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemPrice" required />
-                    </div>
+            <div>
+                <div class="container top-margin main " >
+                    <p><h3>View Item</h3></p>
                     <br />
-                    <button type="submit" class="btn btn-primary " ><strong>Add</strong></button>
-                    <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
-                </form>
-                <br />
+                    <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
+                        <div class="form-group">
+                            <input type="file" ></input>
+                            <h4>Section</h4>
+                            <select name="sectionlist" id="sectionlist" >
+                                {list}
+                            </select>
+                            <h4>Item Name</h4>
+                            <td type="text" onChange={this.props.onChange} class="form-control" placeholder={this.props.location.state.itemName} name="itemName" required />
+                            <h4>Item Description</h4>
+                            <textarea type="text" onChange={this.props.onChange} class="form-control" name="itemDescription" required />
+                            <h4>Item Price</h4>
+                            <input type="text" onChange={this.props.onChange} class="form-control" name="itemPrice" required />
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-primary " ><strong>Add</strong></button>
+                        <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
+                    </form>
+                    <br />
+                </div>
+
+                <div class="container top-margin main " >
+                    <p><h3>Update Item</h3></p>
+                    <br />
+                    <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
+                        <div class="form-group">
+                            <input type="file" ></input>
+                            <h4>Section</h4>
+                            <select name="sectionlist" id="sectionlist" >
+                                {list}
+                            </select>
+                            <h4>Item Name</h4>
+                            <input type="text" onChange={this.props.onChange} class="form-control" placeholder={this.props.location.state.itemName} name="itemName" required />
+                            <h4>Item Description</h4>
+                            <textarea type="text" onChange={this.props.onChange} class="form-control" name="itemDescription" required />
+                            <h4>Item Price</h4>
+                            <input type="text" onChange={this.props.onChange} class="form-control" name="itemPrice" required />
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-primary " ><strong>Add</strong></button>
+                        <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
+                    </form>
+                    <br />
+                </div>
             </div>
         );
 
 
         return (
             <div>
-                {sidebar}
-                <div id="addItem" style={{ "display": "none" }}> {addItem} </div >
+                {/* {sidebar} */}
+                <div id="addItem" style={{ "display": "block" }}> {addItem} </div >
+                <br /><br />
+                <h1>{this.props.location.state.itemName}</h1>
+                <h1>{this.props.location.state.restId}</h1>
             </div >
         )
     }
@@ -137,7 +155,11 @@ const mapDispatchToProps = (dispatch) => {
         onCookie: () => {
             console.log("mapDispatchToProps data:  ");
             dispatch(getItemPosts(cookie.load('owner').restaurantId))
+        },
+        onGetItem: (e,data)=>{
+            console.log("Item Details");
+           // dispatch(getItemDetails(data));
         }
     };
 };
-export default ItemDetail;
+export default connect(mapStateToProps, mapDispatchToProps)(ItemDetail)

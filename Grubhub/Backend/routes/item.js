@@ -110,21 +110,33 @@ router.post('/addItem', function (req, res) {
 // });
 
 
-router.delete('/deleteItem/:itemId', function (req, res, next) {
-    let pass = `DELETE FROM mydb.item WHERE  itemId='${req.params.itemId}'`;
+router.post('/deleteItem', function (req, res, next) {
+console.log("reached item delete")
+let item_id= null;
+let item_id1=null;
+    pool.query(`Select itemId from mydb.item where itemName='${req.body.itemName}' and restId=${req.body.restaurantId}`,function(error,results){
+         item_id=results;
+        item_id1=(item_id[0])['itemId'];
+         console.log("item_id:::",item_id1)
+    
+    console.log("item id here:   ",)
+    let pass = `DELETE FROM mydb.item WHERE  itemId=${item_id1}`;
+    console.log(pass)
+
     let output = "Not success";
     pool.query(pass, function (error, results) {
         if (error) {
-            console.log("error in results --------", results);
+            console.log("error in results--------", results);
             throw error;
         }
         else {
+            console.log("deleted itemmmmmmmm")
                 output = "Deleted";
                 res.status(202).send(output);
         }
     });
     console.log(output);
-});
+});});
 
 router.post('/updateItem', function (req, res, next) {
     let pass = `UPDATE mydb.item

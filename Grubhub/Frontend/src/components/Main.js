@@ -29,7 +29,8 @@ class Main extends Component {
                 <Route path="/ownerProfile" component={OwnerUpdate} />
                 <Route path="/section" component={Section}/>
                 <Route path="/addItem" component={AddItem}/>
-                
+                <Route path="/itemDetail" component={ItemDetail}/>
+
             </div>
             )
         }

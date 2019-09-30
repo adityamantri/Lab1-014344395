@@ -86,7 +86,7 @@ class Login extends Component {
                             <br />
                             </form>
                             <div class="center">
-                                <span>Have an account? </span><a href="/login">Sign in</a>
+                                <span>Have an account? </span><a href="/ownerLogin">Sign in</a>
                             </div>
                             <br />
                             <p class="center">By creating your Grubhub account, you agree to the Terms of Use and Privacy Policy.</p>

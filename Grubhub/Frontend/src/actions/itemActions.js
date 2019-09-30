@@ -31,14 +31,14 @@ export const itemPostsSuccess = (data) => {
         }
     }
 }
-export const deleteSectionPosts = (postData) => dispatch => {
+export const deleteItemPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.delete(`http://localhost:3001/section/deleteSection/${postData}`)
+    axios.post(`http://localhost:3001/item/deleteItem`,postData)
         .then(response => {
             console.log("itemPostsSuccess", response);
 
-            dispatch(itemPostsSuccess(response));
+            //dispatch(itemPostsSuccess(response));
 
         }).catch(error => {
             console.log("error thrown from backend ")
