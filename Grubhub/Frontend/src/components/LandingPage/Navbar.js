@@ -14,24 +14,24 @@ class Navbar extends Component {
     handleLogout = () => {
         cookie.remove('buyer');
         cookie.remove('owner');
-        
+
     }
     render() {
         //if Cookie is set render Logout Button
         let navLogin = null;
-        let name=null;
-        let rest=null;
-        if(cookie.load('buyer') ){
-            name='buyer'
-        }else if(cookie.load('owner')){
-            name='owner';
-            rest=(<span>FOR RESTAURANTS</span>)
+        let name = null;
+        let rest = null;
+        if (cookie.load('buyer')) {
+            name = 'buyer'
+        } else if (cookie.load('owner')) {
+            name = 'owner';
+            rest = (<span>FOR RESTAURANTS</span>)
         }
         if (cookie.load('buyer')) {
-            name=cookie.load(name).owner_firstName;
-            console.log("Able to read cookie",name);
+            name = cookie.load(name).firstName;
+            console.log("Able to read cookie", name);
             navLogin = (
-                
+
                 <div class="navbar-collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <li class="nav-item dropdown">
@@ -43,17 +43,17 @@ class Navbar extends Component {
                             </ul>
                         </li>
                     </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><Link to="/" onClick={this.handleLogout}><span class="glyphicon glyphicon-user"></span>Logout</Link></li>
-                </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><Link to="/" onClick={this.handleLogout}><span class="glyphicon glyphicon-user"></span>Logout</Link></li>
+                    </ul>
                 </div>
             );
-        } else if(cookie.load('owner')) {
-            rest=(<span>FOR RESTAURANTS</span>)
-            name=cookie.load(name).owner_firstName;
-            console.log("Able to read cookie",name);
+        } else if (cookie.load('owner')) {
+            rest = (<span>FOR RESTAURANTS</span>)
+            name = cookie.load(name).owner_firstName;
+            console.log("Able to read cookie", name);
             navLogin = (
-                
+
                 <div class="navbar-collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <li class="nav-item dropdown">
@@ -66,17 +66,18 @@ class Navbar extends Component {
                             </ul>
                         </li>
                     </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><Link to="/" onClick={this.handleLogout}><span class="glyphicon glyphicon-user"></span>Logout</Link></li>
-                </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><Link to="/" onClick={this.handleLogout}><span class="glyphicon glyphicon-user"></span>Logout</Link></li>
+                    </ul>
                 </div>
             );
 
-        }else {
+        } else {
             //Else display login button
             console.log("Not Able to read cookie");
             navLogin = (
                 <ul class="nav navbar-nav navbar-right">
+                    <li><Link to="/ownerLogin"><span class="glyphicon glyphicon-log-in"></span> Owner Login</Link></li>
                     <li><Link to="/login"><span class="glyphicon glyphicon-log-in"></span> Login</Link></li>
                 </ul>
             )

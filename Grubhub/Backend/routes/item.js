@@ -39,11 +39,12 @@ router.get('/getItem/:restaurantId', function (req, res, next) {
                     //console.log('Body Content', req.body.password);
                     console.log(itemResults);
                     res.cookie('item', itemResults, { encode: String });
-                    res.status(200).send(JSON.stringify({results:sectionResults,result:itemResults}));
+                    res.status(200).send(JSON.stringify({ results: sectionResults, result: itemResults }));
                 };
             });
             console.log(output);
-    }});
+        }
+    });
 });
 //Route to handle Post Request Call
 router.post('/addItem', function (req, res) {
@@ -88,55 +89,37 @@ router.post('/addItem', function (req, res) {
 });
 
 
-// router.get('/getItem/:restaurantId', function (req, res, next) {
-//     console.log("req param ", req.params.restaurantId);
-//     let pass = `select * from mydb.item WHERE restId = '${req.params.restaurantId}'`;
 
-//     let output = "Not Updated";
-//     pool.query(pass, function (error, results) {
-//         if (error) {
-//             console.log("error in results ");
-//             throw error;
-//         }
-//         else {
-//             //console.log('Body Content', req.body.password);
-//             console.log(results);
-//             section = JSON.stringify(results);
-//             res.cookie('section', section, { encode: String });
-//             res.status(200).send(results);
-//         };
-//     });
-//     console.log(output);
-// });
 
 
 router.post('/deleteItem', function (req, res, next) {
-console.log("reached item delete")
-let item_id= null;
-let item_id1=null;
-    pool.query(`Select itemId from mydb.item where itemName='${req.body.itemName}' and restId=${req.body.restaurantId}`,function(error,results){
-         item_id=results;
-        item_id1=(item_id[0])['itemId'];
-         console.log("item_id:::",item_id1)
-    
-    console.log("item id here:   ",)
-    let pass = `DELETE FROM mydb.item WHERE  itemId=${item_id1}`;
-    console.log(pass)
+    console.log("reached item delete")
+    let item_id = null;
+    let item_id1 = null;
+    pool.query(`Select itemId from mydb.item where itemName='${req.body.itemName}' and restId=${req.body.restaurantId}`, function (error, results) {
+        item_id = results;
+        item_id1 = (item_id[0])['itemId'];
+        console.log("item_id:::", item_id1)
 
-    let output = "Not success";
-    pool.query(pass, function (error, results) {
-        if (error) {
-            console.log("error in results--------", results);
-            throw error;
-        }
-        else {
-            console.log("deleted itemmmmmmmm")
+        console.log("item id here:   ")
+        let pass = `DELETE FROM mydb.item WHERE  itemId=${item_id1}`;
+        console.log(pass)
+
+        let output = "Not success";
+        pool.query(pass, function (error, results) {
+            if (error) {
+                console.log("error in results--------", results);
+                throw error;
+            }
+            else {
+                console.log("deleted itemmmmmmmm")
                 output = "Deleted";
                 res.status(202).send(output);
-        }
+            }
+        });
+        console.log(output);
     });
-    console.log(output);
-});});
+});
 
 router.post('/updateItem', function (req, res, next) {
     let pass = `UPDATE mydb.item
@@ -163,7 +146,30 @@ router.post('/updateItem', function (req, res, next) {
         };
     });
     console.log(output);
+});
 
+router.post('/getItemDetails', function (req, res, next) {
+    console.log("req param ", req.body.restaurantId);
+    let pass = `select section.sectionName, item.itemName, 
+    item.itemDescription, item.itemPrice,
+    item.itemId, section.sectionId from mydb.section natural join item 
+    where restId=${req.body.restaurantId} and item.itemName='${req.body.itemName}'`;
+
+    let output = "Not Updated";
+    pool.query(pass, function (error, results) {
+        if (error) {
+            console.log("error in results ");
+            throw error;
+        }
+        else {
+            //console.log('Body Content', req.body.password);
+            console.log(results);
+            section = JSON.stringify(results);
+            res.cookie('getItemDetails', section, { encode: String });
+            res.status(200).send(section);
+        };
+    });
+    console.log(output);
 });
 
 module.exports = router;

@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import './BuyerProfile.css'
-import { deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
-import { getItemPosts, addItemPosts } from '../../actions/itemActions'
+import './BuyerProfile.css';
+import {getItemDetails, updateItemPosts, getItemPosts, addItemPosts } from '../../actions/itemActions'
 import { connect } from 'react-redux';
 //Define a Login Component
 
@@ -15,7 +14,11 @@ export class ItemDetail extends Component {
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        this.props.onGetItem();
+        let data={
+            restaurantId: cookie.load('owner').restaurantId,
+            itemName: this.props.location.state.itemName
+        };
+        this.props.onGetItem(data);
         console.log("component will mount section.js ");
     }
 
@@ -27,42 +30,29 @@ export class ItemDetail extends Component {
         }
     }
 
-    // createData = () => {
-    //     var a = document.getElementById("sectionlist");
-    //     a = (a.options[a.selectedIndex].value);
-    //     return {
-    //         sectionName: this.props.sectionName,
-    //         itemDescription: this.props.itemDescription,
-    //         restaurantId: cookie.load('owner').restaurantId,
-    //         sectionId: a,
-    //         itemList: this.props.itemList,
-    //         itemName: this.props.itemName,
-    //         itemImage: this.props.itemImage,
-    //         restId: this.props.restId,
-    //         itemId: this.props.itemId,
-    //         itemPrice: this.props.itemPrice
-    //     }
-    // }
+    updateData = () => {
+        
+        return {
+            sectionName: this.props.sectionName,
+            itemDescription: this.props.itemDescription,
+            restaurantId: cookie.load('owner').restaurantId,
+            sectionId: this.props.sectionId,
+            itemName: this.props.itemName,
+            itemImage: this.props.itemImage,
+            restId: this.props.restId,
+            itemId: this.props.itemId,
+            itemPrice: this.props.itemPrice
+        }
+    }
 
-    // updateData = () => {
-    //     console.log("inside updateData()");
-    //     var a = document.getElementById("sectionlist");
-    //     a = (a.options[a.selectedIndex].value);
-    //     return {
-    //         itemName: this.props.itemName,
-    //         sectionDescription: this.props.sectionDescription,
-    //         restaurantId: cookie.load('owner').restaurantId,
-    //         sectionId: a
-    //     }
-    // }
     render() {
         console.log("section List n render: ", this.props.sectionList)
 
-        let list = this.props.sectionList.map(section => {
-            return (
-                <option value={section.sectionId}>{section.sectionName}</option>
-            )
-        });
+        // let list = this.props.sectionList.map(section => {
+        //     return (
+        //         <option value={section.sectionId}>{section.sectionName}</option>
+        //     )
+        // });
 
         let addItem = (
             <div>
@@ -73,19 +63,16 @@ export class ItemDetail extends Component {
                         <div class="form-group">
                             <input type="file" ></input>
                             <h4>Section</h4>
-                            <select name="sectionlist" id="sectionlist" >
-                                {list}
-                            </select>
+                            <div>{this.props.sectionName}</div>
                             <h4>Item Name</h4>
-                            <td type="text" onChange={this.props.onChange} class="form-control" placeholder={this.props.location.state.itemName} name="itemName" required />
+                            <div >{this.props.location.state.itemName}</div>
                             <h4>Item Description</h4>
-                            <textarea type="text" onChange={this.props.onChange} class="form-control" name="itemDescription" required />
+                            <div >{this.props.itemDescription} </div>
                             <h4>Item Price</h4>
-                            <input type="text" onChange={this.props.onChange} class="form-control" name="itemPrice" required />
+                            <div>{this.props.itemPrice}</div>
                         </div>
                         <br />
-                        <button type="submit" class="btn btn-primary " ><strong>Add</strong></button>
-                        <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
+                        <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Return</strong></button>
                     </form>
                     <br />
                 </div>
@@ -97,19 +84,17 @@ export class ItemDetail extends Component {
                         <div class="form-group">
                             <input type="file" ></input>
                             <h4>Section</h4>
-                            <select name="sectionlist" id="sectionlist" >
-                                {list}
-                            </select>
+                            <div>{this.props.sectionName}</div>
                             <h4>Item Name</h4>
                             <input type="text" onChange={this.props.onChange} class="form-control" placeholder={this.props.location.state.itemName} name="itemName" required />
                             <h4>Item Description</h4>
-                            <textarea type="text" onChange={this.props.onChange} class="form-control" name="itemDescription" required />
+                            <textarea type="text" onChange={this.props.onChange} class="form-control" placeholder={this.props.itemDescription} name="itemDescription" required />
                             <h4>Item Price</h4>
-                            <input type="text" onChange={this.props.onChange} class="form-control" name="itemPrice" required />
+                            <input type="text" onChange={this.props.onChange} class="form-control" placeholder={this.props.itemPrice} name="itemPrice" required />
                         </div>
                         <br />
-                        <button type="submit" class="btn btn-primary " ><strong>Add</strong></button>
-                        <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
+                        <button type="submit" class="btn btn-primary " ><strong>Update</strong></button>
+                        <button type="button" onClick={(e) => this.props.onUpdate(e, this.updateData())} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
                     </form>
                     <br />
                 </div>
@@ -149,16 +134,18 @@ const mapDispatchToProps = (dispatch) => {
         onChange: (e) => dispatch({ type: 'CHANGE', value: e }),
         onSubmit: (e, data) => {
             e.preventDefault();
-            console.log("mapDispatchToProps data:  ", data)
+            console.log("mapDispatchToProps data:  ", data);
             dispatch(addItemPosts(data));
         },
-        onCookie: () => {
-            console.log("mapDispatchToProps data:  ");
-            dispatch(getItemPosts(cookie.load('owner').restaurantId))
+        onUpdate: (e,data) =>{
+            e.preventDefault();
+            console.log("onUpdate mapdispatchtoprops data:  ",data);
+            dispatch(updateItemPosts(data));
+
         },
-        onGetItem: (e,data)=>{
+        onGetItem: (data)=>{
             console.log("Item Details");
-           // dispatch(getItemDetails(data));
+            dispatch(getItemDetails(data));
         }
     };
 };

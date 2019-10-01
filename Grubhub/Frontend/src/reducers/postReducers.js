@@ -26,17 +26,17 @@ const initialState = {
     restaurantImage: null,
     restaurantName: "",
 
-    sectionName:"",
-    sectionDescription:"",
-    sectionId:"",
-    sectionList:[],
-    
+    sectionName: "",
+    sectionDescription: "",
+    sectionId: "",
+    sectionList: [],
+
     itemList: [],
     itemName: "",
-    itemDescription:"",
-    itemImage:"",
-    itemPrice:"",
-    
+    itemDescription: "",
+    itemImage: "",
+    itemPrice: "",
+
 
     //single post object that we send to backend---------imp
 }
@@ -99,7 +99,7 @@ export default function (state = initialState, action) {
             console.log("Inside SECTION_POST Reducer Section");
             return {
 
-                sectionList:action.payload.sectionList
+                sectionList: action.payload.sectionList
                 // sectionName: action.payload.sectionName,
                 // sectionId: action.payload.sectionId,
                 // sectionDescription: action.payload.sectionDescription,
@@ -108,10 +108,18 @@ export default function (state = initialState, action) {
             }
 
         case ITEM_POST:
-            console.log("inside ITEM_POST Reducer Section",action)
-            return{
+            console.log("inside ITEM_POST Reducer Section", action)
+            return {
                 itemList: action.payload.itemList,
-                sectionList: action.payload.sectionList
+                sectionList: action.payload.sectionList,
+                sectionId: action.payload.sectionId,
+                sectionDescription: action.payload.sectionDescription,
+                restaurantId: action.payload.restId,
+                itemId: action.payload.itemId,
+                itemDescription: action.payload.itemDescription,
+                itemPrice: action.payload.itemPrice,
+                itemName: action.payload.itemName,
+                sectionName: action.payload.sectionName
             }
 
 

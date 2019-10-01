@@ -50,7 +50,7 @@ export const buyerLoginPostsSuccess = (data) => {
             lastName: data.lastName,
             password: data.password,
             phone: data.phone,
-            error: data
+            error: data.error
         }
     }
 }

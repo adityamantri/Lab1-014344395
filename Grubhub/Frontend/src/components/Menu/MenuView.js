@@ -160,7 +160,7 @@ class AddItem extends Component {
                 {sidebar}
                 <div id="addItem" style={{ "display": "none" }}> {addItem} </div >
                 <div id="updateItem" style={{ "display": "none" }}> {updateItem} </div >
-                <div id="deleteItem" style={{ "display": "none" }}> {menuView} </div >
+                <div id="deleteItem" style={{ "display": "none" }}>  </div >
             </div >
         )
     }

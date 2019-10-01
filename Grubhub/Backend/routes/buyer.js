@@ -97,9 +97,12 @@ router.post('/signInBuyer', function (req, res, next) {
                     res.status(200).send(results[0]);
                 }
                 else {
-                    console.log("not compare working-------------------")
+                    console.log("not compare working-------------------");
+                    data={
+                        error: "Invalid login credentials"
+                    };
                     output = "Invalid login credentials";
-                    res.status(200).send(output);
+                    res.status(200).send(data);
                 }
             });
 
