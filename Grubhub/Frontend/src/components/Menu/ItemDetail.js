@@ -72,7 +72,7 @@ export class ItemDetail extends Component {
                             <div>{this.props.itemPrice}</div>
                         </div>
                         <br />
-                        <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Return</strong></button>
+                        <a href="/addItem"><button type="button"  class="btn btn-default " value="cancel" ><strong>Return</strong></button></a>
                     </form>
                     <br />
                 </div>
@@ -93,8 +93,8 @@ export class ItemDetail extends Component {
                             <input type="text" onChange={this.props.onChange} class="form-control" placeholder={this.props.itemPrice} name="itemPrice" required />
                         </div>
                         <br />
-                        <button type="submit" class="btn btn-primary " ><strong>Update</strong></button>
-                        <button type="button" onClick={(e) => this.props.onUpdate(e, this.updateData())} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
+                        <button type="button" onClick={(e) => this.props.onUpdate(e, this.updateData())} class="btn btn-primary " ><strong>Update</strong></button>
+                        <a href="/addItem"><button type="button"  class="btn btn-default " value="cancel" ><strong>Cancel</strong></button></a>
                     </form>
                     <br />
                 </div>
@@ -107,8 +107,6 @@ export class ItemDetail extends Component {
                 {/* {sidebar} */}
                 <div id="addItem" style={{ "display": "block" }}> {addItem} </div >
                 <br /><br />
-                <h1>{this.props.location.state.itemName}</h1>
-                <h1>{this.props.location.state.restId}</h1>
             </div >
         )
     }
@@ -138,10 +136,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(addItemPosts(data));
         },
         onUpdate: (e,data) =>{
-            e.preventDefault();
             console.log("onUpdate mapdispatchtoprops data:  ",data);
             dispatch(updateItemPosts(data));
-
         },
         onGetItem: (data)=>{
             console.log("Item Details");

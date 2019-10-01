@@ -52,7 +52,7 @@ class Login extends Component {
                             </div>
                             <div class="form-group">
                                 <div>Password</div>
-                                <input onChange={this.props.onChange} type="owner_password" class="form-control" name="owner_password" placeholder="" required/>
+                                <input onChange={this.props.onChange} type="password" class="form-control" name="owner_password" placeholder="" required/>
                             </div>
                             <div style={{"textAlign":"center"}}>
                             <button type="submit"  class="btn btn-primary btn-lg btn-block">Sign in</button>

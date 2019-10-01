@@ -5,12 +5,17 @@ import { Redirect } from 'react-router';
 import './BuyerProfile.css'
 import { deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
 import { getItemPosts, addItemPosts, deleteItemPosts } from '../../actions/itemActions';
+import { insertOrderPosts } from '../../actions/orderActions'
 import { connect } from 'react-redux';
 //Define a Login Component
 
 let sectionHead = [], sectionBody = [], count = 0;
-let redirectToView = null, viewFlag = false,itemDetailFlag=false;
+let redirectToView = null, viewFlag = false, itemDetailFlag = false;
 
+let quantity = [];
+let cart = [];
+let total = 0;
+let cartdisp = ""
 class AddItem extends Component {
 
     myFunction7 = (y) => {
@@ -25,34 +30,40 @@ class AddItem extends Component {
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        this.props.onCookie();
-        console.log("component will mount section.js ");
+        let restId = this.props.location.state.restId
+        this.props.onCookie(restId);
+
     }
 
-    onDeleteItem = (name) => {
-        return {
-            restaurantId: cookie.load('owner').restaurantId,
-            itemName: name
-        }
+    showcart = () => {  // {itemName:itemName, itemPrice:itemPrice, quantity:e.tartget.value};
+        console.log("cart is : ", cart)
+        cartdisp = cart.map((item) => {
+
+            return (
+                <div>
+                    <li>{item.quantity} Number of {item.itemName} and per item price @ {item.itemPrice}  </li>
+                </div>
+            )
+        })
+        this.setState({})
+        console.log("cart display", cartdisp)
     }
 
     onData = (itemName) => {
         let restaurantId = cookie.load('owner').restaurantId;
         redirectToView = <Redirect to={{
-            pathname:'/itemDetail',
-            state:{itemName:itemName, restId:restaurantId}
-        }}/>
-        itemDetailFlag=true;
+            pathname: '/itemDetail',
+            state: { itemName: itemName, restId: restaurantId }
+        }} />
+        itemDetailFlag = true;
         this.setState({});
     }
+
     createData = () => {
-        var a = document.getElementById("sectionlist");
-        a = (a.options[a.selectedIndex].value);
         return {
-            sectionName: this.props.sectionName,
+            restName: this.props.restName,
             itemDescription: this.props.itemDescription,
             restaurantId: cookie.load('owner').restaurantId,
-            sectionId: a,
             itemList: this.props.itemList,
             itemName: this.props.itemName,
             itemImage: this.props.itemImage,
@@ -62,37 +73,30 @@ class AddItem extends Component {
         }
     }
 
-    updateData = () => {
-        console.log("inside updateData()");
-        var a = document.getElementById("sectionlist");
-        a = (a.options[a.selectedIndex].value);
-        return {
-            itemName: this.props.itemName,
-            sectionDescription: this.props.sectionDescription,
-            restaurantId: cookie.load('owner').restaurantId,
-            sectionId: a
-        }
+    qty = (e, itemName, itemPrice) => {
+        // quantity[itemName]=e.target.value;
+        // iName=itemName;
+        // iPrice=itemPrice;
+        // console.log("qty itemName:",itemName)
+        // console.log("qty itemPrice:   ",itemPrice)
+        // console.log("qty quantity e: ", e.target.value)
+        console.log("qty function: ", itemName, itemPrice, e.target.value)
+        let quan = e.target.value;
+        let arr = { itemName: itemName, itemPrice: itemPrice, quantity: quan };
+        total += (itemPrice * quan);
+        cart.push(arr);
     }
+
+
     render() {
 
-        if(itemDetailFlag)
-        {
-            itemDetailFlag=false;
+        if (itemDetailFlag) {
+            itemDetailFlag = false;
         }
-        else{
-            redirectToView=null;
+        else {
+            redirectToView = null;
         }
-        console.log("section List n render: ", this.props.sectionList)
-        let sidebar = (
-            <div class="sidenav">
-                <h2 class="title nav-header">Add Item</h2>
-                <ul>
-                    <li ><a onClick={() => this.myFunction7("deleteItem")}>View/Delete</a></li>
-                    <li ><a onClick={() => this.myFunction7("addItem")}>Add Item</a></li>
-                    <li ><a onClick={() => this.myFunction7("updateItem")}>Update</a></li>
-                </ul>
-            </div>
-        );
+
 
         let list = this.props.sectionList.map(section => {
             return (
@@ -100,58 +104,6 @@ class AddItem extends Component {
             )
         });
 
-
-        let addItem = (
-            <div class="container top-margin main " >
-                <p><h3>Add Item</h3></p>
-                <br />
-                <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
-                    <div class="form-group">
-                        <input type="file" ></input>
-                        <h4>Section</h4>
-                        <select name="sectionlist" id="sectionlist" >
-                            {list}
-                        </select>
-                        <h4>Item Name</h4>
-                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemName" required />
-                        <h4>Item Description</h4>
-                        <textarea type="text" onChange={this.props.onChange} class="form-control" name="itemDescription" required />
-                        <h4>Item Price</h4>
-                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemPrice" required />
-                    </div>
-                    <br />
-                    <button type="submit" class="btn btn-primary " ><strong>Add</strong></button>
-                    <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
-                </form>
-                <br />
-            </div>
-        );
-
-        let updateItem = (
-            <div class="container top-margin main updateSection" >
-                <p><h3>Add Item</h3></p>
-                <br />
-                <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
-                    <div class="form-group">
-                        <input type="file" ></input>
-                        <h4>Section</h4>
-                        <select name="sectionlist" id="sectionlist" >
-                            {list}
-                        </select>
-                        <h4>Item Name</h4>
-                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemName" placeholder={this.props.itemName} required />
-                        <h4>Item Description</h4>
-                        <textarea type="text" onChange={this.props.onChange} class="form-control" name="itemDescription" placeholder={this.props.itemDescription} required />
-                        <h4>Item Price</h4>
-                        <input type="text" onChange={this.props.onChange} class="form-control" name="itemPrice" placeholder={this.props.itemPrice} required />
-                    </div>
-                    <br />
-                    <button type="submit" class="btn btn-primary " ><strong>Add</strong></button>
-                    <button type="button" onClick={() => this.myFunction7("addItem")} class="btn btn-default " value="cancel" ><strong>Cancel</strong></button>
-                </form>
-                <br />
-            </div>
-        );
 
         let table = new Map();
         let header = this.props.sectionList.map(heading => {
@@ -193,11 +145,11 @@ class AddItem extends Component {
                 sectionBody[count] = entity[1].map(item => {
                     console.log("item::::::", item)
                     return (
-
                         <tr>
                             <a onClick={this.onData.bind(this, item[0])}><td>{item[0]}</td></a>
                             <td>{(item[1])}</td>
-                            <td><button value={item[0]} class="btn btn-primary" onClick={(e) => this.props.deleteItem(e, this.onDeleteItem(item[0]))}>Delete</button></td>
+                            <td><input type="text" name="quant" style={{ width: "40px" }} onChange={(e) => { this.qty(e, item[0], item[1]) }} placeholder="0" /></td>
+                            {/* {(e) => this.props.onSubmit(e,this.createData())} */}
                         </tr>
                     )
                 })
@@ -219,6 +171,7 @@ class AddItem extends Component {
                     <tr>
                         <th>Item Name</th>
                         <th>Item Price</th>
+                        <th>Qty</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -229,6 +182,7 @@ class AddItem extends Component {
                     <tr>
                         <th>Item Name</th>
                         <th>Item Price</th>
+                        <th>Qty</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -239,6 +193,7 @@ class AddItem extends Component {
                     <tr>
                         <th>Item Name</th>
                         <th>Item Price</th>
+                        <th>Qty</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -248,13 +203,15 @@ class AddItem extends Component {
         );
         let menuView = (
             <div class="container top-margin main " >
-                <p><h3>View/Delete Section</h3></p>
+                <p style={{ "textAlign": "center" }}><h2><strong>{this.props.location.state.restName}</strong></h2></p>
                 <br />
                 <form >
                     <div class="form-group">
                         {display}
                     </div>
                 </form>
+                <button class="btn btn-danger btn-lg btn-block" onClick={this.showcart} >Add To Cart</button>
+                <br />
             </div>
         );
 
@@ -262,10 +219,17 @@ class AddItem extends Component {
         return (
             <div>
                 {redirectToView}
-                {sidebar}
-                <div id="addItem" style={{ "display": "none" }}> {addItem} </div >
-                <div id="updateItem" style={{ "display": "none" }}> {updateItem} </div >
                 <div id="deleteItem" style={{ "display": "block" }}> {menuView} </div >
+                <div class="container">
+                    <form>
+                        <h2 style={{ textAlign: "center" }}>Your Cart</h2>
+                        <ul>
+                            {cartdisp}
+                        </ul>
+                        <h3 style={{ textAlign: "center" }}>Total {total}</h3>
+                        <button name="confirm" onClick={(e) => this.onOrder(item.restaurantId, item.restaurantName)} class="btn btn-danger btn-lg btn-block">ORDER</button>
+                    </form>
+                </div>
             </div >
         )
     }
@@ -294,15 +258,20 @@ const mapDispatchToProps = (dispatch) => {
             console.log("mapDispatchToProps data:  ", data)
             dispatch(addItemPosts(data));
         },
-        onCookie: () => {
+        onCookie: (restId) => {
             console.log("mapDispatchToProps data:  ")
-            // dispatch(getSectionPosts(cookie.load('owner').restaurantId));
-            dispatch(getItemPosts(cookie.load('owner').restaurantId))
+            //dispatch(getSectionPosts(cookie.load('owner').restaurantId));
+            console.log("this.props.location.state.restaurantId)", restId)
+            dispatch(getItemPosts(restId))
         },
         deleteItem: (e, data) => {
             //e.preventDefault();
             console.log("inside delete item ");
             dispatch(deleteItemPosts(data))
+        },
+        onOrder: (e, data) => {
+            console.log("inside onOrder mapDispatchToProps");
+            dispatch(insertOrderPosts())
         }
     };
 };

@@ -32,7 +32,7 @@ class Login extends Component {
     }
 
     render() {
-        console.log("FGUJVHBKNLJHCFVJBKN", this.props.restaurantList)
+        //console.log("FGUJVHBKNLJHCFVJBKN", this.props.restaurantList)
         if(flag){
             flag=false;
         }else{
