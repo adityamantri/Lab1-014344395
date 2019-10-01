@@ -4,3 +4,4 @@ export const LOAD_BUYER_COOKIE= 'LOAD_BUYER_COOKIE';
 export const OWNER_SIGNUP_POST= 'OWNER_SIGNUP_POST';
 export const SECTION_POST= 'SECTION_POST';
 export const ITEM_POST= 'ITEM_POST';
+export const SEARCH_POST= 'SEARCH_POST';

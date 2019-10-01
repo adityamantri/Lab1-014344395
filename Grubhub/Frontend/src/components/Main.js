@@ -9,6 +9,9 @@ import OwnerUpdate from './Profile/OwnerProfile';
 import Section from './Section/Section';
 import AddItem from './Menu/AddItem';
 import ItemDetail from './Menu/ItemDetail';
+import SearchBar from './Search/searchBar';
+import Restaurant from './Restaurant/Restaurant';
+
 
 // import Home from './Home/Home';
 // import Delete from './Delete/Delete';
@@ -30,6 +33,9 @@ class Main extends Component {
                 <Route path="/section" component={Section}/>
                 <Route path="/addItem" component={AddItem}/>
                 <Route path="/itemDetail" component={ItemDetail}/>
+                <Route path="/searchBar" component={SearchBar}/>
+                <Route path="/restaurant" component={Restaurant}/>
+
 
             </div>
             )

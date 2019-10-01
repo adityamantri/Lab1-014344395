@@ -22,16 +22,16 @@ export const itemPostsSuccess = (data) => {
     return {
         type: ITEM_POST,
         payload: {
-            itemList: data[0].result,
-            sectionList: data[0].results,
-            sectionId: data[0].sectionId,
-            sectionDescription: data[0].sectionDescription,
-            restaurantId: data[0].restId,
-            itemId: data[0].itemId,
-            itemDescription: data[0].itemDescription,
-            itemPrice: data[0].itemPrice,
-            itemName: data[0].itemName,
-            sectionName: data[0].sectionName
+            itemList: data.result,
+            sectionList: data.results,
+            sectionId: data.sectionId,
+            sectionDescription: data.sectionDescription,
+            restaurantId: data.restId,
+            itemId: data.itemId,
+            itemDescription: data.itemDescription,
+            itemPrice: data.itemPrice,
+            itemName: data.itemName,
+            sectionName: data.sectionName
         }
     }
 }
@@ -84,9 +84,27 @@ export const getItemDetails = (postData) => dispatch => {
     axios.post(`http://localhost:3001/item/getItemDetails`,postData)
         .then(response => {
             console.log("itemPostsSuccess", response);
-            dispatch(itemPostsSuccess(response.data));
+            dispatch(itemdataPostsSuccess(response.data));
         }).catch(error => {
             console.log("error thrown from backend ")
             throw (error);
         });
+}
+export const itemdataPostsSuccess = (data) => {
+    console.log("item posts succcess: data ",data)
+    return {
+        type: ITEM_POST,
+        payload: {
+            itemList: data[0].result,
+            sectionList: data[0].results,
+            sectionId: data[0].sectionId,
+            sectionDescription: data[0].sectionDescription,
+            restaurantId: data[0].restId,
+            itemId: data[0].itemId,
+            itemDescription: data[0].itemDescription,
+            itemPrice: data[0].itemPrice,
+            itemName: data[0].itemName,
+            sectionName: data[0].sectionName
+        }
+    }
 }

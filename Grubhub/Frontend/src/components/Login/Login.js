@@ -21,7 +21,7 @@ class Login extends Component {
         let redirectVar = null;
         console.log("  inside render------",this.createData)
         if (cookie.load('buyer')) {
-            redirectVar = <Redirect to="/buyerProfile" />
+            redirectVar = <Redirect to="/searchBar" />
         }
         return (
             <div>

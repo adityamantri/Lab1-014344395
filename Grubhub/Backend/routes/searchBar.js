@@ -11,8 +11,8 @@ const saltRounds = 10;
 const pool = require('../db');
 
 //Search Item from buyer page
-router.post('/search', function (req, res, next) {
-    let pass = `Select restaurantId, restaurantName, cuisine from mydb.restOwner where restaurantId=
+router.post('/searchRestaurant', function (req, res, next) {
+    let pass = `Select restaurantId, restaurantName, cuisine from mydb.restOwner where restaurantId IN
     (select restId from mydb.item where itemName LIKE '%${req.body.itemName}%')`;
     let output = "Not Updated";
     pool.query(pass, function (error, result) {
