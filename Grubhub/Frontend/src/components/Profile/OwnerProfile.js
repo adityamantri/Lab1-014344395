@@ -115,7 +115,6 @@ class OwnerProfile extends Component {
                 <ul>
                     <li ><a onClick={this.myFunction4}>Profile</a></li>
                     <li ><a onClick={this.myFunction5}>Address and owner_phone</a></li>
-                    <li ><a onClick={this.myFunction6}>Past orders</a></li>
                     <li ><a onClick={this.myFunction7}>Restaurant Details</a></li>
                 </ul>
             </div>
@@ -149,7 +148,7 @@ class OwnerProfile extends Component {
 
                                                 <div class="form-group">
 
-                                                    <p><h3>Edit Details</h3></p>
+                                                <h3> <p>Edit Details</p></h3>
                                                     <div>First Name</div>
 
                                                     <input type="text" onChange={this.props.onChange} class="form-control" name="owner_firstName" placeholder={this.props.owner_firstName} required />
@@ -200,7 +199,7 @@ class OwnerProfile extends Component {
                                         <form >
                                             <div class>
                                                 <div class="form-group">
-                                                    <p><h3>Edit Details</h3></p>
+                                                <h3><p>Edit Details</p></h3>
                                                     <div>Address</div>
 
                                                     <input type="text" onChange={this.props.onChange} class="form-control" name="owner_address" placeholder={this.props.owner_address} required />
@@ -247,7 +246,7 @@ class OwnerProfile extends Component {
                                         <form >
                                             <div class>
                                                 <div class="form-group">
-                                                    <p><h3>Edit Details</h3></p>
+                                                <h3><p>Edit Details</p></h3>
                                                     <div>Restaurant Name</div>
 
                                                     <input type="text" onChange={this.props.onChange} class="form-control" name="restaurantName" placeholder={this.props.restaurantName} required />

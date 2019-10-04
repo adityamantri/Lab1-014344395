@@ -15,7 +15,7 @@ class Login extends Component {
     constructor(props){
         super(props);
         this.state={
-            restId : cookie.load('buyer').buyerId,
+            restId : cookie.load('owner').restaurantId,
             pastList: []
             
         }
@@ -23,7 +23,7 @@ class Login extends Component {
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        let restId = {buyerId:cookie.load('owner').buyerId}
+        let restId = {restId:cookie.load('owner').restaurantId}
         console.log("restId is : ",restId)
        // this.props.onCookie(restId);
        axios.defaults.withCredentials = true;
@@ -75,7 +75,8 @@ class Login extends Component {
                 return (
 
                     <tr>
-                        <td><h4>{orders.restName}</h4></td>
+                        <td><h4>{orders.firstName}</h4></td>
+                        <td>{orders.address}</td>
                         <td>{orders.itemName}</td>
                         <td>{orders.orderItemQty}</td>
                         <td>{orders.itemPrice}</td>
@@ -91,7 +92,8 @@ class Login extends Component {
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Restaurant Name</th>
+                            <th>Customer Name</th>
+                            <th>Address</th>
                             <th>Item Name</th>
                             <th>Ouantity</th>
                             <th>Price</th>
@@ -108,7 +110,7 @@ class Login extends Component {
         //redirect based on successful login
         let redirectVar = null;
         console.log("  inside render------", this.createData)
-        if (cookie.load('buyer')) {
+        if (cookie.load('owner')) {
             //redirectVar = <Redirect to="/buyerProfile" />
         }
         return (

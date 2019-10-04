@@ -39,7 +39,7 @@ class Main extends Component {
                 <Route path="/searchBar" component={SearchBar}/>
                 <Route path="/restaurant" component={Restaurant}/>
                 <Route path="/pastOrder" component={PastOrder}/>
-                <Route path="/upcomingOrder" component={UpcomingOrders}/>
+                <Route path="/upcomingOrders" component={UpcomingOrders}/>
                 <Route path="/ownerPastOrder" component={OwnerPastOrders}/>
                 <Route path="/manageOrder" component={ManageOrders}/>
 

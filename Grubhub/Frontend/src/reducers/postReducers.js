@@ -37,7 +37,7 @@ const initialState = {
     itemImage: "",
     itemPrice: "",
 
-    restaurantList:"",
+    restaurantList:[],
 
     addOrderOutput:"",
     //single post object that we send to backend---------imp
@@ -71,7 +71,8 @@ export default function (state = initialState, action) {
                 lastName: action.payload.lastName,
                 password: action.payload.password,
                 phone: action.payload.phone,
-                error: action.payload.error
+                error: action.payload.error,
+                restaurantList:[]
             }
 
         case LOAD_BUYER_COOKIE:
@@ -127,7 +128,7 @@ export default function (state = initialState, action) {
             case SEARCH_POST:
                 console.log("Reached SEARCH_POST reducer")
                 return{
-                    restaurantList:action.payload.restaurantList
+                    restaurantList:action.payload.restaurantList,
                 }
 
             case ADD_ORDER_POST:

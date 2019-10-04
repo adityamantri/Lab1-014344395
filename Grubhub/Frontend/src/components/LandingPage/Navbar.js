@@ -61,10 +61,10 @@ class Navbar extends Component {
                             <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Hi, {name}!<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/ownerProfile">Account</a></li>
-                                <li><a href="/section">Manage Section</a></li>
+                                <li><a href="/section">Section</a></li>
                                 <li><a href="/addItem">Menu</a></li>
-                                <li><a href="/ownerPastOrder"> Past order</a></li>
-                                <li><a href="/manageOrder"> Manage order</a></li>
+                                <li><a href="/ownerPastOrder"> Past Order</a></li>
+                                <li><a href="/manageOrder"> Manage Order</a></li>
 
                             </ul>
                         </li>

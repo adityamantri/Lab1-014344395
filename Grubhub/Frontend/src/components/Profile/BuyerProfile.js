@@ -102,7 +102,6 @@ class BuyerProfile extends Component {
                 <ul>
                     <li ><a onClick={this.myFunction4}>Profile</a></li>
                     <li ><a onClick={this.myFunction5}>Address and phone</a></li>
-                    <li ><a onClick={this.myFunction6}>Past orders</a></li>
                 </ul>
             </div>
         );

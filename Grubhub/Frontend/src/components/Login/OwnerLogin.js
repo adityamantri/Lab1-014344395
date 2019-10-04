@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
@@ -45,7 +44,6 @@ class Login extends Component {
                                 <h3><strong style={{color:"red"}}>GRUBHUB</strong> FOR RESTAURANTS</h3>
                                 <br/>
                             </div>
-
                             <div class="form-group">
                                 <div>Email</div>
                                 <input onChange={this.props.onChange} type="text" class="form-control" name="owner_email" placeholder="" required/>
@@ -61,7 +59,6 @@ class Login extends Component {
                         </div>
                         </form>
                     </div>
-                    
                 </div>
             </div>
         )

@@ -24,7 +24,7 @@ router.post('/currentOrder', function (req, res, next) {
     let pass = `Select series, buyer.firstName,buyer.address, itemName, orderItemQty, itemPrice, orderStatus 
     from mydb.orderFood natural join mydb.buyer where restId=? and orderStatus NOT IN ('DELIVERED','CANCEL')`;
     pool.query(pass, req.body.restId, function (error, result) {
-        console.log("req.body.buyerId: ",req.body.restId)
+        console.log("req.body.buyerId: ", req.body.restId)
         if (error) {
             console.log("error in results ", error);
             res.status(205).send(error)
@@ -60,42 +60,22 @@ router.post('/pastOrder', function (req, res, next) {
 
 
 router.post('/updateOrderStatus', function (req, res, next) {
-    console.log("req.body is--------", req.body.cart)
-    let maxOrderId = `Select MAX(orderId) AS sOrderId from mydb.orderFood`;
-    pool.query(maxOrderId, function (error, result1) {
-        //res=JSON.stringify(res);
-        console.log(result1[0].sOrderId);
-        arrf=[];
-        req.body.cart.forEach(element => {
-            let arrtemp = []
-            arrtemp.push(result1[0].sOrderId + 1);
-            arrtemp.push("NEW");
-            element.forEach(elem => {
-                arrtemp.push(elem)
-            })
-            arrf.push(arrtemp)
-        });
+    console.log("req.body is--------", req.body)
+    let pass = `UPDATE mydb.orderFood SET orderStatus = '${req.body.orderStatus}' where series=${req.body.series}`;
+    pool.query(pass, function (error, result) {
 
-        console.log('Final Arrayyyyyyyyyyyyyyyyyyyyy', arrf)
-        let pass = `INSERT INTO mydb.orderFood
-    (orderId, orderStatus, itemName, itemPrice,  orderItemQty, restId, restName, buyerId) VALUES ?`
-
-        let output = "Not Updated";
-        pool.query(pass, [arrf], function (error, result) {
-            if (error) {
-                console.log("error in results", error);
-                res.status(205).send(error)
-            }
-            else {
-                result = { output: "order accepted" };
-                console.log(result);
-                // res.cookie('section', result, { maxAge: 900000, httpOnly: false, path: '/' });
-                res.status(200).send(result);
-            };
-        });
-        console.log(output);
+        if (error) {
+            console.log("error in results", error);
+            res.status(205).send(error)
+        }
+        else {
+            result = { output: "order accepted" };
+            console.log(result);
+            // res.cookie('section', result, { maxAge: 900000, httpOnly: false, path: '/' });
+            res.status(200).send(result);
+        };
     });
+});
 
-})
 
 module.exports = router;

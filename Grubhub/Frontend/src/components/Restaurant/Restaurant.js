@@ -64,7 +64,7 @@ class AddItem extends Component {
 
             return (
                 <div>
-                    <li>{item.quantity} Number of {item.itemName} and per item price @ {item.itemPrice}  </li>
+                    <li>{item[2]} Number of {item[0]} and per item price @ {item[1]}  </li>
                 </div>
             )
         })
@@ -125,10 +125,10 @@ class AddItem extends Component {
 
         if(this.props.addOrderOutput=="order accepted"){
             console.log("changing Redirect to Upcoming order");
-            redirectToView = <Redirect to={{
+            redirectToView =( <Redirect to={{
                 pathname: '/upcomingOrders',
                 state: { }
-            }} />
+            }} />)
         }
 
         if (itemDetailFlag) {
@@ -183,7 +183,7 @@ class AddItem extends Component {
             }
 
         } console.log("New MAp -----", newMap);
-        console.log('Section List is -------------------------------------------------->',this.state.sectionList)
+        console.log('Section List is ----------------------------->',this.state.sectionList)
 
           let details = this.state.sectionList.map(section => {
             console.log(table);
@@ -319,9 +319,10 @@ const mapDispatchToProps = (dispatch) => {
             console.log("inside delete item ");
             dispatch(deleteItemPosts(data))
         },
-        onOrder: (e, data) => {
+        onOrder: ( e,data) => {
             console.log("inside onOrder mapDispatchToProps",data);
             dispatch(insertOrderPosts(data));
+            
         }
     };
 };

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import './BuyerProfile.css'
-import { deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
+import './BuyerProfile.css';
 import { getItemPosts, addItemPosts, deleteItemPosts } from '../../actions/itemActions';
 import { connect } from 'react-redux';
 import { ItemDetail } from './ItemDetail';
@@ -88,9 +87,8 @@ class AddItem extends Component {
             <div class="sidenav">
                 <h2 class="title nav-header">Add Item</h2>
                 <ul>
-                    <li ><a onClick={() => this.myFunction7("deleteItem")}>View/Delete</a></li>
+                    <li ><a onClick={() => this.myFunction7("deleteItem")}>View/Update/Del</a></li>
                     <li ><a onClick={() => this.myFunction7("addItem")}>Add Item</a></li>
-                    <li ><a onClick={() => this.myFunction7("updateItem")}>Update</a></li>
                 </ul>
             </div>
         );
@@ -130,7 +128,7 @@ class AddItem extends Component {
 
         let updateItem = (
             <div class="container top-margin main updateSection" >
-                <p><h3>Add Item</h3></p>
+                <p><h3>Update Item</h3></p>
                 <br />
                 <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
                     <div class="form-group">
@@ -250,6 +248,7 @@ class AddItem extends Component {
         let menuView = (
             <div class="container top-margin main " >
                 <p><h3>View/Delete Section</h3></p>
+                <h5>Click on Item to Update</h5>
                 <br />
                 <form >
                     <div class="form-group">
