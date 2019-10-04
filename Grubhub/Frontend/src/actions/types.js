@@ -5,3 +5,4 @@ export const OWNER_SIGNUP_POST= 'OWNER_SIGNUP_POST';
 export const SECTION_POST= 'SECTION_POST';
 export const ITEM_POST= 'ITEM_POST';
 export const SEARCH_POST= 'SEARCH_POST';
+export const ADD_ORDER_POST='ADD_ORDER_POST';

@@ -7,7 +7,7 @@ import { deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../a
 import { getItemPosts, addItemPosts, deleteItemPosts } from '../../actions/itemActions';
 import { insertOrderPosts } from '../../actions/orderActions'
 import { connect } from 'react-redux';
-//Define a Login Component
+import axios from 'axios';
 
 let sectionHead = [], sectionBody = [], count = 0;
 let redirectToView = null, viewFlag = false, itemDetailFlag = false;
@@ -15,7 +15,8 @@ let redirectToView = null, viewFlag = false, itemDetailFlag = false;
 let quantity = [];
 let cart = [];
 let total = 0;
-let cartdisp = ""
+let cartdisp = "";
+let sectionList=[];
 class AddItem extends Component {
 
     myFunction7 = (y) => {
@@ -28,11 +29,33 @@ class AddItem extends Component {
         }
     }
 
+    constructor(props){
+        super(props);
+        this.state={
+            restId : this.props.location.state.restId,
+            sectionList: []
+            
+        }
+    }
+
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        let restId = this.props.location.state.restId
-        this.props.onCookie(restId);
-
+        let restId = this.props.location.state.restId;
+       // this.props.onCookie(restId);
+       axios.defaults.withCredentials = true;
+       axios.get(`http://localhost:3001/item/getItem/${restId}`)
+           .then(response => {
+               console.log("itemPostsSuccess", response);
+   
+               this.setState({
+                sectionList:response.data.results,
+                itemList:response.data.result
+               })
+   
+           }).catch(error => {
+               console.log("error thrown from backend ",error)
+               throw (error);
+           });
     }
 
     showcart = () => {  // {itemName:itemName, itemPrice:itemPrice, quantity:e.tartget.value};
@@ -50,7 +73,7 @@ class AddItem extends Component {
     }
 
     onData = (itemName) => {
-        let restaurantId = cookie.load('owner').restaurantId;
+        let restaurantId = this.props.restId;
         redirectToView = <Redirect to={{
             pathname: '/itemDetail',
             state: { itemName: itemName, restId: restaurantId }
@@ -59,11 +82,17 @@ class AddItem extends Component {
         this.setState({});
     }
 
+    onOrderData = () => {
+        return {
+            cart: cart
+        }
+    }
+
     createData = () => {
         return {
             restName: this.props.restName,
             itemDescription: this.props.itemDescription,
-            restaurantId: cookie.load('owner').restaurantId,
+            restaurantId: this.props.restId,
             itemList: this.props.itemList,
             itemName: this.props.itemName,
             itemImage: this.props.itemImage,
@@ -82,13 +111,25 @@ class AddItem extends Component {
         // console.log("qty quantity e: ", e.target.value)
         console.log("qty function: ", itemName, itemPrice, e.target.value)
         let quan = e.target.value;
-        let arr = { itemName: itemName, itemPrice: itemPrice, quantity: quan };
+        let arr = [ itemName, itemPrice, quan, 
+            this.props.location.state.restId,
+             this.props.location.state.restName,
+             cookie.load('buyer').buyerId,];
+
         total += (itemPrice * quan);
         cart.push(arr);
     }
 
 
     render() {
+
+        if(this.props.addOrderOutput=="order accepted"){
+            console.log("changing Redirect to Upcoming order");
+            redirectToView = <Redirect to={{
+                pathname: '/upcomingOrders',
+                state: { }
+            }} />
+        }
 
         if (itemDetailFlag) {
             itemDetailFlag = false;
@@ -97,26 +138,31 @@ class AddItem extends Component {
             redirectToView = null;
         }
 
-
-        let list = this.props.sectionList.map(section => {
+        console.log('Section List is -------------------------------------------------->',this.state.sectionList)
+      let list = this.state.sectionList.map(section => {
             return (
                 <option value={section.sectionId}>{section.sectionName}</option>
             )
         });
+        
 
 
         let table = new Map();
-        let header = this.props.sectionList.map(heading => {
+      
+            console.log('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee for reloaddddddddddddddddddddddddddd')
+           
+            let header = this.state.sectionList.map(heading => {
             table.set(heading.sectionId, heading.sectionName);
         }
         );
-        console.log(this.props.itemList)
+        
+        console.log(this.state.itemList)
         let newMap = new Map();
         for (let element of table) {
             let id = element[0];
             let value = element[1];
             console.log("element: ", id, value)
-            for (let item of this.props.itemList) {
+            for (let item of this.state.itemList) {
                 console.log("item  ---- ", item.sectionId)
                 if (item.sectionId == id) {
                     console.log("checking newmap here: ", newMap)
@@ -137,8 +183,9 @@ class AddItem extends Component {
             }
 
         } console.log("New MAp -----", newMap);
+        console.log('Section List is -------------------------------------------------->',this.state.sectionList)
 
-        let details = this.props.sectionList.map(section => {
+          let details = this.state.sectionList.map(section => {
             console.log(table);
             for (let entity of newMap) {
                 sectionHead[count] = <thead>{entity[0]}</thead>;
@@ -146,7 +193,7 @@ class AddItem extends Component {
                     console.log("item::::::", item)
                     return (
                         <tr>
-                            <a onClick={this.onData.bind(this, item[0])}><td>{item[0]}</td></a>
+                        <td><a onClick={this.onData.bind(this, item[0])}>{item[0]}</a></td>
                             <td>{(item[1])}</td>
                             <td><input type="text" name="quant" style={{ width: "40px" }} onChange={(e) => { this.qty(e, item[0], item[1]) }} placeholder="0" /></td>
                             {/* {(e) => this.props.onSubmit(e,this.createData())} */}
@@ -163,6 +210,7 @@ class AddItem extends Component {
                 </tr>
             )
         });
+    
 
         let display = (
             <table class="table">
@@ -214,7 +262,7 @@ class AddItem extends Component {
                 <br />
             </div>
         );
-
+            
 
         return (
             <div>
@@ -227,8 +275,9 @@ class AddItem extends Component {
                             {cartdisp}
                         </ul>
                         <h3 style={{ textAlign: "center" }}>Total {total}</h3>
-                        <button name="confirm" onClick={(e) => this.onOrder(item.restaurantId, item.restaurantName)} class="btn btn-danger btn-lg btn-block">ORDER</button>
                     </form>
+                    <button name="confirm" onClick={(e) => this.props.onOrder(e,this.onOrderData())} class="btn btn-danger btn-lg btn-block">ORDER</button>
+
                 </div>
             </div >
         )
@@ -246,7 +295,8 @@ const mapStateToProps = (store) => {
         restaurantId: store.posts.restaurantId,
         itemId: store.posts.itemId,
         itemPrice: store.posts.itemPrice,
-        itemList: store.posts.itemList
+        itemList: store.posts.itemList,
+        addOrderOutput: store.posts.addOrderOutput
     };
 };
 
@@ -259,7 +309,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(addItemPosts(data));
         },
         onCookie: (restId) => {
-            console.log("mapDispatchToProps data:  ")
+            console.log("onCookie mapDispatchToProps data:  ")
             //dispatch(getSectionPosts(cookie.load('owner').restaurantId));
             console.log("this.props.location.state.restaurantId)", restId)
             dispatch(getItemPosts(restId))
@@ -270,8 +320,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(deleteItemPosts(data))
         },
         onOrder: (e, data) => {
-            console.log("inside onOrder mapDispatchToProps");
-            dispatch(insertOrderPosts())
+            console.log("inside onOrder mapDispatchToProps",data);
+            dispatch(insertOrderPosts(data));
         }
     };
 };

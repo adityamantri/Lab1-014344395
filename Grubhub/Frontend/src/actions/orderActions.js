@@ -1,4 +1,4 @@
-import { SECTION_POST, ITEM_POST } from './types';
+import { ADD_ORDER_POST} from './types';
 import axios from 'axios';
 import cookie from 'react-cookies';
 
@@ -6,7 +6,7 @@ import cookie from 'react-cookies';
 export const insertOrderPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/item/addItem', postData)
+    axios.post('http://localhost:3001/order/add', postData)
         .then(response => {
             console.log("insertOrderSuccess", response);
 
@@ -20,18 +20,9 @@ export const insertOrderPosts = (postData) => dispatch => {
 export const insertOrderSuccess = (data) => {
     console.log("item posts succcess: data ",data)
     return {
-        type: ITEM_POST,
+        type: ADD_ORDER_POST,
         payload: {
-            itemList: data.result,
-            sectionList: data.results,
-            sectionId: data.sectionId,
-            sectionDescription: data.sectionDescription,
-            restaurantId: data.restId,
-            itemId: data.itemId,
-            itemDescription: data.itemDescription,
-            itemPrice: data.itemPrice,
-            itemName: data.itemName,
-            sectionName: data.sectionName
+            addOrderOutput:data.output
         }
     }
 }

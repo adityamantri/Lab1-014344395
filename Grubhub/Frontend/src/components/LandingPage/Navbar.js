@@ -37,9 +37,10 @@ class Navbar extends Component {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Hi, {name}!<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href=""> Past order</a></li>
+                                <li><a href="/pastOrder"> Past order</a></li>
                                 <li><a href="/buyerProfile">Account</a></li>
-                                <li><a href="">Upcoming orders</a></li>
+                                <li><a href="/searchBar">Search</a></li>
+                                <li><a href="/upcomingOrders">Upcoming orders</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -59,10 +60,12 @@ class Navbar extends Component {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Hi, {name}!<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href=""> Past order</a></li>
                                 <li><a href="/ownerProfile">Account</a></li>
                                 <li><a href="/section">Manage Section</a></li>
                                 <li><a href="/addItem">Menu</a></li>
+                                <li><a href="/ownerPastOrder"> Past order</a></li>
+                                <li><a href="/manageOrder"> Manage order</a></li>
+
                             </ul>
                         </li>
                     </ul>
@@ -91,8 +94,6 @@ class Navbar extends Component {
                         <div class="navbar-header">
                             <a class="navbar-brand" style={{ color: 'red' }}> <strong>GRUBHUB {rest}</strong></a>
                         </div>
-
-
                         {navLogin}
                     </div>
                 </nav>

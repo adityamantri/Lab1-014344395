@@ -11,7 +11,10 @@ import AddItem from './Menu/AddItem';
 import ItemDetail from './Menu/ItemDetail';
 import SearchBar from './Search/searchBar';
 import Restaurant from './Restaurant/Restaurant';
-
+import PastOrder from './Orders/PastOrders';
+import UpcomingOrders from './Orders/UpcomingOrders';
+import OwnerPastOrders from './Orders/OwnerPastOrders';
+import ManageOrders from './Orders/ManageOrders';
 
 // import Home from './Home/Home';
 // import Delete from './Delete/Delete';
@@ -35,7 +38,10 @@ class Main extends Component {
                 <Route path="/itemDetail" component={ItemDetail}/>
                 <Route path="/searchBar" component={SearchBar}/>
                 <Route path="/restaurant" component={Restaurant}/>
-
+                <Route path="/pastOrder" component={PastOrder}/>
+                <Route path="/upcomingOrder" component={UpcomingOrders}/>
+                <Route path="/ownerPastOrder" component={OwnerPastOrders}/>
+                <Route path="/manageOrder" component={ManageOrders}/>
 
             </div>
             )

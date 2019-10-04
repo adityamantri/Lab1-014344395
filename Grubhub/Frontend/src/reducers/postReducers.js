@@ -1,4 +1,4 @@
-import { ITEM_POST, BUYER_SIGNUP_POST, BUYER_LOGIN_POST, LOAD_BUYER_COOKIE, OWNER_SIGNUP_POST, SECTION_POST, SEARCH_POST } from '../actions/types';
+import { ITEM_POST,ADD_ORDER_POST, BUYER_SIGNUP_POST, BUYER_LOGIN_POST, LOAD_BUYER_COOKIE, OWNER_SIGNUP_POST, SECTION_POST, SEARCH_POST } from '../actions/types';
 
 // Reducer holds the functionality to modify any action done on component page
 
@@ -39,7 +39,7 @@ const initialState = {
 
     restaurantList:"",
 
-
+    addOrderOutput:"",
     //single post object that we send to backend---------imp
 }
 
@@ -128,6 +128,12 @@ export default function (state = initialState, action) {
                 console.log("Reached SEARCH_POST reducer")
                 return{
                     restaurantList:action.payload.restaurantList
+                }
+
+            case ADD_ORDER_POST:
+                    console.log("Reached ADD_ORDER_POST reducer")
+                return{
+                    addOrderOutput:action.payload.addOrderOutput
                 }
 
 

@@ -11,6 +11,8 @@ var buyerRouter = require('./routes/buyer');
 var itemRouter = require('./routes/item');
 var sectionRouter= require('./routes/section');
 var searchRouter= require('./routes/searchBar');
+var orderRouter= require('./routes/order');
+var ownerOrderRouter= require ('./routes/ownerOrder')
 
 
 var app = express();
@@ -35,8 +37,8 @@ app.use('/buyer', buyerRouter);
 app.use('/section', sectionRouter);
 app.use('/item', itemRouter);
 app.use('/search', searchRouter);
-
-
+app.use('/order', orderRouter);
+app.use('/ownerOrder',ownerOrderRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
