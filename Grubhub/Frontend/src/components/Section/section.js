@@ -65,7 +65,13 @@ class Section extends Component {
                 <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
                     <div class="form-group">
                         <h4>Section Name</h4>
-                        <input type="text" onChange={this.props.onChange} class="form-control" name="sectionName" placeholder={this.props.sectionName} required />
+                        <select 
+                            onChange={this.props.onChange} name="sectionName" id="sectionName">
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                        </select>
+                        {/* <input type="text" onChange={this.props.onChange} class="form-control" name="sectionName" placeholder={this.props.sectionName} required /> */}
                         <h4>Description</h4>
                         <textarea type="text" onChange={this.props.onChange} class="form-control" name="sectionDescription" placeholder={this.props.sectionDescription} required />
                     </div>
@@ -170,6 +176,7 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onChange: (e) => dispatch({ type: 'CHANGE', value: e }),
+        onSelect: (e) => dispatch({ type: 'CHANGE', value: e.target.value }),
         onSubmit: (e, data) => {
             e.preventDefault();
             console.log("mapDispatchToProps data:  ", data)

@@ -10,7 +10,22 @@ var mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const pool = require('../db');
+const multer = require('multer');
+const storage=multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,'./uploads/owner/')
+    },
+    filename:function(req,file,cb){
+        cb(null,JSON.parse(req.cookies.owner).restaurantId+'.jpg');
+    }
+})
 
+const upload= multer({storage:storage}); 
+
+router.post("/upload", upload.single('productImage'),(req,res,next)=>{
+    productImage=req.file.path;
+    res.status(200).send(productImage);
+})
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {

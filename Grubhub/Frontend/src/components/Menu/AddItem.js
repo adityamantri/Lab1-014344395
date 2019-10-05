@@ -9,7 +9,7 @@ import { ItemDetail } from './ItemDetail';
 //Define a Login Component
 
 let sectionHead = [], sectionBody = [], count = 0;
-let redirectToView = null, viewFlag = false,itemDetailFlag=false;
+let redirectToView = null, viewFlag = false, itemDetailFlag = false;
 
 class AddItem extends Component {
 
@@ -39,10 +39,10 @@ class AddItem extends Component {
     onData = (itemName) => {
         let restaurantId = cookie.load('owner').restaurantId;
         redirectToView = <Redirect to={{
-            pathname:'/itemDetail',
-            state:{itemName:itemName, restId:restaurantId}
-        }}/>
-        itemDetailFlag=true;
+            pathname: '/itemDetail',
+            state: { itemName: itemName, restId: restaurantId }
+        }} />
+        itemDetailFlag = true;
         this.setState({});
     }
     createData = () => {
@@ -75,17 +75,16 @@ class AddItem extends Component {
     }
     render() {
 
-        if(itemDetailFlag)
-        {
-            itemDetailFlag=false;
+        if (itemDetailFlag) {
+            itemDetailFlag = false;
         }
-        else{
-            redirectToView=null;
+        else {
+            redirectToView = null;
         }
         console.log("section List n render: ", this.props.sectionList)
         let sidebar = (
             <div class="sidenav">
-                <h2 class="title nav-header">Add Item</h2>
+                <h2 class="title nav-header">Menu</h2>
                 <ul>
                     <li ><a onClick={() => this.myFunction7("deleteItem")}>View/Update/Del</a></li>
                     <li ><a onClick={() => this.myFunction7("addItem")}>Add Item</a></li>
@@ -257,7 +256,6 @@ class AddItem extends Component {
                 </form>
             </div>
         );
-
 
         return (
             <div>

@@ -5,12 +5,25 @@ var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+app.use(cookieParser());
 var cors = require('cors');
 var mysql = require('mysql');
 //require('dotenv').config();
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const storage=multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,'./uploads/buyer/')
+    },
+    filename:function(req,file,cb){
+        cb(null,JSON.parse(req.cookies.buyer).buyerId+'.jpg');
+    }
+})
+
+const upload= multer({storage:storage}); 
 const saltRounds = 10;
 const pool = require('../db');
+
 
 app.use(bodyParser.json());
 
@@ -18,6 +31,11 @@ app.use(bodyParser.json());
 router.get('/', function (req, res, next) {
     res.send('respond with a resource BUYER');
 });
+
+router.post("/upload", upload.single('productImage'),(req,res,next)=>{
+    productImage=req.file.path;
+    res.status(200).send(productImage);
+})
 
 router.get('/getBuyer/:buyerId', function (req, res, next) {
     console.log("req param ",req.params.buyerId);
@@ -67,7 +85,6 @@ WHERE buyerId = ${req.body.buyerId}`;
             });
         };
     });
-    console.log(output);
 
 });
 

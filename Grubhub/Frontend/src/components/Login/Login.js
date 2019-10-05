@@ -51,11 +51,8 @@ class Login extends Component {
                             <br />
                             </form>
                             <a class="createRoute" href="/buyerSignUp">Create your account</a>
-
                         </div>
-
                     </div>
-
                 </div>
             </div >
         )

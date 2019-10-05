@@ -118,6 +118,7 @@ export default function (state = initialState, action) {
                 sectionId: action.payload.sectionId,
                 sectionDescription: action.payload.sectionDescription,
                 restaurantId: action.payload.restId,
+                itemImage: action.payload.itemImage,
                 itemId: action.payload.itemId,
                 itemDescription: action.payload.itemDescription,
                 itemPrice: action.payload.itemPrice,

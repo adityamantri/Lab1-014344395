@@ -27,6 +27,7 @@ export const itemPostsSuccess = (data) => {
             sectionId: data.sectionId,
             sectionDescription: data.sectionDescription,
             restaurantId: data.restId,
+            itemImage: data.itemImage,
             itemId: data.itemId,
             itemDescription: data.itemDescription,
             itemPrice: data.itemPrice,
@@ -91,7 +92,7 @@ export const getItemDetails = (postData) => dispatch => {
         });
 }
 export const itemdataPostsSuccess = (data) => {
-    console.log("item posts succcess: data ",data)
+    console.log("item data Posts succcess: data ",data)
     return {
         type: ITEM_POST,
         payload: {
@@ -100,6 +101,7 @@ export const itemdataPostsSuccess = (data) => {
             sectionId: data[0].sectionId,
             sectionDescription: data[0].sectionDescription,
             restaurantId: data[0].restId,
+            itemImage: data[0].itemImage,
             itemId: data[0].itemId,
             itemDescription: data[0].itemDescription,
             itemPrice: data[0].itemPrice,

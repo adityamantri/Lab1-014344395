@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
-import { Redirect } from 'react-router';
 import './BuyerProfile.css';
-import {getItemDetails, updateItemPosts, getItemPosts, addItemPosts } from '../../actions/itemActions'
+import { getItemDetails, updateItemPosts, getItemPosts, addItemPosts } from '../../actions/itemActions'
 import { connect } from 'react-redux';
+import axios from 'axios';
 //Define a Login Component
-
-let sectionHead = [], sectionBody = [], count = 0;
 
 export class ItemDetail extends Component {
 
+    constructor(props) {
+        super(props);
+          this.state = {
+            selectedFile: null,
+            itemName:""
+          }
+       
+      }
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        let data={
+        let data = {
             restaurantId: cookie.load('owner').restaurantId,
             itemName: this.props.location.state.itemName
         };
@@ -31,7 +37,7 @@ export class ItemDetail extends Component {
     }
 
     updateData = () => {
-        
+
         return {
             sectionName: this.props.sectionName,
             itemDescription: this.props.itemDescription,
@@ -45,6 +51,32 @@ export class ItemDetail extends Component {
         }
     }
 
+    onChangeHandler=event=>{
+        event.preventDefault();
+        this.setState({
+            selectedFile: event.target.files[0],
+            loaded: 0,
+          })
+    }
+
+    onClickHandler = (e) => {
+e.preventDefault();
+        let data = new FormData() 
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+        data.append('productImage', this.state.selectedFile);
+        console.log("productImage ",this.state.selectedFile)
+        console.log("Item ID :",this.props.itemId)
+        data.append('itemId', this.props.itemId);
+console.log("data sending ",data)
+        axios.post("http://localhost:3001/item/upload", data,config, { // receive two parameter endpoint url ,form data 
+      })
+      .then(res => { // then print response status
+        console.log(res.statusText)
+      })
+    }
+
+    
+
     render() {
         console.log("section List n render: ", this.props.sectionList)
 
@@ -56,33 +88,47 @@ export class ItemDetail extends Component {
 
         let addItem = (
             <div>
-                <div class="container top-margin main " >
+                <div class="container top-margin main viewItem" >
                     <p><h3>View Item</h3></p>
+                    <hr></hr>
+
                     <br />
                     <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
                         <div class="form-group">
-                            <input type="file" ></input>
+                            <img alt="Item not uploaded"  src={"http://localhost:3001/item/" + this.props.itemImage} style={{ height: "200px", width: "200px" , borderRadius:"15%"}}></img>
+                            <br></br>
                             <h4>Section</h4>
                             <div>{this.props.sectionName}</div>
                             <h4>Item Name</h4>
                             <div >{this.props.location.state.itemName}</div>
                             <h4>Item Description</h4>
                             <div >{this.props.itemDescription} </div>
+                            <br></br>
                             <h4>Item Price</h4>
                             <div>{this.props.itemPrice}</div>
                         </div>
                         <br />
-                        <a href="/addItem"><button type="button"  class="btn btn-default " value="cancel" ><strong>Return</strong></button></a>
+                        <a href="/addItem"><button type="button" class="btn btn-default " value="cancel" ><strong>Return</strong></button></a>
                     </form>
                     <br />
                 </div>
 
-                <div class="container top-margin main " >
+                <div class="container top-margin main updateItem" >
                     <p><h3>Update Item</h3></p>
-                    <br />
+                    <hr></hr>
+                    {/* <iframe name="hiddenFrame" class="hide"></iframe> */}
+                            {/* <form action="http://localhost:3001/item/upload" method="post" enctype="multipart/form-data" target="hiddenFrame"> */}
+                                
+                                <form onSubmit={this.onClickHandler}>
+                                <input type="file" name='productImage' onChange={this.onChangeHandler}></input>
+                                {/* <input type="text" name="itemId" value={this.props.itemId} style={{display:"none"}}></input> */}
+                                <button type="submit" >Update Image</button>
+                            </form>
                     <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
                         <div class="form-group">
-                            <input type="file" ></input>
+                            
+                            
+
                             <h4>Section</h4>
                             <div>{this.props.sectionName}</div>
                             <h4>Item Name</h4>
@@ -94,7 +140,7 @@ export class ItemDetail extends Component {
                         </div>
                         <br />
                         <button type="button" onClick={(e) => this.props.onUpdate(e, this.updateData())} class="btn btn-primary " ><strong>Update</strong></button>
-                        <a href="/addItem"><button type="button"  class="btn btn-default " value="cancel" ><strong>Cancel</strong></button></a>
+                        <a href="/addItem"><button type="button" class="btn btn-default " value="cancel" ><strong>Cancel</strong></button></a>
                     </form>
                     <br />
                 </div>
@@ -118,6 +164,7 @@ const mapStateToProps = (store) => {
         sectionName: store.posts.sectionName,
         sectionId: store.posts.sectionId,
         itemName: store.posts.itemName,
+        itemImage: store.posts.itemImage,
         //itemImage: store.props.itemImage,
         itemDescription: store.posts.itemDescription,
         restaurantId: store.posts.restaurantId,
@@ -135,11 +182,11 @@ const mapDispatchToProps = (dispatch) => {
             console.log("mapDispatchToProps data:  ", data);
             dispatch(addItemPosts(data));
         },
-        onUpdate: (e,data) =>{
-            console.log("onUpdate mapdispatchtoprops data:  ",data);
+        onUpdate: (e, data) => {
+            console.log("onUpdate mapdispatchtoprops data:  ", data);
             dispatch(updateItemPosts(data));
         },
-        onGetItem: (data)=>{
+        onGetItem: (data) => {
             console.log("Item Details");
             dispatch(getItemDetails(data));
         }

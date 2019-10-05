@@ -112,7 +112,14 @@ class OwnerProfile extends Component {
 
             <div class="sidenav">
                 <h2 class="title nav-header">Your account</h2>
+                <img alt="dp"src={"http://localhost:3001/owner/"+cookie.load('owner').restaurantId+".jpg"} style={{height:"200px",width:"200px"}}></img>
+                <iframe name="hiddenFrame" class="hide"></iframe>
+                <form action="http://localhost:3001/owner/upload" method="post" enctype="multipart/form-data" target="hiddenFrame">
+                    <input type="file" name='productImage' ></input>
+                    <button type="submit">Update Profile Image</button>
+                </form>
                 <ul>
+                    {/* <img src=""></img> */}
                     <li ><a onClick={this.myFunction4}>Profile</a></li>
                     <li ><a onClick={this.myFunction5}>Address and owner_phone</a></li>
                     <li ><a onClick={this.myFunction7}>Restaurant Details</a></li>
@@ -122,13 +129,13 @@ class OwnerProfile extends Component {
         console.log("create data function:   ", this.createData())
         //redirect based on successful login
         let redirectVar = null;
-        if (cookie.load('owner')) {
-            // redirectVar = <Redirect to="/home" />
+        if (!cookie.load('owner')) {
+             redirectVar = <Redirect to="/home" />
         }
         return (
             <div>
                 {sidebar}
-
+{redirectVar}
                 <div >
                     <div path="/ownerProfile/profile" >
                         {sidebar}
@@ -149,6 +156,7 @@ class OwnerProfile extends Component {
                                                 <div class="form-group">
 
                                                 <h3> <p>Edit Details</p></h3>
+                                                {/* <input type="file"></input> */}
                                                     <div>First Name</div>
 
                                                     <input type="text" onChange={this.props.onChange} class="form-control" name="owner_firstName" placeholder={this.props.owner_firstName} required />

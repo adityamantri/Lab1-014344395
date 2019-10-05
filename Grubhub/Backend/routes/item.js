@@ -10,6 +10,37 @@ var mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const pool = require('../db');
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/item/')
+    },
+    filename: function (req, file, cb) {
+        console.log(JSON.parse(req.cookies.getItemDetails).itemId)
+        cb(null, file.originalname);
+    }
+})
+const upload = multer({ storage: storage });
+router.post("/upload", upload.single('productImage'), (req, res, next) => {
+    // console.log(req.body);
+    req.body.image = req.file.filename;
+    let pass = `UPDATE item SET itemImage='${req.file.filename}' WHERE  itemId=${req.body.itemId}`;
+    console.log(pass)
+
+    let output = "Not success";
+    pool.query(pass, function (error, results) {
+        if (error) {
+            console.log("error in results--------", results);
+            throw error;
+        }
+        else {
+            console.log("Updated Image ")
+            res.status(202).send(output);
+        }
+    });
+    // productImage = req.file.path;
+    // res.status(200).send(productImage);
+})
 
 app.use(bodyParser.json());
 
@@ -46,6 +77,7 @@ router.get('/getItem/:restaurantId', function (req, res, next) {
         }
     });
 });
+
 //Route to handle Post Request Call
 router.post('/addItem', function (req, res) {
 
@@ -61,8 +93,8 @@ router.post('/addItem', function (req, res) {
     pool.getConnection(function (error, conn) {
 
         var additem = `Insert into mydb.item 
-            (itemName, itemDescription, itemPrice, itemImage, sectionId, restId) Values 
-            ('${itemName}','${itemDescription}' ,'${itemPrice}' ,'${itemImage}','${sectionId}','${restaurantId}')`;
+            (itemName, itemDescription, itemPrice, sectionId, restId) Values 
+            ('${itemName}','${itemDescription}' ,'${itemPrice}' ,'${sectionId}','${restaurantId}')`;
 
         pool.query(additem, function (error, results) {
             if (error) {
@@ -87,10 +119,6 @@ router.post('/addItem', function (req, res) {
     })
 
 });
-
-
-
-
 
 router.post('/deleteItem', function (req, res, next) {
     console.log("reached item delete")
@@ -117,7 +145,6 @@ router.post('/deleteItem', function (req, res, next) {
                 res.status(202).send(output);
             }
         });
-        console.log(output);
     });
 });
 
@@ -126,8 +153,7 @@ router.post('/updateItem', function (req, res, next) {
     SET
     itemName='${req.body.itemName}',
     itemDescription='${req.body.itemDescription}',
-    itemPrice= '${req.body.itemPrice}',
-    itemImage= '${req.body.itemImage}' 
+    itemPrice= '${req.body.itemPrice}'
     WHERE itemId = ${req.body.itemId}`;
 
     let output = "Not Updated";
@@ -151,7 +177,7 @@ router.post('/updateItem', function (req, res, next) {
 router.post('/getItemDetails', function (req, res, next) {
     console.log("req param ", req.body.restaurantId);
     let pass = `select section.sectionName, item.itemName, 
-    item.itemDescription, item.itemPrice,
+    item.itemDescription, item.itemImage, item.itemPrice,
     item.itemId, section.sectionId from mydb.section natural join item 
     where restId=${req.body.restaurantId} and item.itemName='${req.body.itemName}'`;
 

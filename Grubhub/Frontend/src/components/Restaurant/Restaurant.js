@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import './BuyerProfile.css'
-import { deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
+import './BuyerProfile.css';
 import { getItemPosts, addItemPosts, deleteItemPosts } from '../../actions/itemActions';
 import { insertOrderPosts } from '../../actions/orderActions'
 import { connect } from 'react-redux';
 import axios from 'axios';
 
 let sectionHead = [], sectionBody = [], count = 0;
-let redirectToView = null, viewFlag = false, itemDetailFlag = false;
+let redirectToView = null, itemDetailFlag = false;
 
 let quantity = [];
 let cart = [];
@@ -121,8 +120,8 @@ class AddItem extends Component {
     }
 
 
-    render() {
-
+    refresh= ()=>{
+        console.log("addOrderOutput:  ",this.props.addOrderOutput)
         if(this.props.addOrderOutput=="order accepted"){
             console.log("changing Redirect to Upcoming order");
             redirectToView =( <Redirect to={{
@@ -130,12 +129,27 @@ class AddItem extends Component {
                 state: { }
             }} />)
         }
+        this.setState({})
+    }
+
+    render() {
+
+        
+        
 
         if (itemDetailFlag) {
             itemDetailFlag = false;
         }
         else {
             redirectToView = null;
+        }
+        if(this.props.addOrderOutput=="order accepted"){
+            console.log("this.props.addOrderOutput:  ",this.props.addOrderOutput)
+            console.log("changing Redirect to Upcoming order");
+            redirectToView =( <Redirect to={{
+                pathname: '/upcomingOrders',
+                state: { }
+            }} />)
         }
 
         console.log('Section List is -------------------------------------------------->',this.state.sectionList)
