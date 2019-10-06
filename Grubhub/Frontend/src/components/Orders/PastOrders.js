@@ -7,23 +7,27 @@ import { connect } from 'react-redux';
 import { searchItemRestaurantPosts } from '../../actions/searchActions';
 import axios from 'axios';
 //Define a Login Component
-
+let restId=null;
 let flag = false, redirectToRest = null;
 class Login extends Component {
 
 
     constructor(props){
+       
         super(props);
+        if(cookie.load('buyer')){
         this.state={
             restId : cookie.load('buyer').buyerId,
             pastList: []
             
-        }
+        }}
     }
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        let restId = {buyerId:cookie.load('buyer').buyerId}
+        if(cookie.load('buyer')){
+        restId = {buyerId:cookie.load('buyer').buyerId}
+        }
         console.log("restId is : ",restId)
        // this.props.onCookie(restId);
        axios.defaults.withCredentials = true;
@@ -69,6 +73,7 @@ class Login extends Component {
             redirectToRest = null;
         }
         let details = null;
+        if(cookie.load('buyer')){
         if (this.state.pastList.length > 0 && typeof (this.state.pastList) !== 'undefined' && this.state.pastList !== null) {
 
             details = this.state.pastList.map(orders => {
@@ -84,6 +89,7 @@ class Login extends Component {
                 )
             });
         }
+    }
 
         let display = (
             <div class="container">

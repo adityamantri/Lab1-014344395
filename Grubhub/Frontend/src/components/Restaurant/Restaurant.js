@@ -30,18 +30,17 @@ class AddItem extends Component {
 
     constructor(props){
         super(props);
-        if(cookie.load('owner')){
+        
         this.state={
             restId : this.props.location.state.restId,
             sectionList: [],
             restaName:this.props.location.state.restName
             
-        }}
+        }
     }
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        if(cookie.load('owner')){
         let restId = this.props.location.state.restId;
        // this.props.onCookie(restId);
        axios.defaults.withCredentials = true;
@@ -58,7 +57,7 @@ class AddItem extends Component {
                console.log("error thrown from backend ",error)
                throw (error);
            });
-    }}
+    }
 
     showcart = () => {  // {itemName:itemName, itemPrice:itemPrice, quantity:e.tartget.value};
         console.log("cart is : ", cart)
@@ -155,7 +154,7 @@ class AddItem extends Component {
             }} />)
         }
 
-        if(cookie.load('owner')){
+        
         console.log('Section List is -------------------------------------------------->',this.state.sectionList)
       let list = this.state.sectionList.map(section => {
             return (
@@ -229,7 +228,7 @@ class AddItem extends Component {
                 </tr>
             )
         });
-        }
+        
 
         let display = (
             <table class="table">

@@ -152,7 +152,6 @@ export const ownerSignInPosts = (postData) => dispatch => {
         });
 }
 
-
 export const ownerSignUpPostsSuccess = (data) => {
     return {
         type: OWNER_SIGNUP_POST,
@@ -166,7 +165,7 @@ export const ownerSignUpPostsSuccess = (data) => {
             owner_password: data.owner_password,
             owner_phone: data.owner_phone,
             zipCode: data.zipCode,
-            cuisine: data.cousine,
+            cuisine: data.cuisine,
             restaurantImage: data.restaurantImage,
             restaurantName: data.restaurantName
         }

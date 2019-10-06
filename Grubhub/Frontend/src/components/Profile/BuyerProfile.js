@@ -7,6 +7,8 @@ import './BuyerProfile.css'
 import { buyerProfilePosts, buyerCookieData } from '../../actions/postActions';
 import { connect } from 'react-redux';
 //Define a Login Component
+
+let custid = null;
 class BuyerProfile extends Component {
 
     myFunctionName = () => {
@@ -78,7 +80,10 @@ class BuyerProfile extends Component {
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        this.props.onCookie();
+        if (cookie.load('buyer')) {
+            custid = cookie.load('buyer').buyerId;
+            this.props.onCookie();
+        }
     }
 
     createData = () => {
@@ -99,14 +104,14 @@ class BuyerProfile extends Component {
 
             <div class="sidenav">
                 <h2 class="title nav-header">Your account</h2>
-                <img alt="dp"src={"http://localhost:3001/buyer/"+cookie.load('buyer').buyerId+".jpg"} style={{height:"200px",width:"200px"}}></img>
+                <img alt="dp" src={"http://localhost:3001/buyer/" + custid + ".jpg"} style={{ height: "200px", width: "200px" }}></img>
                 <iframe name="hiddenFrame" class="hide"></iframe>
                 <form action="http://localhost:3001/buyer/upload" method="post" enctype="multipart/form-data" target="hiddenFrame">
                     <input type="file" name='productImage' ></input>
                     <button type="submit">Update Profile Image</button>
                 </form>
                 <ul>
-                    
+
                     <li ><a onClick={this.myFunction4}>Profile</a></li>
                     <li ><a onClick={this.myFunction5}>Address and phone</a></li>
                 </ul>
@@ -137,7 +142,7 @@ class BuyerProfile extends Component {
                                 <div class="head block"></div>
                                 <h5>Your Account</h5>
                                 <div class="bottom-border">
-                             
+
                                     <div>Email</div>
                                     <p>{this.props.email}</p>
                                     {/* <input type="text" class="form-control" name="firstName" placeholder={this.props.email} required /> */}

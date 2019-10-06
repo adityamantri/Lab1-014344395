@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 
 //Route to handle Post Request Call
 app.post('/calculate', function (req, res) {
+    console.log("req:",req)
     console.log("Inside Login calculate Request");
     let result=eval(req.body.key);
     console.log("Req Body : ", req.body);

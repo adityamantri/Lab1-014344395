@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
-import { Redirect } from 'react-router';
 import './BuyerProfile.css'
 import { addSectionPosts, deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
 import { connect } from 'react-redux';
 //Define a Login Component
+let ownerId = null;
 class Section extends Component {
 
     myFunction7 = (y) => {
@@ -20,15 +20,18 @@ class Section extends Component {
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        this.props.onCookie();
-        console.log("component will mount section.js ");
+        if (cookie.load('owner')) {
+            ownerId = cookie.load('owner').restaurantId;
+            this.props.onCookie();
+            console.log("component will mount section.js ");
+        }
     }
 
     createData = () => {
         return {
             sectionName: this.props.sectionName,
             sectionDescription: this.props.sectionDescription,
-            restaurantId: cookie.load('owner').restaurantId,
+            restaurantId: ownerId,
             sectionId: this.props.sectionId
         }
     }
@@ -86,7 +89,7 @@ class Section extends Component {
         let details = this.props.sectionList.map(section => {
             return (
                 <tr>
-                   <a href="/menuView"> <td>{section.sectionName}</td></a>
+                    <a href="/menuView"> <td>{section.sectionName}</td></a>
                     <td>{section.sectionDescription}</td>
                     <td><button value={section.sectionId} class="btn btn-primary" onClick={this.props.deleteSection}>Delete</button></td>
                 </tr>
@@ -155,7 +158,7 @@ class Section extends Component {
             <div>
                 {sidebar}
                 <div id="addSection" style={{ "display": "none" }}> {addSection} </div >
-                <div id="deleteSection" style={{ "display": "none" }}> {deleteSection} </div >
+                <div id="deleteSection" style={{ "display": "block" }}> {deleteSection} </div >
                 <div id="updateSection" style={{ "display": "none" }}> {updateSection} </div >
             </div >
 

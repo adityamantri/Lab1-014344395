@@ -20,13 +20,14 @@ export class ItemDetail extends Component {
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
+        if(cookie.load('owner')){
         let data = {
             restaurantId: cookie.load('owner').restaurantId,
             itemName: this.props.location.state.itemName
         };
         this.props.onGetItem(data);
         console.log("component will mount section.js ");
-    }
+    }}
 
 
     onGetItem = () => {

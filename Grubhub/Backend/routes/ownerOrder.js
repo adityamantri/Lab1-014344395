@@ -12,17 +12,10 @@ const pool = require('../db');
 
 //Search Item from buyer page
 
-
-// `select section.sectionName, item.itemName, 
-//     item.itemDescription, item.itemPrice,
-//     item.itemId, section.sectionId from mydb.section natural join item 
-//     where restId=${req.body.restaurantId} and item.itemName='${req.body.itemName}'`;
-
-
 router.post('/currentOrder', function (req, res, next) {
     console.log("req.body is--------", req)
     let pass = `Select series, buyer.firstName,buyer.address, itemName, orderItemQty, itemPrice, orderStatus 
-    from mydb.orderFood natural join mydb.buyer where restId=? and orderStatus NOT IN ('DELIVERED','CANCEL')`;
+    from mydb.orderFood natural join mydb.buyer where restId=? and orderStatus NOT IN ('DELIVERED','CANCEL') ORDER BY orderFood.series Desc`;
     pool.query(pass, req.body.restId, function (error, result) {
         console.log("req.body.buyerId: ", req.body.restId)
         if (error) {
@@ -56,9 +49,6 @@ router.post('/pastOrder', function (req, res, next) {
     });
 });
 
-
-
-
 router.post('/updateOrderStatus', function (req, res, next) {
     console.log("req.body is--------", req.body)
     let pass = `UPDATE mydb.orderFood SET orderStatus = '${req.body.orderStatus}' where series=${req.body.series}`;
@@ -76,6 +66,5 @@ router.post('/updateOrderStatus', function (req, res, next) {
         };
     });
 });
-
 
 module.exports = router;

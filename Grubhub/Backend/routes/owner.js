@@ -124,7 +124,6 @@ router.post('/signInOwner', function (req, res, next) {
 
         };
     });
-    console.log(output);
 });
 
 //Update Owner
@@ -153,8 +152,6 @@ router.post('/updateOwner', function (req, res, next) {
             });
         };
     });
-    console.log(output);
-
 });
 
 module.exports = router;

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
-import axios from 'axios';
 
 //create the Navbar Component
 class Navbar extends Component {

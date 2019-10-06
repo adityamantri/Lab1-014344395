@@ -5,11 +5,10 @@ import { Redirect } from 'react-router';
 import './BuyerProfile.css';
 import { getItemPosts, addItemPosts, deleteItemPosts } from '../../actions/itemActions';
 import { connect } from 'react-redux';
-import { ItemDetail } from './ItemDetail';
 //Define a Login Component
 
 let sectionHead = [], sectionBody = [], count = 0;
-let redirectToView = null, viewFlag = false, itemDetailFlag = false;
+let redirectToView = null, itemDetailFlag = false;
 
 class AddItem extends Component {
 

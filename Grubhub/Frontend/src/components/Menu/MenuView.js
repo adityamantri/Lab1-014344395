@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import cookie from 'react-cookies';
-import { Redirect } from 'react-router';
-import './BuyerProfile.css'
-import { deleteSectionPosts, getSectionPosts, updateSectionPosts } from '../../actions/sectionActions';
+import './BuyerProfile.css';
 import { getItemPosts, addItemPosts } from '../../actions/itemActions'
 import { connect } from 'react-redux';
 //Define a Login Component
@@ -125,11 +123,11 @@ class AddItem extends Component {
             </div>
         );
 
-        let table= new Map();
-        let header=this.props.sectionList.map(heading=>{
-            table.set(heading.sectionId,heading.sectionName);
-            console.log("table is :",table)
-        }   
+        let table = new Map();
+        let header = this.props.sectionList.map(heading => {
+            table.set(heading.sectionId, heading.sectionName);
+            console.log("table is :", table)
+        }
         );
 
         let details = this.props.sectionList.map(section => {

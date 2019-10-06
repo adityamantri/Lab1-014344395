@@ -22,10 +22,6 @@ export const searchPostsSuccess = (data) => {
         type: SEARCH_POST,
         payload: {
             restaurantList: data
-            // sectionName: data.sectionName,
-            // sectionId: data.sectionId,
-            // sectionDescription: data.sectionDescription,
-            // restaurantId: data.restId
         }
     }
 }

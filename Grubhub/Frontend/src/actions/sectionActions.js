@@ -1,7 +1,5 @@
 import { SECTION_POST } from './types';
 import axios from 'axios';
-import cookie from 'react-cookies';
-
 
 export const addSectionPosts = (postData) => dispatch => {
     console.log("reached axios", postData)

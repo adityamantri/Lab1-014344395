@@ -16,10 +16,6 @@ import UpcomingOrders from './Orders/UpcomingOrders';
 import OwnerPastOrders from './Orders/OwnerPastOrders';
 import ManageOrders from './Orders/ManageOrders';
 import StartPage from './LandingPage/startPage.js'
-
-// import Home from './Home/Home';
-// import Delete from './Delete/Delete';
-// import Create from './Create/Create';
 import Navbar from './LandingPage/Navbar';
 //Create a Main Component
 class Main extends Component {

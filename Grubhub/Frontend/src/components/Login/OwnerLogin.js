@@ -69,7 +69,7 @@ const mapStateToProps = (store) => {
     return {
 
         owner_address: store.posts.owner_address,
-        restaurantId: store.posts.buyerId,
+        restaurantId: store.posts.restaurantId,
         owner_email: store.posts.owner_email,
         owner_firstName: store.posts.owner_firstName,
         owner_image: store.posts.owner_image,
@@ -77,7 +77,7 @@ const mapStateToProps = (store) => {
         owner_password: store.posts.owner_password,
         owner_phone: store.posts.owner_phone,
         zipCode: store.posts.zipCode,
-        cuisine: store.posts.cousine,
+        cuisine: store.posts.cusine,
         restaurantImage: store.posts.restaurantImage,
         restaurantName: store.posts.restaurantName,
         error: store.posts.error

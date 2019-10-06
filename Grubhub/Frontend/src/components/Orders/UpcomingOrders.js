@@ -8,6 +8,7 @@ import { searchItemRestaurantPosts } from '../../actions/searchActions';
 import axios from 'axios';
 //Define a Login Component
 
+let rest=null;
 let flag = false, redirectToRest = null;
 class Login extends Component {
 
@@ -23,11 +24,11 @@ class Login extends Component {
 
     //Call the Will Mount to set the auth Flag to false
     componentWillMount() {
-        let restId = {buyerId:cookie.load('buyer').buyerId}
+        let restId = cookie.load('buyer').buyerId;
         console.log("restId is : ",restId)
        // this.props.onCookie(restId);
        axios.defaults.withCredentials = true;
-       axios.post(`http://localhost:3001/order/upcomingOrder`,restId)
+       axios.post(`http://localhost:3001/order/upcomingOrder`,cookie.load('buyer'))
            .then(response => {
                console.log("itemPostsSuccess", response);
    
