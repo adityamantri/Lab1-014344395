@@ -15,6 +15,7 @@ import PastOrder from './Orders/PastOrders';
 import UpcomingOrders from './Orders/UpcomingOrders';
 import OwnerPastOrders from './Orders/OwnerPastOrders';
 import ManageOrders from './Orders/ManageOrders';
+import StartPage from './LandingPage/startPage.js'
 
 // import Home from './Home/Home';
 // import Delete from './Delete/Delete';
@@ -27,6 +28,7 @@ class Main extends Component {
             <div>
                 {/*Render Different Component based on Route*/}
                 <Route path="/" component={Navbar} />
+                <Route path="/startPage" component = {StartPage} />
                 <Route path="/login" component={Login} />
                 <Route path="/buyerSignUp" component={BSignUp} />
                 <Route path="/buyerProfile" component={BuyerUpdate} />

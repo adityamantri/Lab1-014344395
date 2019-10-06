@@ -74,7 +74,7 @@ class Login extends Component {
             .then(response => {
                 console.log("itemPostsSuccess", response);
 
-                this.setState({})
+                window.location.reload();
 
             }).catch(error => {
                 console.log("error thrown from backend ", error)

@@ -81,6 +81,11 @@ class AddItem extends Component {
         else {
             redirectToView = null;
         }
+        if(!cookie.load('owner')){
+return(redirectToView=(
+    <Redirect to= '/startPage'
+    />))
+        }
         console.log("section List n render: ", this.props.sectionList)
         let sidebar = (
             <div class="sidenav">
@@ -185,7 +190,7 @@ class AddItem extends Component {
         } console.log("New MAp -----", newMap);
 
         let details = this.props.sectionList.map(section => {
-            console.log(table);
+            console.log('table map',table);
             for (let entity of newMap) {
                 sectionHead[count] = <thead>{entity[0]}</thead>;
                 sectionBody[count] = entity[1].map(item => {
@@ -213,7 +218,7 @@ class AddItem extends Component {
         let display = (
             <table class="table">
                 <thead>
-                    <h2>{sectionHead[0]}</h2>
+                    <h2>Breakfast</h2>
                     <tr>
                         <th>Item Name</th>
                         <th>Item Price</th>
@@ -223,7 +228,7 @@ class AddItem extends Component {
                     {sectionBody[0]}
                 </tbody>
                 <thead>
-                    <h2>{sectionHead[1]}</h2>
+                    <h2>Lunch</h2>
                     <tr>
                         <th>Item Name</th>
                         <th>Item Price</th>
@@ -233,7 +238,7 @@ class AddItem extends Component {
                     {sectionBody[1]}
                 </tbody>
                 <thead>
-                    <h2>{sectionHead[2]}</h2>
+                    <h2>Dinner</h2>
                     <tr>
                         <th>Item Name</th>
                         <th>Item Price</th>
@@ -295,7 +300,10 @@ const mapDispatchToProps = (dispatch) => {
         onCookie: () => {
             console.log("mapDispatchToProps data:  ")
             // dispatch(getSectionPosts(cookie.load('owner').restaurantId));
+
+            if(cookie.load('owner')){
             dispatch(getItemPosts(cookie.load('owner').restaurantId))
+            }
         },
         deleteItem: (e, data) => {
             //e.preventDefault();

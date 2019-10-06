@@ -21,11 +21,20 @@ class Navbar extends Component {
         let navLogin = null;
         let name = null;
         let rest = null;
+        let redirectVar=null;
+
+
         if (cookie.load('buyer')) {
             name = 'buyer'
         } else if (cookie.load('owner')) {
             name = 'owner';
             rest = (<span>FOR RESTAURANTS</span>)
+        }else{
+            
+            redirectVar=(
+             <Redirect to= '/startPage'
+             />)
+             console.log("redirectvar", redirectVar)
         }
         if (cookie.load('buyer')) {
             name = cookie.load(name).firstName;
@@ -45,7 +54,7 @@ class Navbar extends Component {
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><Link to="/" onClick={this.handleLogout}><span class="glyphicon glyphicon-user"></span>Logout</Link></li>
+                        <li><Link to="/startPage" onClick={this.handleLogout}><span class="glyphicon glyphicon-user"></span>Logout</Link></li>
                     </ul>
                 </div>
             );
@@ -88,7 +97,7 @@ class Navbar extends Component {
 
         return (
             <div>
-                {/* {redirectVar} */}
+                {redirectVar}
                 <nav class="navbar navbar-default navbar-fixed-top">
                     <div class="container-fluid">
                         <div class="navbar-header">
@@ -97,6 +106,7 @@ class Navbar extends Component {
                         {navLogin}
                     </div>
                 </nav>
+                
             </div>
         )
     }
