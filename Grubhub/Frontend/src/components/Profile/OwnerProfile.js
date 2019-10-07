@@ -116,9 +116,9 @@ class OwnerProfile extends Component {
 
             <div class="sidenav">
                 <h2 class="title nav-header">Your account</h2>
-                <img alt="dp" src={"http://localhost:3001/owner/" + restId + ".jpg"} style={{ height: "200px", width: "200px" }}></img>
+                <img alt="dp" src={"http://3.15.185.248:3001/owner/" + restId + ".jpg"} style={{ height: "200px", width: "200px" }}></img>
                 <iframe name="hiddenFrame" class="hide"></iframe>
-                <form action="http://localhost:3001/owner/upload" method="post" enctype="multipart/form-data" target="hiddenFrame">
+                <form action="http://3.15.185.248:3001/owner/upload" method="post" enctype="multipart/form-data" target="hiddenFrame">
                     <input type="file" name='productImage' ></input>
                     <button type="submit" class="btn btn-primary ">Update Profile Image</button>
                 </form>
@@ -194,9 +194,9 @@ class OwnerProfile extends Component {
                                 <h5>Restaurant Account</h5>
                                 <br></br>
                                 <h4>Restaurant Image</h4>
-                                <img alt="dp" src={"http://localhost:3001/restImage/" + restId + "rest.jpg"} style={{ height: "200px", width: "200px" }}></img>
+                                <img alt="dp" src={"http://3.15.185.248:3001/restImage/" + restId + "rest.jpg"} style={{ height: "200px", width: "200px" }}></img>
                                 <iframe name="hiddenFrame" class="hide"></iframe>
-                                <form action="http://localhost:3001/section/upload" method="post" enctype="multipart/form-data" target="hiddenFrame">
+                                <form action="http://3.15.185.248:3001/section/upload" method="post" enctype="multipart/form-data" target="hiddenFrame">
                                     <input type="file" name='productImage' ></input>
                                     <button type="submit" class="btn btn-primary ">Update Profile Image</button>
                                 </form>

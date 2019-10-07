@@ -27,7 +27,7 @@ class Login extends Component {
         console.log("restId is : ",restId)
        // this.props.onCookie(restId);
        axios.defaults.withCredentials = true;
-       axios.post(`http://localhost:3001/ownerOrder/pastOrder`,restId)
+       axios.post(`http://3.15.185.248:3001/ownerOrder/pastOrder`,restId)
            .then(response => {
                console.log("itemPostsSuccess", response);
    

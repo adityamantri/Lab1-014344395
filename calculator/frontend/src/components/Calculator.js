@@ -41,7 +41,7 @@ class Calculator extends Component {
     }
     keyPrintHandler = (e) => {
         const calstring = { 'key': this.state.calstring };
-        axios.post('http://localhost:3001/calculate', calstring)
+        axios.post('http://3.15.185.248:3001/calculate', calstring)
             .then((response) => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 200 && response.data != null) {

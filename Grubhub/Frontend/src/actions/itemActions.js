@@ -6,7 +6,7 @@ import cookie from 'react-cookies';
 export const addItemPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/item/addItem', postData)
+    axios.post('http://3.15.185.248:3001/item/addItem', postData)
         .then(response => {
             console.log("itemPostsSuccess", response);
 
@@ -39,7 +39,7 @@ export const itemPostsSuccess = (data) => {
 export const deleteItemPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post(`http://localhost:3001/item/deleteItem`,postData)
+    axios.post(`http://3.15.185.248:3001/item/deleteItem`,postData)
         .then(response => {
             console.log("itemPostsSuccess", response);
 
@@ -54,7 +54,7 @@ export const deleteItemPosts = (postData) => dispatch => {
 export const getItemPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.get(`http://localhost:3001/item/getItem/${postData}`)
+    axios.get(`http://3.15.185.248:3001/item/getItem/${postData}`)
         .then(response => {
             console.log("itemPostsSuccess", response);
 
@@ -69,7 +69,7 @@ export const getItemPosts = (postData) => dispatch => {
 export const updateItemPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post(`http://localhost:3001/item/updateItem`,postData)
+    axios.post(`http://3.15.185.248:3001/item/updateItem`,postData)
         .then(response => {
             console.log("itemPostsSuccess", response);
             dispatch(itemPostsSuccess(response.data));
@@ -82,7 +82,7 @@ export const updateItemPosts = (postData) => dispatch => {
 export const getItemDetails = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post(`http://localhost:3001/item/getItemDetails`,postData)
+    axios.post(`http://3.15.185.248:3001/item/getItemDetails`,postData)
         .then(response => {
             console.log("itemPostsSuccess", response);
             dispatch(itemdataPostsSuccess(response.data));

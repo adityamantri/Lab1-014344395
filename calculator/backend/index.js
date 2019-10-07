@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 
 //use cors to allow cross origin resource sharing
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: 'http://3.15.185.248:3000', credentials: true }));
 app.use(bodyParser.json());
 
 //Allow Access Control

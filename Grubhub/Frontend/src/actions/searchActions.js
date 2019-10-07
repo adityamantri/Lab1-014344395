@@ -6,7 +6,7 @@ import cookie from 'react-cookies';
 export const searchItemRestaurantPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/search/searchRestaurant', postData)
+    axios.post('http://3.15.185.248:3001/search/searchRestaurant', postData)
         .then(response => {
             console.log("sectionPostsSuccess", response);
 

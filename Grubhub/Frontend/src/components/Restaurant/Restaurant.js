@@ -44,7 +44,7 @@ class AddItem extends Component {
         let restId = this.props.location.state.restId;
        // this.props.onCookie(restId);
        axios.defaults.withCredentials = true;
-       axios.get(`http://localhost:3001/item/getItem/${restId}`)
+       axios.get(`http://3.15.185.248:3001/item/getItem/${restId}`)
            .then(response => {
                console.log("itemPostsSuccess", response);
    

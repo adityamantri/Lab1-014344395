@@ -6,7 +6,7 @@ import cookie from 'react-cookies';
 export const insertOrderPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/order/add', postData)
+    axios.post('http://3.15.185.248:3001/order/add', postData)
         .then(response => {
             console.log("insertOrderSuccess", response);
 

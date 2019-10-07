@@ -104,9 +104,9 @@ class BuyerProfile extends Component {
 
             <div class="sidenav">
                 <h2 class="title nav-header">Your account</h2>
-                <img alt="dp" src={"http://localhost:3001/buyer/" + custid + ".jpg"} style={{ height: "200px", width: "200px" }}></img>
+                <img alt="dp" src={"http://3.15.185.248:3001/buyer/" + custid + ".jpg"} style={{ height: "200px", width: "200px" }}></img>
                 <iframe name="hiddenFrame" class="hide"></iframe>
-                <form action="http://localhost:3001/buyer/upload" method="post" enctype="multipart/form-data" target="hiddenFrame">
+                <form action="http://3.15.185.248:3001/buyer/upload" method="post" enctype="multipart/form-data" target="hiddenFrame">
                     <input type="file" name='productImage' ></input>
                     <button type="submit">Update Profile Image</button>
                 </form>

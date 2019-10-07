@@ -4,7 +4,7 @@ import axios from 'axios';
 export const addSectionPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/section/addSection', postData)
+    axios.post('http://3.15.185.248:3001/section/addSection', postData)
         .then(response => {
             console.log("sectionPostsSuccess", response);
 
@@ -30,7 +30,7 @@ export const sectionPostsSuccess = (data) => {
 export const deleteSectionPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.delete(`http://localhost:3001/section/deleteSection/${postData}`)
+    axios.delete(`http://3.15.185.248:3001/section/deleteSection/${postData}`)
         .then(response => {
             console.log("sectionPostsSuccess", response);
 
@@ -45,7 +45,7 @@ export const deleteSectionPosts = (postData) => dispatch => {
 export const getSectionPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.get(`http://localhost:3001/section/getSection/${postData}`)
+    axios.get(`http://3.15.185.248:3001/section/getSection/${postData}`)
         .then(response => {
             console.log("sectionPostsSuccess", response);
 
@@ -60,7 +60,7 @@ export const getSectionPosts = (postData) => dispatch => {
 export const updateSectionPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post(`http://localhost:3001/section/updateSection`,postData)
+    axios.post(`http://3.15.185.248:3001/section/updateSection`,postData)
         .then(response => {
             console.log("sectionPostsSuccess", response);
             dispatch(sectionPostsSuccess(response.data));

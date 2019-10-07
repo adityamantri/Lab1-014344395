@@ -5,7 +5,7 @@ import cookie from 'react-cookies';
 export const buyerSignUpPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/buyer/signUpBuyer', postData)
+    axios.post('http://3.15.185.248:3001/buyer/signUpBuyer', postData)
         .then(response => {
             console.log("buyerSignUpPostsSuccess", response + response.data);
 
@@ -28,7 +28,7 @@ export const buyerSignUpPostsSuccess = (data) => {
 export const buyerLoginPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/buyer/signInBuyer', postData)
+    axios.post('http://3.15.185.248:3001/buyer/signInBuyer', postData)
         .then(response => {
             console.log("buyerSignInPostsSuccess--------", response.data);
 
@@ -61,7 +61,7 @@ export const buyerProfilePosts = (postData) => dispatch => {
     //set the with credentials to true
     axios.defaults.withCredentials = true;
     //make a post request with the user data
-    axios.post('http://localhost:3001/buyer/updateBuyer', postData)
+    axios.post('http://3.15.185.248:3001/buyer/updateBuyer', postData)
         .then(response => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -78,7 +78,7 @@ export const buyerCookieData = () => dispatch => {
     let buyer = cookie.load('buyer');
     console.log("cookie variable buyer", buyer);
 
-    axios.get(`http://localhost:3001/buyer/getBuyer/${buyer.buyerId}`)
+    axios.get(`http://3.15.185.248:3001/buyer/getBuyer/${buyer.buyerId}`)
         .then(response => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -95,7 +95,7 @@ export const ownerProfilePosts = (postData) => dispatch => {
     //set the with credentials to true
     axios.defaults.withCredentials = true;
     //make a post request with the user data
-    axios.post('http://localhost:3001/owner/updateOwner', postData)
+    axios.post('http://3.15.185.248:3001/owner/updateOwner', postData)
         .then(response => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -112,7 +112,7 @@ export const ownerCookieData = () => dispatch => {
     let owner = cookie.load('owner');
     console.log("cookie variable owner", owner);
 
-    axios.get(`http://localhost:3001/owner/getowner/${owner.restaurantId}`)
+    axios.get(`http://3.15.185.248:3001/owner/getowner/${owner.restaurantId}`)
         .then(response => {
             console.log("Status Code : ", response.status);
             if (response.status === 200) {
@@ -127,7 +127,7 @@ export const ownerCookieData = () => dispatch => {
 export const ownerSignUpPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/owner/signUpOwner', postData)
+    axios.post('http://3.15.185.248:3001/owner/signUpOwner', postData)
         .then(response => {
             console.log("ownerSignInPostsSuccess--------", response.data);
 
@@ -141,7 +141,7 @@ export const ownerSignUpPosts = (postData) => dispatch => {
 export const ownerSignInPosts = (postData) => dispatch => {
     console.log("reached axios", postData)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/owner/signInOwner', postData)
+    axios.post('http://3.15.185.248:3001/owner/signInOwner', postData)
         .then(response => {
             console.log("ownerSignInPostsSuccess--------", response.data);
 

@@ -69,7 +69,7 @@ e.preventDefault();
         console.log("Item ID :",this.props.itemId)
         data.append('itemId', this.props.itemId);
 console.log("data sending ",data)
-        axios.post("http://localhost:3001/item/upload", data,config, { // receive two parameter endpoint url ,form data 
+        axios.post("http://3.15.185.248:3001/item/upload", data,config, { // receive two parameter endpoint url ,form data 
       })
       .then(res => { // then print response status
         console.log(res.statusText)
@@ -96,7 +96,7 @@ console.log("data sending ",data)
                     <br />
                     <form onSubmit={(e) => this.props.onSubmit(e, this.createData())}>
                         <div class="form-group">
-                            <img alt="Item not uploaded"  src={"http://localhost:3001/item/" + this.props.itemImage} style={{ height: "200px", width: "200px" , borderRadius:"15%"}}></img>
+                            <img alt="Item not uploaded"  src={"http://3.15.185.248:3001/item/" + this.props.itemImage} style={{ height: "200px", width: "200px" , borderRadius:"15%"}}></img>
                             <br></br>
                             <h4>Section</h4>
                             <div>{this.props.sectionName}</div>
@@ -118,7 +118,7 @@ console.log("data sending ",data)
                     <p><h3>Update Item</h3></p>
                     <hr></hr>
                     {/* <iframe name="hiddenFrame" class="hide"></iframe> */}
-                            {/* <form action="http://localhost:3001/item/upload" method="post" enctype="multipart/form-data" target="hiddenFrame"> */}
+                            {/* <form action="http://3.15.185.248:3001/item/upload" method="post" enctype="multipart/form-data" target="hiddenFrame"> */}
                                 
                                 <form onSubmit={this.onClickHandler}>
                                 <input type="file" name='productImage' onChange={this.onChangeHandler}></input>
