@@ -167,7 +167,8 @@ export const ownerSignUpPostsSuccess = (data) => {
             zipCode: data.zipCode,
             cuisine: data.cuisine,
             restaurantImage: data.restaurantImage,
-            restaurantName: data.restaurantName
+            restaurantName: data.restaurantName,
+            error:data.ownerError
         }
     }
 }

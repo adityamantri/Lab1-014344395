@@ -22,7 +22,7 @@ class Login extends Component {
             cuisine: this.props.cousine,
             restaurantImage: this.props.restaurantImage,
             restaurantName: this.props.restaurantName,
-            error: this.props.error
+            error: this.props.ownerError
         }
     }
 
@@ -80,7 +80,7 @@ const mapStateToProps = (store) => {
         cuisine: store.posts.cusine,
         restaurantImage: store.posts.restaurantImage,
         restaurantName: store.posts.restaurantName,
-        error: store.posts.error
+        error: store.posts.ownerError
     };
 };
 

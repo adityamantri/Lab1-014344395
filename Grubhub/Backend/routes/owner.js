@@ -102,7 +102,7 @@ router.post('/signInOwner', function (req, res, next) {
             throw error;
         }
         else if (results.length == 0) {
-            output = "Incorrect userId";
+            output = {ownerError:"Incorrect userId"};
             res.status(200).send(output);
         } else {
 
@@ -117,7 +117,7 @@ router.post('/signInOwner', function (req, res, next) {
                 }
                 else {
                     console.log("compare not  working-------------------")
-                    output = "UnSuccessfull Login";
+                    output = {ownerError:"UnSuccessfull Login"};
                     res.status(200).send(output);
                 }
             });

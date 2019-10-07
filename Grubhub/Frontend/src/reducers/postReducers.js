@@ -25,6 +25,7 @@ const initialState = {
     cuisine: "",
     restaurantImage: null,
     restaurantName: "",
+    ownerError:"",
 
     sectionName: "",
     sectionDescription: "",
@@ -95,7 +96,8 @@ export default function (state = initialState, action) {
                 zipCode: action.payload.zipCode,
                 cuisine: action.payload.cuisine,
                 restaurantImage: action.payload.restaurantImage,
-                restaurantName: action.payload.restaurantName
+                restaurantName: action.payload.restaurantName,
+                ownerError:action.payload.error
             }
 
         case SECTION_POST:

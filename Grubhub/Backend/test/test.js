@@ -9,7 +9,6 @@ it("Should check Buyer credentials and return status code", function(done){
     .post('/buyer/signInBuyer')
     .send({ "email": "san@jose.com", "password" : "san"})
     .end(function (err, res) {
-        console.log("res",res);
         expect(res).to.have.status(200);
         expect(res).to.have.cookie('buyer');
         done();
@@ -21,7 +20,7 @@ it("Should check Owner credentials and return status code", function(done){
     .post('/owner/signInOwner')
     .send({ "email": "john@sjsu.com", "password" : "john"})
     .end(function (err, res) {
-        console.log("res",res);
+         
         expect(res).to.have.status(200);
         done();
     });
@@ -34,7 +33,7 @@ it("Should check Update Order Status by Owner and return status code", function(
         "orderStatus": "PREPAIRING"
       })
     .end(function (err, res) {
-        console.log("res",res);
+         
         expect(res).to.have.status(200);
 
         done();
@@ -45,7 +44,7 @@ it("Should cookie is set for owner and return status code", function(done){
     .get('/buyer/getBuyer/6')
     .send()
     .end(function (err, res) {
-        console.log("res",res);
+         
         expect(res).to.have.status(200);
         done();
     });
@@ -55,7 +54,7 @@ it("Should check credentials and return status code", function(done){
     .post('/search/searchRestaurant')
     .send({ "itemName": "sushi"})
     .end(function (err, res) {
-        console.log("res",res);
+         
         expect(res).to.have.status(200);
         done();
     });
