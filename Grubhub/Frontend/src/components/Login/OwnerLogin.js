@@ -55,9 +55,12 @@ class Login extends Component {
                             <div style={{"textAlign":"center"}}>
                             <button type="submit"  class="btn btn-primary btn-lg btn-block">Sign in</button>
                             <h3>{this.props.error}</h3>
+                            <br/>
+                            
                             </div>
                         </div>
                         </form>
+                        <a href="/ownerSignUp">Create your account</a>
                     </div>
                 </div>
             </div>

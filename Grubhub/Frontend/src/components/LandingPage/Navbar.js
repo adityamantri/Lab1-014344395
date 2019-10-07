@@ -30,9 +30,9 @@ class Navbar extends Component {
             rest = (<span>FOR RESTAURANTS</span>)
         }else{
             
-            redirectVar=(
-             <Redirect to= '/startPage'
-             />)
+            // redirectVar=(
+            //  <Redirect to= '/startPage'
+            //  />)
              console.log("redirectvar", redirectVar)
         }
         if (cookie.load('buyer')) {

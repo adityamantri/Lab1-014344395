@@ -34,7 +34,7 @@ router.get('/', function (req, res, next) {
 
 router.get('/getOwner/:restaurantId', function (req, res, next) {
     console.log("req param ",req.params.restaurantId);
-    let pass = `select * from mydb.restOwner WHERE restaurantId = '${req.params.restaurantId}'`;
+    let pass = `select * from mydb.restowner WHERE restaurantId = '${req.params.restaurantId}'`;
     
     let output = "Not Updated";
     pool.query(pass, function (error, results) {
@@ -71,14 +71,14 @@ router.post('/signUpOwner', function (req, res) {
         bcrypt.hash(owner_password, saltRounds, function (err, hash) {
             // Store hash in your password DB.
 
-            var insertSignUp = `Insert into mydb.restOwner (owner_firstName,owner_lastName, owner_email, owner_password,owner_phone,restaurantName,zipCode,cuisine) Values ('${owner_firstName}','${owner_lastName}' ,'${owner_email}' ,'${hash}','${owner_phone}','${restaurantName}','${zipCode}','${cuisine}')`;
+            var insertSignUp = `Insert into mydb.restowner (owner_firstName,owner_lastName, owner_email, owner_password,owner_phone,restaurantName,zipCode,cuisine) Values ('${owner_firstName}','${owner_lastName}' ,'${owner_email}' ,'${hash}','${owner_phone}','${restaurantName}','${zipCode}','${cuisine}')`;
             pool.query(insertSignUp, function (error, results) {
                 if (error) {
                     throw error;
                 }
                 else {
                     console.log("done");
-                    output = pool.query(`Select * from mydb.restOwner where owner_email='${req.body.owner_email}'`, (update,result) => {
+                    output = pool.query(`Select * from mydb.restowner where owner_email='${req.body.owner_email}'`, (update,result) => {
                         owner = JSON.stringify(result[0]);
                         res.cookie('owner', owner, { encode: String });
                         res.status(200).send(result[0]);
@@ -94,7 +94,7 @@ router.post('/signUpOwner', function (req, res) {
 
 //Sign in Owner
 router.post('/signInOwner', function (req, res, next) {
-    let pass = `Select * from mydb.restOwner where owner_email='${req.body.owner_email}'`;
+    let pass = `Select * from mydb.restowner where owner_email='${req.body.owner_email}'`;
     let output = "Not success";
     pool.query(pass, function (error, results) {
         if (error) {
@@ -147,7 +147,7 @@ router.post('/updateOwner', function (req, res, next) {
             throw error;
         }
         else {
-            output = pool.query(`Select * from restOwner where restaurantId='${req.body.restaurantId}'`, (update,result) => {
+            output = pool.query(`Select * from restowner where restaurantId='${req.body.restaurantId}'`, (update,result) => {
                 res.status(200).send(result[0]);
             });
         };
